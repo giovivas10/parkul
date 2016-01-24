@@ -25,6 +25,7 @@ import javax.servlet.http.HttpSession;
 //@WebFilter("*.xhtml")
 //Cualquier comentario
 //Gracias por el skin :P
+//De nada :p
 public class SessionUrlFilter implements Filter{
     
     FilterConfig filterConfig;
