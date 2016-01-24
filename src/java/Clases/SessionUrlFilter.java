@@ -23,6 +23,7 @@ import javax.servlet.http.HttpSession;
  */
 
 //@WebFilter("*.xhtml")
+//Cualquier comentario
 public class SessionUrlFilter implements Filter{
     
     FilterConfig filterConfig;
