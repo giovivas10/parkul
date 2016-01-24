@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 15/01/2016 04:27:28 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="pojo.Usuario" table="usuario" catalog="parkul" optimistic-lock="version">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="rol" class="pojo.Rol" fetch="select">
+            <column name="idRol" />
+        </many-to-one>
+        <property name="usuario" type="string">
+            <column name="usuario" length="700" not-null="true" />
+        </property>
+        <property name="nombre" type="string">
+            <column name="nombre" length="700" not-null="true" />
+        </property>
+        <property name="documento" type="string">
+            <column name="documento" length="700" not-null="true" />
+        </property>
+        <property name="contrasenia" type="string">
+            <column name="contrasenia" length="700" not-null="true" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="700" not-null="true" />
+        </property>
+        <property name="telefono" type="string">
+            <column name="telefono" length="700" not-null="true" />
+        </property>
+        <property name="direccion" type="string">
+            <column name="direccion" length="700" not-null="true" />
+        </property>
+        <property name="estado" type="java.lang.Boolean">
+            <column name="estado" />
+        </property>
+        <property name="foto" type="binary">
+            <column name="foto" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../layout/layout.xhtml">
+
+            <ui:define name="top"></ui:define>
+
+            <ui:define name="content">
+                <h2>Lista de Usuarios</h2>
+                <hr/>
+                <h:form id="frmListaUsuario">
+                    <p:growl id="mensajeGeneral" sticky="false" showDetail="true"/>                    
+                    <p:dataTable id="listaUsuario" paginator="true" paginatorPosition="bottom" rows="2" var="item" value="#{mbRUsuario.getall()}" selection="#{mbRUsuario.usuario}" selectionMode="single" rowKey="#{item.id}" filteredValue="#{mbRUsuario.listaUsuarioFiltrado}">
+                        
+                        <p:ajax event="rowSelect" update=":frmListaUsuario:panelDetalleUsuario" oncomplete="PF('dialogoDetalleUsuario').show()"/>
+                        
+                        <f:facet name="header">
+                            Usuarios
+                        </f:facet>
+                        <p:column headerText="Usuario" filterBy="usuario">
+                            <h:outputText value="#{item.usuario}" />
+                        </p:column>
+                        <p:column headerText="Nombre" >
+                            <h:outputText value="#{item.nombre}" />
+                        </p:column>
+                    </p:dataTable>
+                    
+                    <p:dialog header="Detalle de usuario" widgetVar="dialogoDetalleUsuario" resizable="false">
+                        <h:panelGrid id="panelDetalleUsuario" columns="2">
+                            <p:outputLabel style="font-weight: bold" value="Nombre Usuario: "/>
+                            <h:outputText value="#{mbRUsuario.usuario.usuario}" />
+                            <p:outputLabel style="font-weight: bold" value="Nombre: "/>
+                            <h:outputText value="#{mbRUsuario.usuario.nombre}" />
+                            <p:outputLabel style="font-weight: bold" value="Correo Electronico: "/>
+                            <h:outputText value="#{mbRUsuario.usuario.email}" />
+                            <p:outputLabel style="font-weight: bold" value="Rol: "/>
+                            <h:outputText value="#{mbRUsuario.usuario.rol}" />
+                        </h:panelGrid>
+                    </p:dialog>
+                        
+                </h:form>
+            </ui:define>
+
+            <ui:define name="bottom"></ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

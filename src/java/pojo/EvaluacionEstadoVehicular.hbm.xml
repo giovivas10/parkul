@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 15/01/2016 04:27:28 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="pojo.EvaluacionEstadoVehicular" table="evaluacion_estado_vehicular" catalog="parkul" optimistic-lock="version">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="propietario" class="pojo.Propietario" fetch="select">
+            <column name="idPropietario" />
+        </many-to-one>
+        <property name="fecha" type="timestamp">
+            <column name="fecha" length="19" not-null="true" />
+        </property>
+        <property name="poseeDanios" type="java.lang.Boolean">
+            <column name="poseeDanios" />
+        </property>
+        <property name="poseeObjetos" type="java.lang.Boolean">
+            <column name="poseeObjetos" />
+        </property>
+        <set name="objetosVehiculoses" table="objetos_vehiculos" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idEvaluacionEstadoVehicular" />
+            </key>
+            <one-to-many class="pojo.ObjetosVehiculos" />
+        </set>
+        <set name="daniosVehiculos" table="danios_vehiculo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idEvaluacionEstadoVehicular" />
+            </key>
+            <one-to-many class="pojo.DaniosVehiculo" />
+        </set>
+    </class>
+</hibernate-mapping>

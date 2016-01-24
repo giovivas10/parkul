@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
+<hibernate-reverse-engineering>
+  <schema-selection match-catalog="parkul"/>
+  <table-filter match-name="usuario"/>
+  <table-filter match-name="danios_vehiculo"/>
+  <table-filter match-name="evaluacion_estado_vehicular"/>
+  <table-filter match-name="parametro_evaluacion"/>
+  <table-filter match-name="tipo_vehiculo"/>
+  <table-filter match-name="tipo_usuario"/>
+  <table-filter match-name="propietario"/>
+  <table-filter match-name="objetos_vehiculos"/>
+  <table-filter match-name="objetos"/>
+  <table-filter match-name="parte_vehiculo"/>
+  <table-filter match-name="rol"/>
+</hibernate-reverse-engineering>

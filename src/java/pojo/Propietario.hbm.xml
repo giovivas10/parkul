@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 15/01/2016 04:27:28 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="pojo.Propietario" table="propietario" catalog="parkul" optimistic-lock="version">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="tipoUsuario" class="pojo.TipoUsuario" fetch="select">
+            <column name="idTipoUsuario" />
+        </many-to-one>
+        <many-to-one name="tipoVehiculo" class="pojo.TipoVehiculo" fetch="select">
+            <column name="idTipoVehiculo" />
+        </many-to-one>
+        <property name="documento" type="string">
+            <column name="documento" length="700" not-null="true" />
+        </property>
+        <property name="nomnbres" type="string">
+            <column name="nomnbres" length="700" not-null="true" />
+        </property>
+        <property name="apellidos" type="string">
+            <column name="apellidos" length="700" not-null="true" />
+        </property>
+        <property name="telefono" type="string">
+            <column name="telefono" length="700" not-null="true" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="700" not-null="true" />
+        </property>
+        <property name="placa" type="string">
+            <column name="placa" length="700" not-null="true" />
+        </property>
+        <property name="fotoPropietario" type="binary">
+            <column name="fotoPropietario" />
+        </property>
+        <property name="fotoVehiculo" type="binary">
+            <column name="fotoVehiculo" />
+        </property>
+        <set name="evaluacionEstadoVehiculars" table="evaluacion_estado_vehicular" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idPropietario" />
+            </key>
+            <one-to-many class="pojo.EvaluacionEstadoVehicular" />
+        </set>
+    </class>
+</hibernate-mapping>
