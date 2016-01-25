@@ -22,17 +22,14 @@ import javax.servlet.http.HttpSession;
  * @author Giovanni
  */
 
-//@WebFilter("*.xhtml")
-//Cualquier comentario
-//Gracias por el skin :P
-//De nada :p
+@WebFilter("*.xhtml")
 public class SessionUrlFilter implements Filter{
-    
-    FilterConfig filterConfig;
 
+    FilterConfig filterConfig;
+    
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        this.filterConfig = filterConfig;
+        this.filterConfig=filterConfig;
     }
 
     @Override
@@ -45,13 +42,13 @@ public class SessionUrlFilter implements Filter{
         
         String[] urlPermitidaSinSesion=new String[]
         {
-            "faces/index.xhtml",
-            "faces/usuario/registrar.xhtml"
+            "/faces/index.xhtml",
+            "/faces/usuario/registrar.xhtml"
         };
         
         boolean redireccionarPeticion;
         
-        if(session.getAttribute("correoElectronico")==null)
+        if(session.getAttribute("usuario")==null)
         {            
             redireccionarPeticion=true;
             
@@ -82,7 +79,7 @@ public class SessionUrlFilter implements Filter{
 
     @Override
     public void destroy() {
-        this.filterConfig = null;
+        this.filterConfig=null;
     }
     
 }

@@ -12,6 +12,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -22,6 +23,7 @@ import pojo.Usuario;
  * @author Giovanni
  */
 @ManagedBean
+@Named(value = "mbSLogin")
 @SessionScoped
 public class MbSLogin {
 
@@ -36,8 +38,8 @@ public class MbSLogin {
 
     public MbSLogin() 
     {
-        //HttpSession miSession =(HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-        //miSession.setMaxInactiveInterval(300);
+        HttpSession miSession =(HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        miSession.setMaxInactiveInterval(5000);
     }
 
     public String login() {
@@ -48,7 +50,7 @@ public class MbSLogin {
             DaoUsuario daoUsuario = new DaoUsuario();
 
             this.session = HibernateUtil.getSessionFactory().openSession();
-            this.transaction = session.beginTransaction();
+            this.transaction = this.session.beginTransaction();
 
             Usuario usuarioConsulta = daoUsuario.getByNombreUsuario(this.session, this.usuario);
             //int rol = usuarioConsulta.getRol().getId();

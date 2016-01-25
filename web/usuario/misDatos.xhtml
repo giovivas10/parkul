@@ -10,64 +10,44 @@
 
         <ui:composition template="./../layout/layout.xhtml">
 
-            <ui:define name="top"></ui:define>
+            <ui:define name="top">
+            </ui:define>
 
             <ui:define name="content">
-                <h2>Lista de Usuarios</h2>
-                <hr/>
-                <h:form id="frmListaUsuario">
-                    <p:growl id="mensajeGeneral" sticky="false" showDetail="true"/>                    
-                    <p:dataTable id="listaUsuario" paginator="true" paginatorPosition="bottom" rows="2" var="item" value="#{mbVUsuario.getall()}" selection="#{mbVUsuario.usuario}" selectionMode="single" rowKey="#{item.id}" filteredValue="#{mbVUsuario.listaUsuarioFiltrado}">
-
-                        <p:ajax event="rowSelect" update=":frmListaUsuario:panelDetalleUsuario" oncomplete="PF('dialogoDetalleUsuario').show()"/>
-
-                        <f:facet name="header">
-                            Usuarios
-                        </f:facet>
-                        <p:column headerText="Usuario" filterBy="usuario">
-                            <h:outputText value="#{item.usuario}" />
+                <h2>Mis datos</h2>
+                <hr />
+                <h:form id="frmTUsuario">
+                    <p:growl id="mensajeGeneral" showDetail="true" sticky="false" />
+                    <p:dataTable id="tablaUsuario" var="item" value="#{mbVUsuario.byUsuario}" paginator="false">                        
+                        <!--<p:column headerText="Avatar">
+                        </p:column>-->
+                        <p:column headerText="Usuario">
+                            <h:outputText value="#{item.usuario}"/>
                         </p:column>
-                        <p:column headerText="Nombre" >
-                            <h:outputText value="#{item.nombre}" />
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{item.nombre}"/>
                         </p:column>
-                        <p:column headerText="Documento" >
-                            <h:outputText value="#{item.documento}" />
+                        <p:column headerText="Documento">
+                            <h:outputText value="#{item.documento}"/>
                         </p:column>
-                        <p:column headerText="Actualizar" width="100">
-                            <p:commandButton value="Actualizar" actionListener="#{mbVUsuario.cargaUsuarioEditar(item.id)}" />
+                        <p:column headerText="Email">
+                            <h:outputText value="#{item.email}"/>
                         </p:column>
-                        <p:column headerText="Eliminar" width="100">
-                            <p:commandButton value="Eliminar" actionListener="#{mbVUsuario.delete(item.id)}" update="listaUsuario">
-                                <p:confirm header="Confirmation" message="¿Quiere Eliminar Esta Informacion?" icon="ui-icon-alert" />
-                            </p:commandButton>
-                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >
-                                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                            </p:confirmDialog>
+                        <p:column headerText="Telefono">
+                            <h:outputText value="#{item.telefono}"/>
                         </p:column>
+                        <p:column headerText="Direccion">
+                            <h:outputText value="#{item.direccion}"/>
+                        </p:column>
+                        <p:column headerText="Actualizar">
+                            <p:commandButton value="Actualizar" onclick="PF('dialogoEditarUsuario').show()"/>
+                        </p:column>
+                        <!--<p:column headerText="Actualizar">
+                            <p:commandButton value="Actualizar Avatar" onclick="PF('dialogoActualizarAvatar').show()" />
+                        </p:column>-->
                     </p:dataTable>
-
-                    <p:dialog header="Detalle de usuario" widgetVar="dialogoDetalleUsuario" resizable="false">
-                        <h:panelGrid id="panelDetalleUsuario" columns="2">
-                            <p:outputLabel style="font-weight: bold" value="Nombre Usuario: "/>
-                            <h:outputText value="#{mbVUsuario.usuario.usuario}" />
-                            <p:outputLabel style="font-weight: bold" value="Nombre: "/>
-                            <h:outputText value="#{mbVUsuario.usuario.nombre}" />
-                            <p:outputLabel style="font-weight: bold" value="Documento: "/>
-                            <h:outputText value="#{mbVUsuario.usuario.documento}" />
-                            <p:outputLabel style="font-weight: bold" value="Correo Electronico: "/>
-                            <h:outputText value="#{mbVUsuario.usuario.email}" />
-                            <p:outputLabel style="font-weight: bold" value="Telefono "/>
-                            <h:outputText value="#{mbVUsuario.usuario.telefono}" />
-                            <p:outputLabel style="font-weight: bold" value="Direccion "/>
-                            <h:outputText value="#{mbVUsuario.usuario.direccion}" />
-                        </h:panelGrid>
-                    </p:dialog>
-
-                </h:form>
-                <h:form id="frmEditarUsuario">
                     <p:dialog header="Datos del Usuario" widgetVar="dialogoEditarUsuario" modal="true">
-                        <h:panelGrid columns="3" id="panelActualizarUsuario">
+                        <h:panelGrid columns="3">
                             <p:outputLabel value="Usuario" for="txtUsuario"/>
                             <p:inputText id="txtUsuario" label="Usuario" size="50" value="#{mbVUsuario.usuario.usuario}" disabled="true">
                                 <f:validator validatorId="validarVacio"/>
@@ -116,13 +96,21 @@
                             </p:selectOneMenu>
                             <p:message for="selEstado"/>
                             <h:panelGroup></h:panelGroup>
-                            <p:commandButton value="Guardar Cambios" ajax="false" actionListener="#{mbVUsuario.update()}" update="frmListaUsuario"/>
+                            <p:commandButton value="Guardar Cambios" ajax="false" actionListener="#{mbVUsuario.update()}" update="frmTUsuario"/>
                         </h:panelGrid>
                     </p:dialog>
                 </h:form>
+                <!--<p:dialog header="Actualizar avatar" widgetVar="dialogoActualizarAvatar" modal="true">
+                    <h:form id="frmActualizarAvatar" enctype="multipart/form-data">
+                        <h:inputHidden value="# {mbRUsuario.usuario.id}"/>
+                        <p:fileUpload id="txtAvatar" mode="simple" value="# {mbRUsuario.avatar}"/>
+                        <p:commandButton value="Actualizar avatar" ajax="false" actionListener="# {mbRUsuario.actualizarAvatar()}"/>
+                    </h:form>
+                </p:dialog>-->
             </ui:define>
 
-            <ui:define name="bottom"></ui:define>
+            <ui:define name="bottom">
+            </ui:define>
 
         </ui:composition>
 

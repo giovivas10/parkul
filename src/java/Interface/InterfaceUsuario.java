@@ -17,8 +17,9 @@ import pojo.Usuario;
 public interface InterfaceUsuario {
    public boolean register(Usuario usuario,Session session ) throws Exception, ConstraintViolationException;
    public List<Usuario> getAll(Session session) throws Exception;
-   public Usuario getByCodigoUsuario(Session session,String documento) throws Exception;
+   public Usuario getByIdUsuario(Session session,int id) throws Exception;
    public boolean update(Session session,Usuario usuario) throws Exception;
+   public boolean delete(Session session,Usuario usuario) throws Exception;
    public Usuario getByCorreoElectronico(Session session, String correoElectronico) throws Exception;
    public Usuario getByNombreUsuario(Session session, String usuario) throws Exception;
 }

@@ -21,30 +21,30 @@
                     <p:growl id="mensajeGeneral" showDetail="true" sticky="false"/>
                     <h:panelGrid columns="3">
                         <p:outputLabel value="Usuario" for="txtUsuario"/>
-                        <p:inputText id="txtUsuario" label="Usuario" size="50" value="#{mbRUsuario.usuario.usuario}">
+                        <p:inputText id="txtUsuario" label="Usuario" size="50" value="#{mbVUsuario.usuario.usuario}">
                             <f:validator validatorId="validarVacio"/>
                         </p:inputText>
                         <p:message for="txtUsuario"/>
                         <p:outputLabel value="Nombre" for="txtNombre"/>
-                        <p:inputText id="txtNombre" label="Nombre" size="50" value="#{mbRUsuario.usuario.nombre}">
+                        <p:inputText id="txtNombre" label="Nombre" size="50" value="#{mbVUsuario.usuario.nombre}">
                             <f:validator validatorId="validarVacio"/>
                         </p:inputText>
                         <p:message for="txtNombre"/>
                         <p:outputLabel value="Documento" for="txtDocumento"/>
-                        <p:inputText id="txtDocumento" label="Documento" size="50" value="#{mbRUsuario.usuario.documento}">
+                        <p:inputText id="txtDocumento" label="Documento" size="50" value="#{mbVUsuario.usuario.documento}">
                             <f:validator validatorId="validarVacio"/>
                         </p:inputText>
                         <p:message for="txtDocumento"/>
                         <p:outputLabel value="Contraseña" for="txtContrasena"/>
-                        <p:password id="txtContrasena" label="Contrasenia" size="50" value="#{mbRUsuario.usuario.contrasenia}">
+                        <p:password id="txtContrasena" label="Contrasenia" size="50" value="#{mbVUsuario.usuario.contrasenia}">
                             <f:validator validatorId="validarVacio"/>
                         </p:password>
                         <p:message for="txtContrasena"/>
                         <p:outputLabel value="Repita contraseña" for="txtContrasenaRepita"/>
-                        <p:password id="txtContrasenaRepita" label="Contrasenia Repita" size="50" value="#{mbRUsuario.txtContrasenaRepita}"/>
+                        <p:password id="txtContrasenaRepita" label="Contrasenia Repita" size="50" value="#{mbVUsuario.txtContrasenaRepita}"/>
                         <h:panelGroup></h:panelGroup>
                         <p:outputLabel value="Email" for="txtEmail"/>
-                        <p:inputText id="txtEmail" label="Email" size="50" title="Ejemplo: pedro@dominio.com" value="#{mbRUsuario.usuario.email}">
+                        <p:inputText id="txtEmail" label="Email" size="50" title="Ejemplo: pedro@dominio.com" value="#{mbVUsuario.usuario.email}">
                             <f:validator validatorId="validarVacio"/>
                             <f:validator validatorId="validarEmail"/>
                         </p:inputText>
@@ -53,29 +53,29 @@
                             <p:message for="txtEmail"/>
                         </h:panelGroup>
                         <p:outputLabel value="Telefono" for="txtTelefono"/>
-                        <p:inputText id="txtTelefono" label="Telefono" size="50" value="#{mbRUsuario.usuario.telefono}">
+                        <p:inputText id="txtTelefono" label="Telefono" size="50" value="#{mbVUsuario.usuario.telefono}">
                             <f:validator validatorId="validarVacio"/>
                         </p:inputText>
                         <p:message for="txtTelefono"/>
                         <p:outputLabel value="Direccion" for="txtDireccion"/>
-                        <p:inputText id="txtDireccion" label="Direccion" size="50" value="#{mbRUsuario.usuario.direccion}">
+                        <p:inputText id="txtDireccion" label="Direccion" size="50" value="#{mbVUsuario.usuario.direccion}">
                             <f:validator validatorId="validarVacio"/>
                         </p:inputText>
                         <p:message for="txtDireccion"/>
                         <p:outputLabel value="Rol" for="selRol"/>
-                        <p:selectOneMenu id="selRol" style="width: 50%" value="#{mbRUsuario.rolSelect}">
+                        <p:selectOneMenu id="selRol" style="width: 50%" value="#{mbVUsuario.rolSelect}">
                             <f:selectItem itemLabel="Administrador" itemValue="1" />
                             <f:selectItem itemLabel="Auxiliar" itemValue="2" />
                         </p:selectOneMenu>
                         <p:message for="selRol"/>
                         <p:outputLabel value="Estado" for="selEstado"/>
-                        <p:selectOneMenu id="selEstado" label="Estado" style="width: 50%" value="#{mbRUsuario.usuario.estado}" required="true" requiredMessage="Sie haben keinen Tag angegeben!">
+                        <p:selectOneMenu id="selEstado" label="Estado" style="width: 50%" value="#{mbVUsuario.usuario.estado}" required="true" requiredMessage="Sie haben keinen Tag angegeben!">
                             <f:selectItem itemLabel="Activo" itemValue="true" />
                             <f:selectItem itemLabel="Inactivo" itemValue="false" />
                         </p:selectOneMenu>
                         <p:message for="selEstado"/>
                         <h:panelGroup></h:panelGroup>
-                        <p:commandButton value="Registrar Usuario" actionListener="#{mbRUsuario.register()}" update="frmRegistrarUsuario"/>
+                        <p:commandButton value="Registrar Usuario" ajax="false" actionListener="#{mbVUsuario.register()}" update="frmRegistrarUsuario"/>
                     </h:panelGrid>
                 </h:form>
             </ui:define>

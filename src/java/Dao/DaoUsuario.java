@@ -43,19 +43,30 @@ public class DaoUsuario implements InterfaceUsuario{
     }
 
     @Override
-    public Usuario getByCodigoUsuario(Session session,String documento) throws Exception {
-        String hql = "from Usuario where documento:=documento";
+    public Usuario getByIdUsuario(Session session,int id) throws Exception {
+        /*String hql = "from Usuario where id:=id";
         Query query = session.createQuery(hql);
-        query.setParameter("documento", documento);
+        query.setParameter("id", id);
         
         Usuario usuario = (Usuario) query.uniqueResult();
         
-        return usuario;
+        return usuario;*/
+        
+        return (Usuario) session.get(Usuario.class, id);
     }
 
     @Override
     public boolean update(Session session,Usuario usuario) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        session.update(usuario);
+        
+        return true;
+    }
+    
+    @Override
+    public boolean delete(Session session,Usuario usuario) throws Exception{
+        session.delete(usuario);
+        
+        return true;
     }
     
     @Override

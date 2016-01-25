@@ -22,7 +22,7 @@
                         <p:outputLabel value="Contraseña" />
                         <p:password id="txtContrasena" size="40" value="#{mbSLogin.contrasenia}"/>
                         <h:panelGroup></h:panelGroup>
-                        <p:commandButton value="Ingresar" action="#{mbSLogin.login()}" update="frmLogin"/>
+                        <p:commandButton value="Ingresar" ajax="false" action="#{mbSLogin.login()}" update="frmLogin"/>
                     </h:panelGrid>
                     
                 </h:form>
