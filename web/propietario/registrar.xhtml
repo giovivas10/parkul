@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+      <body>
+
+        <ui:composition template="./../layout/layout.xhtml">
+
+            <ui:define name="top">
+            </ui:define>
+
+            <ui:define name="content">
+                
+                <h:form id="frmRegistrarUsuario">
+                    <p:growl id="mensajeGeneral" showDetail="true" sticky="false"/>
+                    <h:panelGrid columns="3">
+                        <h:outputLabel value="Tipo de Usuario: " for="selTipoUsuario"/>
+                        <p:selectOneMenu id="selTipoUsuario" value="#{mbRCargarSelects.tipoUsuario.id}" style="width: 50%">
+                            <f:selectItems value="#{mbRCargarSelects.listaTipoUsuario}"/>
+                        </p:selectOneMenu> 
+                        <p:message for="selTipoUsuario"/>
+                        <h:outputLabel value="Tipo de Vehiculo: " for="selTipoVehiculo"/>
+                        <p:selectOneMenu id="selTipoVehiculo" value="#{mbRCargarSelects.tipoVehiculo.id}" style="width: 50%">
+                            <f:selectItems value="#{mbRCargarSelects.listaTipoVehiculo}"/>
+                        </p:selectOneMenu> 
+                        <p:message for="selTipoVehiculo"/>
+                        <p:outputLabel value="Documento" for="txtDocumento"/>
+                        <p:inputText id="txtDocumento" label="Nombre" size="50" value="#{mbVUsuario.usuario.nombre}">
+                            <f:validator validatorId="validarVacio"/>
+                        </p:inputText>
+                        <p:message for="txtDocumento"/>
+                        <p:outputLabel value="Nombres" for="txtNombres"/>
+                        <p:inputText id="txtNombres" label="Nombres" size="50" value="#{mbVUsuario.usuario.usuario}">
+                            <f:validator validatorId="validarVacio"/>
+                        </p:inputText>
+                        <p:message for="txtNombres"/>
+                        <p:outputLabel value="Documento" for="txtApellidos"/>
+                        <p:inputText id="txtApellidos" label="Apellidos" size="50" value="#{mbVUsuario.usuario.documento}">
+                            <f:validator validatorId="validarVacio"/>
+                        </p:inputText>
+                        <p:message for="txtApellidos"/>
+                        <p:outputLabel value="Telefono" for="txtTelefono"/>
+                        <p:inputText id="txtTelefono" label="Telefono" size="50" value="#{mbVUsuario.usuario.telefono}">
+                            <f:validator validatorId="validarVacio"/>
+                        </p:inputText>
+                        <p:message for="txtTelefono"/>
+                        <p:outputLabel value="Email" for="txtEmail"/>
+                        <p:inputText id="txtEmail" label="Email" size="50" title="Ejemplo: pedro@dominio.com" value="#{mbVUsuario.usuario.email}">
+                            <f:validator validatorId="validarVacio"/>
+                            <f:validator validatorId="validarEmail"/>
+                        </p:inputText>
+                        <h:panelGroup>
+                            <p:tooltip for="txtEmail" showEvent="focus" hideEvent="blur"/>
+                            <p:message for="txtEmail"/>
+                        </h:panelGroup>
+                        <p:outputLabel value="Placa" for="txtPlaca"/>
+                        <p:inputText id="txtPlaca" label="Direccion" size="10" value="#{mbVUsuario.usuario.direccion}">
+                            <f:validator validatorId="validarVacio"/>
+                        </p:inputText>
+                        <p:message for="txtPlaca"/>
+                        <h:panelGroup></h:panelGroup>
+                        <p:commandButton value="Registrar Usuario" ajax="false" actionListener="#{mbVUsuario.register()}" update="frmRegistrarUsuario"/>
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="bottom">
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

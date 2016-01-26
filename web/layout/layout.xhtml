@@ -26,13 +26,21 @@
                     <p:commandButton value="Cerrar sesion" action="#{mbSLogin.cerrarSesion()}"/>
                 </div>
                 <p:megaMenu>
-                    <p:menuitem value="Inicio" outcome="/index" icon="ui-icon-check"/>
+                    <p:menuitem value="Inicio" outcome="/principal" icon="ui-icon-check"/>
                     <p:submenu label="Usuario" icon="ui-icon-gear">
                         <p:column>
-                            <p:submenu label="CRUD">
+                            <p:submenu>
                                 <p:menuitem value="Registrar" outcome="/usuario/registrar" icon="ui-icon-pencil"/>
                                 <p:menuitem value="Ver" outcome="/usuario/verTodos" icon="ui-icon-document"/>
                                 <p:menuitem value="Mis datos" outcome="/usuario/misDatos" icon="ui-icon-document"/>
+                            </p:submenu>
+                        </p:column>
+                    </p:submenu>
+                    <p:submenu label="Propietarios" icon="ui-icon-gear">
+                        <p:column>
+                            <p:submenu>
+                                <p:menuitem value="Registrar" outcome="/propietario/registrar" icon="ui-icon-pencil"/>
+                                <p:menuitem value="Ver" icon="ui-icon-document"/>
                             </p:submenu>
                         </p:column>
                     </p:submenu>

@@ -1,5 +1,5 @@
 package pojo;
-// Generated 15/01/2016 04:27:27 PM by Hibernate Tools 4.3.1
+// Generated 26/01/2016 12:27:20 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -15,7 +15,7 @@ public class Propietario  implements java.io.Serializable {
      private TipoUsuario tipoUsuario;
      private TipoVehiculo tipoVehiculo;
      private String documento;
-     private String nomnbres;
+     private String nombres;
      private String apellidos;
      private String telefono;
      private String email;
@@ -28,19 +28,19 @@ public class Propietario  implements java.io.Serializable {
     }
 
 	
-    public Propietario(String documento, String nomnbres, String apellidos, String telefono, String email, String placa) {
+    public Propietario(String documento, String nombres, String apellidos, String telefono, String email, String placa) {
         this.documento = documento;
-        this.nomnbres = nomnbres;
+        this.nombres = nombres;
         this.apellidos = apellidos;
         this.telefono = telefono;
         this.email = email;
         this.placa = placa;
     }
-    public Propietario(TipoUsuario tipoUsuario, TipoVehiculo tipoVehiculo, String documento, String nomnbres, String apellidos, String telefono, String email, String placa, byte[] fotoPropietario, byte[] fotoVehiculo, Set evaluacionEstadoVehiculars) {
+    public Propietario(TipoUsuario tipoUsuario, TipoVehiculo tipoVehiculo, String documento, String nombres, String apellidos, String telefono, String email, String placa, byte[] fotoPropietario, byte[] fotoVehiculo, Set evaluacionEstadoVehiculars) {
        this.tipoUsuario = tipoUsuario;
        this.tipoVehiculo = tipoVehiculo;
        this.documento = documento;
-       this.nomnbres = nomnbres;
+       this.nombres = nombres;
        this.apellidos = apellidos;
        this.telefono = telefono;
        this.email = email;
@@ -78,12 +78,12 @@ public class Propietario  implements java.io.Serializable {
     public void setDocumento(String documento) {
         this.documento = documento;
     }
-    public String getNomnbres() {
-        return this.nomnbres;
+    public String getNombres() {
+        return this.nombres;
     }
     
-    public void setNomnbres(String nomnbres) {
-        this.nomnbres = nomnbres;
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
     }
     public String getApellidos() {
         return this.apellidos;

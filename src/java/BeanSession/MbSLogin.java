@@ -61,7 +61,7 @@ public class MbSLogin {
                         HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
                         httpSession.setAttribute("usuario", this.usuario);
                         
-                        return "/usuario/verTodos";
+                        return "principal";
                     //}
                     
                 }

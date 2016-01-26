@@ -1,0 +1,30 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Dao;
+
+import Interface.InterfaceTipoVehiculo;
+import java.util.List;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import pojo.TipoVehiculo;
+
+/**
+ *
+ * @author Giovanni
+ */
+public class DaoTipoVehiculo implements InterfaceTipoVehiculo{
+
+    @Override
+    public List<TipoVehiculo> getAll(Session session) throws Exception {
+        String hql = "from TipoVehiculo";
+        Query query = session.createQuery(hql);
+        
+        List<TipoVehiculo> listaVehiculos = (List<TipoVehiculo>) query.list();
+        
+        return listaVehiculos;
+    }
+    
+}
