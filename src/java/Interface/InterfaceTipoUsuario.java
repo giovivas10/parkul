@@ -15,4 +15,5 @@ import pojo.TipoUsuario;
  */
 public interface InterfaceTipoUsuario {
     public List<TipoUsuario> getAll(Session session) throws Exception;
+    public TipoUsuario getById(Session session, Integer id) throws Exception;
 }

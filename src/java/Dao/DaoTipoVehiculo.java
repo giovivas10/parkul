@@ -27,4 +27,9 @@ public class DaoTipoVehiculo implements InterfaceTipoVehiculo{
         return listaVehiculos;
     }
     
+    @Override
+    public TipoVehiculo getById(Session session, Integer id) throws Exception {
+        return (TipoVehiculo) session.load(TipoVehiculo.class, id);
+    }
+    
 }

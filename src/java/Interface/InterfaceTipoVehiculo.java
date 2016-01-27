@@ -15,4 +15,5 @@ import pojo.TipoVehiculo;
  */
 public interface InterfaceTipoVehiculo {
     public List<TipoVehiculo> getAll(Session session) throws Exception;
+    public TipoVehiculo getById(Session session, Integer id) throws Exception;
 }

@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../layout/layout.xhtml">
+
+            <ui:define name="top">
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="frmRegistrarParteVehiculo">
+                    <h2>Registro de Partes de vehiculo</h2>
+                    <hr />
+                    <p:growl id="mensajeGeneral" showDetail="true" sticky="false"/>
+                    <h:panelGrid columns="3">
+                        <p:outputLabel value="Parte del vehiculo" for="txtObjeto"/>
+                        <p:inputText id="txtObjeto" label="Objeto" size="50" value="#{mbVParteVehiculo.parteVehiculo.nombre}">
+                            <f:validator validatorId="validarVacio"/>
+                        </p:inputText>
+                        <p:message for="txtObjeto"/>
+                        <h:panelGroup></h:panelGroup>
+                        <p:commandButton value="Registrar" ajax="false" actionListener="#{mbVParteVehiculo.register()}" update="frmRegistrarParteVehiculo"/>
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="bottom">
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

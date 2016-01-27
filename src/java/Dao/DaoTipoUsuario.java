@@ -27,4 +27,9 @@ public class DaoTipoUsuario implements InterfaceTipoUsuario{
         return listaUsuario;
     }
     
+    @Override
+    public TipoUsuario getById(Session session, Integer id) throws Exception {
+        return (TipoUsuario) session.load(TipoUsuario.class, id);
+    }
+    
 }
