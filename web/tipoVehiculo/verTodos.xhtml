@@ -14,22 +14,22 @@
             </ui:define>
 
             <ui:define name="content">
-                <h2>Lista de Partes de Vehiculos</h2>
+                <h2>Listado</h2>
                 <hr/>
-                <h:form id="frmListaPartesVehiculos">
+                <h:form id="frmListado">
                     <p:growl id="mensajeGeneral" sticky="false" showDetail="true"/>                    
-                    <p:dataTable id="listaPartesVehiculos" paginator="true" paginatorPosition="bottom" rows="10" var="item" value="#{mbVParteVehiculo.getall()}" filteredValue="#{mbVParteVehiculo.listaParteVehiculoFiltrada}">
+                    <p:dataTable id="listado" paginator="true" paginatorPosition="bottom" rows="10" var="item" value="#{mbVTipoVehiculo.getall()}" filteredValue="#{mbVTipoVehiculo.listaTipoVehiculoFiltrada}">
                         <f:facet name="header">
-                            Partes de Vehiculos
+                            Tipos de Vehiculos
                         </f:facet>
-                        <p:column headerText="Nombre" filterBy="nombre">
-                            <h:outputText value="#{item.nombre}" />
+                        <p:column headerText="Nombre" filterBy="vehiculo">
+                            <h:outputText value="#{item.vehiculo}" />
                         </p:column>
                         <p:column headerText="Actualizar" width="100">
-                            <p:commandButton value="Actualizar" actionListener="#{mbVParteVehiculo.cargaEditar(item.id)}" update="listaPartesVehiculos"/>
+                            <p:commandButton value="Actualizar" actionListener="#{mbVTipoVehiculo.cargaEditar(item.id)}" update="listado"/>
                         </p:column>
                         <p:column headerText="Eliminar" width="100">
-                            <p:commandButton value="Eliminar" actionListener="#{mbVParteVehiculo.delete(item.id)}" update="listaPartesVehiculos">
+                            <p:commandButton value="Eliminar" actionListener="#{mbVTipoVehiculo.delete(item.id)}" update="listado">
                                 <p:confirm header="Confirmation" message="¿Quiere Eliminar Esta Informacion?" icon="ui-icon-alert" />
                             </p:commandButton>
                             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >
@@ -40,15 +40,15 @@
                     </p:dataTable>
                 </h:form>
                 <h:form id="frmEdita">
-                    <p:dialog header="Editar Objeto" widgetVar="dialogoEditar" modal="true">
+                    <p:dialog header="Editar Tipo Usuario" widgetVar="dialogoEditar" modal="true">
                         <h:panelGrid columns="3" id="panelActualizar">
-                            <p:outputLabel value="Objeto" for="txtObjeto"/>
-                            <p:inputText id="txtObjeto" label="Objeto" size="50" value="#{mbVParteVehiculo.parteVehiculo.nombre}">
+                            <p:outputLabel value="Nombre" for="txtNombre"/>
+                            <p:inputText id="txtNombre" label="Nombre" size="50" value="#{mbVTipoVehiculo.tipoVehiculo.vehiculo}">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
-                            <p:message for="txtObjeto"/>
+                            <p:message for="txtNombre"/>
                             <h:panelGroup></h:panelGroup>
-                            <p:commandButton value="Actualizar" ajax="false" actionListener="#{mbVParteVehiculo.update()}" update="frmListaPartesVehiculos"/>
+                            <p:commandButton value="Actualizar" ajax="false" actionListener="#{mbVTipoVehiculo.update()}" update="frmListado"/>
                         </h:panelGrid>
                     </p:dialog>
                 </h:form>

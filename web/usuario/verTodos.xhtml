@@ -17,7 +17,7 @@
                 <hr/>
                 <h:form id="frmListaUsuario">
                     <p:growl id="mensajeGeneral" sticky="false" showDetail="true"/>                    
-                    <p:dataTable id="listaUsuario" paginator="true" paginatorPosition="bottom" rows="2" var="item" value="#{mbVUsuario.getall()}" selection="#{mbVUsuario.usuario}" selectionMode="single" rowKey="#{item.id}" filteredValue="#{mbVUsuario.listaUsuarioFiltrado}">
+                    <p:dataTable id="listaUsuario" paginator="true" paginatorPosition="bottom" rows="10" var="item" value="#{mbVUsuario.getall()}" selection="#{mbVUsuario.usuario}" selectionMode="single" rowKey="#{item.id}" filteredValue="#{mbVUsuario.listaUsuarioFiltrado}">
 
                         <p:ajax event="rowSelect" update=":frmListaUsuario:panelDetalleUsuario" oncomplete="PF('dialogoDetalleUsuario').show()"/>
 

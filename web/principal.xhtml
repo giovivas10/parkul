@@ -2,7 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <body>
 
@@ -17,6 +19,41 @@
                 <div id="divImagen" style="text-align: center">
                     <p:graphicImage url="resources/img/libre-logo-colombia.jpg" width="250" />
                 </div>
+                <p:commandButton id="modalDialogButton" value="Modal" onclick="PF('dlg2').show();" type="button"/>  
+                <p:dialog id="modalDialog" header="Modal Dialog" widgetVar="dlg2" modal="true" >
+                    <h:form enctype="multipart/form-data">
+                        <p:outputPanel id="outputPanelStudentUpload">
+
+                            <p:layout style="min-width:800px;min-height:300px;" >  
+                                <p:layoutUnit header="Original Picture" position="west"  size="400" resizable="true">  
+                                    <p:photoCam widgetVar="pc" listener="#{testBean.oncapture}" update="photos"/>
+                                </p:layoutUnit>  
+                                <p:layoutUnit header="Preview Image"  position="center" >  
+                                    <p:imageSwitch effect="zoom" id="photos">
+                                        <ui:repeat value="#{testBean.photos}" var="photo">
+                                            <p:graphicImage value="/unprotected/#{photo}.png" />
+                                        </ui:repeat>
+                                    </p:imageSwitch>
+                                </p:layoutUnit>  
+                            </p:layout> 
+                            <p:commandButton type="button" value="Capture" onclick="pc.capture()"/>
+                        </p:outputPanel>
+                    </h:form>
+                </p:dialog>
+                <h:panelGrid>
+                    <p:layout style="min-width:800px;min-height:300px;" >  
+                        <p:layoutUnit header="Original Picture" position="west"  size="400" resizable="true">  
+                            <p:photoCam widgetVar="pc" listener="#{testBean.oncapture}" update="photos"/>
+                        </p:layoutUnit>  
+                        <p:layoutUnit header="Preview Image"  position="center" >  
+                            <p:imageSwitch effect="zoom" id="photos">
+                                <ui:repeat value="#{testBean.photos}" var="photo">
+                                    <p:graphicImage value="/unprotected/#{photo}.png" />
+                                </ui:repeat>
+                            </p:imageSwitch>
+                        </p:layoutUnit>  
+                    </p:layout> 
+                </h:panelGrid>
             </ui:define>
 
             <ui:define name="bottom">

@@ -25,23 +25,34 @@
                     </span>
                     <p:commandButton value="Cerrar sesion" action="#{mbSLogin.cerrarSesion()}"/>
                 </div>
-                <p:megaMenu>
+                <p:megaMenu id="menuPpal" style="background-color: #9B9340">
                     <p:menuitem value="Inicio" outcome="/principal" icon="ui-icon-check"/>
-                    <p:submenu label="Administracion" icon="ui-icon-gear">
-                        <p:column>
-                            <p:submenu label="Objetos">
+                    <p:submenu label="Parametros" icon="ui-icon-gear">
+                        <p:column style="background-color: #CDC78B;">
+                            <p:submenu label="Tipo Usuario" style="background-color: #9B9340">
+                                <p:menuitem value="Registrar" outcome="/tipoUsuario/registrar" icon="ui-icon-pencil"/>
+                                <p:menuitem value="Ver" icon="ui-icon-document" outcome="/tipoUsuario/verTodos"/>
+                            </p:submenu>
+                             <p:submenu label="Objetos" style="background-color: #9B9340">
                                 <p:menuitem value="Registrar" outcome="/objetos/registrar" icon="ui-icon-pencil"/>
                                 <p:menuitem value="Ver" icon="ui-icon-document" outcome="/objetos/verTodos"/>
                             </p:submenu>
-                            <p:submenu label="Partes Vehiculo">
+                            
+                        </p:column>
+                        <p:column style="background-color: #CDC78B;">
+                           <p:submenu label="Tipo Vehiculo" style="background-color: #9B9340">
+                                <p:menuitem value="Registrar" outcome="/tipoVehiculo/registrar" icon="ui-icon-pencil"/>
+                                <p:menuitem value="Ver" icon="ui-icon-document" outcome="/tipoVehiculo/verTodos"/>
+                            </p:submenu>
+                            <p:submenu label="Partes Vehiculo" style="background-color: #9B9340">
                                 <p:menuitem value="Registrar" outcome="/partesVehiculo/registrar" icon="ui-icon-pencil"/>
                                 <p:menuitem value="Ver" icon="ui-icon-document" outcome="/partesVehiculo/verTodos"/>
                             </p:submenu>
                         </p:column>
                     </p:submenu>
                     <p:submenu label="Usuario" icon="ui-icon-gear">
-                        <p:column>
-                            <p:submenu label="Administrar">
+                        <p:column style="background-color: #CDC78B;">
+                            <p:submenu label="Administrar" style="background-color: #9B9340">
                                 <p:menuitem value="Registrar" outcome="/usuario/registrar" icon="ui-icon-pencil"/>
                                 <p:menuitem value="Ver" outcome="/usuario/verTodos" icon="ui-icon-document"/>
                                 <p:menuitem value="Mis datos" outcome="/usuario/misDatos" icon="ui-icon-document"/>
@@ -49,10 +60,18 @@
                         </p:column>
                     </p:submenu>
                     <p:submenu label="Propietarios" icon="ui-icon-gear">
-                        <p:column>
-                            <p:submenu label="Administrar">
+                        <p:column style="background-color: #CDC78B;">
+                            <p:submenu label="Administrar" style="background-color: #9B9340">
                                 <p:menuitem value="Registrar" outcome="/propietario/registrar" icon="ui-icon-pencil"/>
                                 <p:menuitem value="Ver" icon="ui-icon-document" outcome="/propietario/verTodos"/>
+                            </p:submenu>
+                        </p:column>
+                    </p:submenu>
+                    <p:submenu label="Auxiliar" icon="ui-icon-gear">
+                        <p:column style="background-color: #CDC78B;">
+                            <p:submenu label="Vehiculos" style="background-color: #9B9340">
+                                <p:menuitem value="Evaluar" outcome="/propietario/registrar" icon="ui-icon-pencil"/>
+                                <p:menuitem value="Consultar" icon="ui-icon-document" outcome="/propietario/verTodos"/>
                             </p:submenu>
                         </p:column>
                     </p:submenu>

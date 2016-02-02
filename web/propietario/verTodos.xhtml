@@ -18,7 +18,7 @@
                 <hr/>
                 <h:form id="frmListaPropietario">
                     <p:growl id="mensajeGeneral" sticky="false" showDetail="true"/>                    
-                    <p:dataTable id="listaPropietario" paginator="true" paginatorPosition="bottom" rows="2" var="item" value="#{mbVPropietario.getall()}" selection="#{mbVPropietario.propietario}" selectionMode="single" rowKey="#{item.id}" filteredValue="#{mbVPropietario.listaPropietarioFiltrado}">
+                    <p:dataTable id="listaPropietario" paginator="true" paginatorPosition="bottom" rows="10" var="item" value="#{mbVPropietario.getall()}" selection="#{mbVPropietario.propietario}" selectionMode="single" rowKey="#{item.id}" filteredValue="#{mbVPropietario.listaPropietarioFiltrado}">
 
                         <p:ajax event="rowSelect" update=":frmListaPropietario:panelDetallePropietario" oncomplete="PF('dialogoDetallePropietario').show()"/>
                         <f:facet name="header">

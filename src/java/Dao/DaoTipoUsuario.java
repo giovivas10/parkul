@@ -19,6 +19,7 @@ public class DaoTipoUsuario implements InterfaceTipoUsuario{
 
     @Override
     public List<TipoUsuario> getAll(Session session) throws Exception {
+        //String hql = "from TipoUsuario where id !=-1";
         String hql = "from TipoUsuario";
         Query query = session.createQuery(hql);
         
@@ -29,7 +30,28 @@ public class DaoTipoUsuario implements InterfaceTipoUsuario{
     
     @Override
     public TipoUsuario getById(Session session, Integer id) throws Exception {
-        return (TipoUsuario) session.load(TipoUsuario.class, id);
+        return (TipoUsuario) session.get(TipoUsuario.class, id);
+    }
+
+    @Override
+    public boolean register(TipoUsuario tipoUsuario, Session session) throws Exception {
+        session.save(tipoUsuario);
+        
+        return true;
+    }
+
+    @Override
+    public boolean update(TipoUsuario tipoUsuario, Session session) throws Exception {
+        session.update(tipoUsuario);
+        
+        return true;
+    }
+
+    @Override
+    public boolean delete(TipoUsuario tipoUsuario, Session session) throws Exception {
+        session.delete(tipoUsuario);
+        
+        return true;
     }
     
 }
