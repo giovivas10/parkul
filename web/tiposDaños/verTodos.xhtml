@@ -18,21 +18,18 @@
                 <hr/>
                 <h:form id="frmListado">
                     <p:growl id="mensajeGeneral" sticky="false" showDetail="true"/>                    
-                    <p:dataTable id="listado" paginator="true" paginatorPosition="bottom" rows="10" var="item" value="#{mbVTipoUsuario.getall()}" filteredValue="#{mbVTipoUsuario.listaTipoUsuarioFiltrada}">
+                    <p:dataTable id="listado" paginator="true" paginatorPosition="bottom" rows="10" var="item" value="#{mbVTipoDanio.getall()}" filteredValue="#{mbVTipoUsuario.listaTipoUsuarioFiltrada}">
                         <f:facet name="header">
                             Tipos de Usuarios
                         </f:facet>
                         <p:column headerText="Nombre" filterBy="nombre">
                             <h:outputText value="#{item.nombre}" />
                         </p:column>
-                        <p:column headerText="Descripcion">
-                            <h:outputText value="#{item.descripcion}" />
-                        </p:column>
                         <p:column headerText="Actualizar" width="100">
-                            <p:commandButton value="Actualizar" actionListener="#{mbVTipoUsuario.cargaEditar(item.id)}" update="listado"/>
+                            <p:commandButton value="Actualizar" actionListener="#{mbVTipoDanio.cargaEditar(item.id)}" update="listado"/>
                         </p:column>
                         <p:column headerText="Eliminar" width="100">
-                            <p:commandButton value="Eliminar" actionListener="#{mbVTipoUsuario.delete(item.id)}" update="listado">
+                            <p:commandButton value="Eliminar" actionListener="#{mbVTipoDanio.delete(item.id)}" update="listado">
                                 <p:confirm header="Confirmation" message="¿Quiere Eliminar Esta Informacion?" icon="ui-icon-alert" />
                             </p:commandButton>
                             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >
@@ -45,18 +42,15 @@
                     </p:dataTable>
                 </h:form>
                 <h:form id="frmEdita">
-                    <p:dialog header="Editar Tipo Usuario" widgetVar="dialogoEditar" modal="true">
+                    <p:dialog header="Editar" widgetVar="dialogoEditar" modal="true">
                         <h:panelGrid columns="3" id="panelActualizar">
                             <p:outputLabel value="Nombre" for="txtNombre"/>
-                            <p:inputText id="txtNombre" label="Nombre" size="50" value="#{mbVTipoUsuario.tipoUsuario.nombre}">
+                            <p:inputText id="txtNombre" label="Nombre" size="50" value="#{mbVTipoDanio.tipoDanio.nombre}">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
                             <p:message for="txtNombre"/>
-                            <p:outputLabel value="Descripcion" for="txtDesripcion"/>
-                            <p:inputTextarea id="txtDesripcion" style="height: 50px;width: 378px;" label="Descripcion" value="#{mbVTipoUsuario.tipoUsuario.descripcion}"/>
-                            <p:message for="txtDesripcion"/>
                             <h:panelGroup></h:panelGroup>
-                            <p:commandButton value="Actualizar" ajax="false" actionListener="#{mbVTipoUsuario.update()}" update="frmListado"/>
+                            <p:commandButton value="Actualizar" ajax="false" actionListener="#{mbVTipoDanio.update()}" update="frmListado"/>
                         </h:panelGrid>
                     </p:dialog>
                 </h:form>

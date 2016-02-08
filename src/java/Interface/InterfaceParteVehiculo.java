@@ -16,6 +16,7 @@ import pojo.ParteVehiculo;
 public interface InterfaceParteVehiculo {
     public boolean register(ParteVehiculo parteVehiculo, Session session) throws Exception;
     public List<ParteVehiculo> getAll(Session session)throws Exception;
+    public List<ParteVehiculo> cargarSelect(Session session)throws Exception;
     public ParteVehiculo getById(Session session, Integer id) throws Exception;
     public boolean update(ParteVehiculo parteVehiculo,Session session) throws Exception;
     public boolean delete(ParteVehiculo parteVehiculo,Session session) throws Exception;

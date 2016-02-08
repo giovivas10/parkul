@@ -52,5 +52,16 @@ public class DaoPropietario implements InterfacePropietario{
         
         return true;
     }
+
+    @Override
+    public Propietario getByPlaca(Session session, String Placa) throws Exception {
+        String hql = "from Propietario where placa=:Placa";
+        Query query = session.createQuery(hql);
+        query.setParameter("Placa", Placa);
+        
+        Propietario listaPropietario = (Propietario) query.uniqueResult();
+        
+        return listaPropietario;
+    }
     
 }

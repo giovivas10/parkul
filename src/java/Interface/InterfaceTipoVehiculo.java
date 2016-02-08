@@ -15,6 +15,7 @@ import pojo.TipoVehiculo;
  */
 public interface InterfaceTipoVehiculo {
     public List<TipoVehiculo> getAll(Session session) throws Exception;
+    public List<TipoVehiculo> cargarSelect(Session session) throws Exception;
     public TipoVehiculo getById(Session session, Integer id) throws Exception;
     public boolean register(TipoVehiculo tipoVehiculo, Session session) throws Exception;
     public boolean update(TipoVehiculo tipoVehiculo,Session session) throws Exception;

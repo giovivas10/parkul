@@ -1,0 +1,285 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../layout/layout.xhtml">
+
+            <ui:define name="top">
+            </ui:define>
+
+            <ui:define name="content">
+                <h2>Evaluacion Estado Vehicular</h2>
+                <hr />
+                <h:form id="frmRegistrarEvaluacion">
+                    <p:growl id="mensajeGeneral" showDetail="true" sticky="false"/>
+                    <table id="panelRegistro" style="width: 50%">
+                        <tr>
+                            <td>
+                                <p:outputLabel value="Fecha" for="txtFechaNacimiento"/>
+                            </td>
+                            <td>
+                                <p:calendar id="txtFechaNacimiento" value="#{mbVEvaluacion.evaluacionEstadoVehicular.fecha}" disabled="true" label="Fecha de nacimiento" showOn="button" title="Ejemplo: dd/mm/yyyy" pattern="dd/MM/yyyy"/>
+                            </td>
+                            <td>
+                                <p:message for="txtFechaNacimiento"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="Placa" for="txtPlaca"/>
+                            </td>
+                            <td>
+                                <p:inputText id="txtPlaca" label="Placa" size="50" value="#{mbVEvaluacion.propietario.placa}">
+                                    <!--<f:validator validatorId="validarVacio"/>-->
+                                </p:inputText>
+                            </td>
+                            <td>
+                                <h:panelGrid columns="2">
+                                    <p:commandButton value="validar" ajax="false" actionListener="#{mbVEvaluacion.validarPlaca()}" update="mensajeGeneral"/>
+                                    <p:message for="txtPlaca"/>
+                                </h:panelGrid>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="Tipo de vehiculo" for="txtTipoVehiculo"/>
+                            </td>
+                            <td>
+                                <p:inputText id="txtTipoVehiculo" value="#{mbVEvaluacion.tipoVehiculo.vehiculo}" label="Tipo de vehiculo" size="50" disabled="true"/>
+                            </td>
+                            <td>
+                                <p:message for="txtTipoVehiculo"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="Cedula" for="txtCedula"/>
+                            </td>
+                            <td>
+                                <p:inputText id="txtCedula" value="#{mbVEvaluacion.propietario.documento}" label="Cedula" size="50" disabled="true"/>
+                            </td>
+                            <td>
+                                <p:message for="txtCedula"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="Nombres" for="txtNombres"/>
+                            </td>
+                            <td>
+                                <p:inputText id="txtNombres" value="#{mbVEvaluacion.propietario.nombres}" label="Nombres" size="50" disabled="true"/>
+                            </td>
+                            <td>
+                                <p:message for="txtNombres"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="Apellidos" for="txtApellidos"/> 
+                            </td>
+                            <td>
+                                <p:inputText id="txtApellidos" value="#{mbVEvaluacion.propietario.apellidos}" label="Apellidos" size="50" disabled="true"/>
+                            </td>
+                            <td>
+                                <p:message for="txtApellidos"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p:outputLabel value="Telefono" for="txtTelefono"/>
+                            </td>
+                            <td>
+                                <p:inputText id="txtTelefono" value="#{mbVEvaluacion.propietario.telefono}" label="Telefono" size="50" disabled="true"/>
+                            </td>
+                            <td>
+                                <p:message for="txtTelefono"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="10">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <p:outputLabel value="¿El auto posee daños?" for="radioDanios"/>
+                                        </td>
+                                        <td>
+                                            <p:selectOneRadio id="radioDanios" label="Daños" value="#{mbVEvaluacion.evaluacionEstadoVehicular.poseeDanios}">
+                                                <f:selectItem itemLabel="Si" itemValue="true" />
+                                                <f:selectItem itemLabel="No" itemValue="false"/>
+                                                <p:ajax event="valueChange" update="divDaños,mensajeGeneral,divListaDaños" />
+                                            </p:selectOneRadio>
+                                        </td>
+                                        <td>
+                                            <p:message for="radioDanios"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="10" align="center">
+                                <h:panelGroup id="divDaños">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <p:outputLabel value="Daño" for="selDanio" rendered="#{mbVEvaluacion.evaluacionEstadoVehicular.poseeDanios}"/> 
+                                            </td>
+                                            <td>
+                                                <p:selectOneMenu id="selDanio" style="width: 115px" value="#{mbVEvaluacion.parametroEvaluacion.id}" rendered="#{mbVEvaluacion.evaluacionEstadoVehicular.poseeDanios}">
+                                                    <f:selectItems value="#{mbRCargarSelects.listaTipoDanio}"/>
+                                                </p:selectOneMenu>
+                                            </td>
+                                            <td>
+                                                <p:outputLabel value="Parte Vehiculo" for="selParteVehiculo" rendered="#{mbVEvaluacion.evaluacionEstadoVehicular.poseeDanios}"/> 
+                                            </td>
+                                            <td>
+                                                <p:selectOneMenu id="selParteVehiculo" style="width: 115px" value="#{mbVEvaluacion.parteVehiculo.id}" rendered="#{mbVEvaluacion.evaluacionEstadoVehicular.poseeDanios}">
+                                                    <f:selectItems value="#{mbRCargarSelects.listaParteVehiculo}"/>
+                                                </p:selectOneMenu>
+                                            </td>
+                                            <td>
+                                                <p:commandButton value="Agregar" ajax="false" rendered="#{mbVEvaluacion.evaluacionEstadoVehicular.poseeDanios}" actionListener="#{mbVEvaluacion.agregarListaDanios()}" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </h:panelGroup>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="10">
+                                <h:panelGroup id="divListaDaños">
+                                    <table>
+                                        <tr> 
+                                            <td>
+                                                <h:form id="frmListaUsuario" rendered="#{mbVEvaluacion.evaluacionEstadoVehicular.poseeDanios}">                    
+                                                    <p:dataTable id="listaUsuario" var="item" value="#{mbVEvaluacion.listaDaniosVehiculos}" style="font-size: 10px;">
+                                                        <f:facet name="header">
+                                                            Daños
+                                                        </f:facet>
+                                                        <p:column headerText="Daño">
+                                                            <h:outputText value="#{item.parametroEvaluacion.nombre}" />
+                                                        </p:column>
+                                                        <p:column headerText="Parte Vehiculo" >
+                                                            <h:outputText value="#{item.parteVehiculo.nombre}" />
+                                                        </p:column>
+                                                        <p:column headerText="Eliminar" width="100">
+                                                            <p:commandButton value="Eliminar" actionListener="#{mbVEvaluacion.retirarListaDanios(item.parametroEvaluacion,item.parteVehiculo)}" ajax="false"/>
+                                                        </p:column>
+                                                    </p:dataTable>
+                                                </h:form>
+                                            </td>
+                                        </tr> 
+                                    </table>
+                                </h:panelGroup>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="10">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <p:outputLabel value="¿El auto posee objetos de valor en su interior?" for="radioObjetos"/>
+                                        </td>
+                                        <td>
+                                            <p:selectOneRadio id="radioObjetos" label="Objetos" value="#{mbVEvaluacion.evaluacionEstadoVehicular.poseeObjetos}">
+                                                <f:selectItem itemLabel="Si" itemValue="true"/>
+                                                <f:selectItem itemLabel="No" itemValue="false"/>
+                                                <p:ajax event="valueChange" update="divObejtos,mensajeGeneral,divListaObjetos" />
+                                            </p:selectOneRadio>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="10" align="center">
+                                <h:panelGroup id="divObejtos">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <p:outputLabel value="Objeto" for="selObjeto" rendered="#{mbVEvaluacion.evaluacionEstadoVehicular.poseeObjetos}"/> 
+                                            </td>
+                                            <td>
+                                                <p:selectOneMenu id="selObjeto" style="width: 115px" value="#{mbVEvaluacion.objetos.id}" rendered="#{mbVEvaluacion.evaluacionEstadoVehicular.poseeObjetos}">
+                                                    <f:selectItems value="#{mbRCargarSelects.listaObjetos}"/>
+                                                </p:selectOneMenu>
+                                            </td>
+                                            <td>
+                                                <p:outputLabel value="Descrpcion" for="txtDescripcion" rendered="#{mbVEvaluacion.evaluacionEstadoVehicular.poseeObjetos}"/>
+                                            </td>
+                                            <td>
+                                                <p:inputText id="txtDescripcion" value="#{mbVEvaluacion.objetosVehiculos.descripcion}" label="Descripcion" size="35" rendered="#{mbVEvaluacion.evaluacionEstadoVehicular.poseeObjetos}"/>
+                                            </td>
+                                            <td>
+                                                <p:commandButton value="Agregar" ajax="false" rendered="#{mbVEvaluacion.evaluacionEstadoVehicular.poseeObjetos}" actionListener="#{mbVEvaluacion.agregarListaObjetos()}" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </h:panelGroup>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="10">
+                                <h:panelGroup id="divListaObjetos">
+                                    <table>
+                                        <tr> 
+                                            <td>
+                                                <h:form id="frmListaObjetos" rendered="#{mbVEvaluacion.evaluacionEstadoVehicular.poseeObjetos}">                    
+                                                    <p:dataTable id="listaObjetos" var="item" value="#{mbVEvaluacion.listaObjetosVehiculos}" style="font-size: 10px;">
+                                                        <f:facet name="header">
+                                                            Objetos
+                                                        </f:facet>
+                                                        <p:column headerText="Objeto">
+                                                            <h:outputText value="#{item.objetos.nombre}" />
+                                                        </p:column>
+                                                        <p:column headerText="Descripcion" >
+                                                            <h:outputText value="#{item.descripcion}" />
+                                                        </p:column>
+                                                        <p:column headerText="Eliminar" width="100">
+                                                            <p:commandButton value="Eliminar" actionListener="#{mbVUsuario.delete(item.id)}" update="listaObjetos">
+                                                                <p:confirm header="Confirmation" message="¿Quiere Eliminar Esta Informacion?" icon="ui-icon-alert" />
+                                                            </p:commandButton>
+                                                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >
+                                                                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                                            </p:confirmDialog>
+                                                        </p:column>
+                                                    </p:dataTable>
+                                                </h:form>
+                                            </td>
+                                        </tr> 
+                                    </table>
+                                </h:panelGroup>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="10" align="center">
+                                <p:commandButton value="Registrar" ajax="false" actionListener="#{mbVEvaluacion.registrar()}"/>
+                            </td>
+                        </tr>
+
+                        <!--
+                        <f:facet name="footer">
+                            <h:panelGroup style="display:block; text-align:center">
+                                <p:commandButton value="Registrar Usuario" ajax="false"/>
+                            </h:panelGroup>
+                        </f:facet>
+                        -->
+
+                    </table>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="bottom">
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

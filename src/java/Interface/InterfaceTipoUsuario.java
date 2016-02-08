@@ -15,6 +15,7 @@ import pojo.TipoUsuario;
  */
 public interface InterfaceTipoUsuario {
     public List<TipoUsuario> getAll(Session session) throws Exception;
+    public List<TipoUsuario> cargarSelect(Session session) throws Exception;
     public TipoUsuario getById(Session session, Integer id) throws Exception;
     public boolean register(TipoUsuario objetos, Session session) throws Exception;
     public boolean update(TipoUsuario objetos,Session session) throws Exception;

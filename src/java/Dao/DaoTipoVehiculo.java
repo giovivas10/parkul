@@ -19,7 +19,16 @@ public class DaoTipoVehiculo implements InterfaceTipoVehiculo{
 
     @Override
     public List<TipoVehiculo> getAll(Session session) throws Exception {
-        //String hql = "from TipoVehiculo where id!=-1";
+        String hql = "from TipoVehiculo where id!=-1";
+        Query query = session.createQuery(hql);
+        
+        List<TipoVehiculo> listaVehiculos = (List<TipoVehiculo>) query.list();
+        
+        return listaVehiculos;
+    }
+    
+    @Override
+    public List<TipoVehiculo> cargarSelect(Session session) throws Exception {
         String hql = "from TipoVehiculo";
         Query query = session.createQuery(hql);
         

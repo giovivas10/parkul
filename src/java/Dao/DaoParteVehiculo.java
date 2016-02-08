@@ -26,6 +26,17 @@ public class DaoParteVehiculo implements InterfaceParteVehiculo{
 
     @Override
     public List<ParteVehiculo> getAll(Session session) throws Exception {
+        String hql = "from ParteVehiculo where id!=-1";
+        Query query = session.createQuery(hql);
+        
+        List<ParteVehiculo> listaParteVehiculo = query.list();
+        
+        return listaParteVehiculo;
+        
+    }
+    
+    @Override
+    public List<ParteVehiculo> cargarSelect(Session session) throws Exception {
         String hql = "from ParteVehiculo";
         Query query = session.createQuery(hql);
         

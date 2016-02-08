@@ -16,6 +16,7 @@ import pojo.Objetos;
 public interface InterfaceObjeto {
     public boolean register(Objetos objetos, Session session) throws Exception;
     public List<Objetos> getAll(Session session)throws Exception;
+    public List<Objetos> cargarSelect(Session session)throws Exception;
     public Objetos getById(Session session, Integer id) throws Exception;
     public boolean update(Objetos objetos,Session session) throws Exception;
     public boolean delete(Objetos objetos,Session session) throws Exception;

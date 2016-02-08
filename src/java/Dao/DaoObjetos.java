@@ -26,6 +26,16 @@ public class DaoObjetos implements InterfaceObjeto{
 
     @Override
     public List<Objetos> getAll(Session session) throws Exception {
+        String hql = "from Objetos where id != -1";
+        Query query = session.createQuery(hql);
+        
+        List<Objetos> listaObjetos = (List<Objetos>) query.list();
+        
+        return listaObjetos;
+    }
+    
+    @Override
+    public List<Objetos> cargarSelect(Session session) throws Exception {
         String hql = "from Objetos";
         Query query = session.createQuery(hql);
         

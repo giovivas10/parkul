@@ -19,7 +19,16 @@ public class DaoTipoUsuario implements InterfaceTipoUsuario{
 
     @Override
     public List<TipoUsuario> getAll(Session session) throws Exception {
-        //String hql = "from TipoUsuario where id !=-1";
+        String hql = "from TipoUsuario where id !=-1";
+        Query query = session.createQuery(hql);
+        
+        List<TipoUsuario> listaUsuario = (List<TipoUsuario>) query.list();
+        
+        return listaUsuario;
+    }
+    
+    @Override
+    public List<TipoUsuario> cargarSelect(Session session) throws Exception {
         String hql = "from TipoUsuario";
         Query query = session.createQuery(hql);
         

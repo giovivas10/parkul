@@ -17,6 +17,7 @@ public interface InterfacePropietario {
     public boolean register(Propietario propietario,Session session ) throws Exception;
     public List<Propietario> getAll(Session session) throws Exception;
     public Propietario getByIdPropietario(Session session,int id) throws Exception;
+    public Propietario getByPlaca(Session session,String Placa) throws Exception;
     public boolean update(Propietario propietario,Session session ) throws Exception;
     public boolean delete(Propietario propietario,Session session ) throws Exception;
 }

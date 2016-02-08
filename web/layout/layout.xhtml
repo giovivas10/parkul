@@ -37,7 +37,10 @@
                                 <p:menuitem value="Registrar" outcome="/objetos/registrar" icon="ui-icon-pencil"/>
                                 <p:menuitem value="Ver" icon="ui-icon-document" outcome="/objetos/verTodos"/>
                             </p:submenu>
-                            
+                            <p:submenu label="Tipos Daños" style="background-color: #9B9340">
+                                <p:menuitem value="Registrar" outcome="/tiposDaños/registrar" icon="ui-icon-pencil"/>
+                                <p:menuitem value="Ver" icon="ui-icon-document" outcome="/tiposDaños/verTodos"/>
+                            </p:submenu>
                         </p:column>
                         <p:column style="background-color: #CDC78B;">
                            <p:submenu label="Tipo Vehiculo" style="background-color: #9B9340">
@@ -70,8 +73,16 @@
                     <p:submenu label="Auxiliar" icon="ui-icon-gear">
                         <p:column style="background-color: #CDC78B;">
                             <p:submenu label="Vehiculos" style="background-color: #9B9340">
-                                <p:menuitem value="Evaluar" outcome="/propietario/registrar" icon="ui-icon-pencil"/>
-                                <p:menuitem value="Consultar" icon="ui-icon-document" outcome="/propietario/verTodos"/>
+                                <p:menuitem value="Evaluar" outcome="/auxiliar/evaluar" icon="ui-icon-pencil"/>
+                                <p:menuitem value="Consultar" icon="ui-icon-document" outcome="/auxiliar/consultar"/>
+                            </p:submenu>
+                        </p:column>
+                    </p:submenu>
+                    <p:submenu label="Informes" icon="ui-icon-gear">
+                        <p:column style="background-color: #CDC78B;">
+                            <p:submenu label="Vehiculos" style="background-color: #9B9340">
+                                <p:menuitem value="Evaluar" outcome="/auxiliar/evaluar" icon="ui-icon-pencil"/>
+                                <p:menuitem value="Consultar" icon="ui-icon-document" outcome="/auxiliar/consultar"/>
                             </p:submenu>
                         </p:column>
                     </p:submenu>
