@@ -10,7 +10,8 @@
         <h:outputStylesheet name="./css/default.css"/>
         <h:outputStylesheet name="./css/cssLayout.css"/>
         <h:outputScript name="jsControles.js" library="js"/>
-        <title>Facelets Template</title>
+        <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/images/favicon.png" />
+        <title>ParkUL</title>
     </h:head>
 
     <h:body>
@@ -23,11 +24,11 @@
                         <p:outputLabel value="#{mbSLogin.usuario==null ? 'Anonimo':mbSLogin.usuario}" />
 
                     </span>
-                    <p:commandButton value="Cerrar sesion" action="#{mbSLogin.cerrarSesion()}"/>
+                    <p:commandButton value="Cerrar sesion" action="#{mbSLogin.cerrarSesion()}" ajax="false"/>
                 </div>
                 <p:megaMenu id="menuPpal" style="background-color: #9B9340">
                     <p:menuitem value="Inicio" outcome="/principal" icon="ui-icon-check"/>
-                    <p:submenu label="Parametros" icon="ui-icon-gear">
+                    <p:submenu label="Parametros" icon="ui-icon-gear" rendered="#{mbSLogin.mostrarAdmin || mbSLogin.mostrarAuxiliar}">
                         <p:column style="background-color: #CDC78B;">
                             <p:submenu label="Tipo Usuario" style="background-color: #9B9340">
                                 <p:menuitem value="Registrar" outcome="/tipoUsuario/registrar" icon="ui-icon-pencil"/>
@@ -53,7 +54,7 @@
                             </p:submenu>
                         </p:column>
                     </p:submenu>
-                    <p:submenu label="Usuario" icon="ui-icon-gear">
+                    <p:submenu label="Usuario" icon="ui-icon-gear" rendered="#{mbSLogin.mostrarAdmin || mbSLogin.mostrarAuxiliar}">
                         <p:column style="background-color: #CDC78B;">
                             <p:submenu label="Administrar" style="background-color: #9B9340">
                                 <p:menuitem value="Registrar" outcome="/usuario/registrar" icon="ui-icon-pencil"/>
@@ -62,7 +63,7 @@
                             </p:submenu>
                         </p:column>
                     </p:submenu>
-                    <p:submenu label="Propietarios" icon="ui-icon-gear">
+                    <p:submenu label="Propietarios" icon="ui-icon-gear" rendered="#{mbSLogin.mostrarAdmin || mbSLogin.mostrarAuxiliar}">
                         <p:column style="background-color: #CDC78B;">
                             <p:submenu label="Administrar" style="background-color: #9B9340">
                                 <p:menuitem value="Registrar" outcome="/propietario/registrar" icon="ui-icon-pencil"/>
@@ -70,7 +71,7 @@
                             </p:submenu>
                         </p:column>
                     </p:submenu>
-                    <p:submenu label="Auxiliar" icon="ui-icon-gear">
+                    <p:submenu label="Auxiliar" icon="ui-icon-gear" rendered="#{mbSLogin.mostrarAdmin || mbSLogin.mostrarRegistrador}">
                         <p:column style="background-color: #CDC78B;">
                             <p:submenu label="Vehiculos" style="background-color: #9B9340">
                                 <p:menuitem value="Evaluar" outcome="/auxiliar/evaluar" icon="ui-icon-pencil"/>
@@ -78,7 +79,7 @@
                             </p:submenu>
                         </p:column>
                     </p:submenu>
-                    <p:submenu label="Informes" icon="ui-icon-gear">
+                    <p:submenu label="Informes" icon="ui-icon-gear" rendered="#{mbSLogin.mostrarAdmin}">
                         <p:column style="background-color: #CDC78B;">
                             <p:submenu label="Vehiculos" style="background-color: #9B9340">
                                 <p:menuitem value="Evaluar" outcome="/auxiliar/evaluar" icon="ui-icon-pencil"/>

@@ -1,5 +1,5 @@
 package pojo;
-// Generated 7/02/2016 12:30:40 PM by Hibernate Tools 4.3.1
+// Generated 9/02/2016 11:44:30 AM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -14,7 +14,7 @@ public class ObjetosVehiculos  implements java.io.Serializable {
      private EvaluacionEstadoVehicular evaluacionEstadoVehicular;
      private Objetos objetos;
      private String descripcion;
-     private byte[] evidencia;
+     private String evidencia;
      private Date fecha;
 
     public ObjetosVehiculos() {
@@ -24,7 +24,7 @@ public class ObjetosVehiculos  implements java.io.Serializable {
     public ObjetosVehiculos(Date fecha) {
         this.fecha = fecha;
     }
-    public ObjetosVehiculos(EvaluacionEstadoVehicular evaluacionEstadoVehicular, Objetos objetos, String descripcion, byte[] evidencia, Date fecha) {
+    public ObjetosVehiculos(EvaluacionEstadoVehicular evaluacionEstadoVehicular, Objetos objetos, String descripcion, String evidencia, Date fecha) {
        this.evaluacionEstadoVehicular = evaluacionEstadoVehicular;
        this.objetos = objetos;
        this.descripcion = descripcion;
@@ -60,11 +60,11 @@ public class ObjetosVehiculos  implements java.io.Serializable {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    public byte[] getEvidencia() {
+    public String getEvidencia() {
         return this.evidencia;
     }
     
-    public void setEvidencia(byte[] evidencia) {
+    public void setEvidencia(String evidencia) {
         this.evidencia = evidencia;
     }
     public Date getFecha() {

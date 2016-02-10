@@ -42,8 +42,8 @@ public class SessionUrlFilter implements Filter{
         
         String[] urlPermitidaSinSesion=new String[]
         {
-            "/faces/index.xhtml",
-            "/faces/usuario/registrar.xhtml"
+            "/faces/index.xhtml"//,
+            // "/faces/usuario/registrar.xhtml"
         };
         
         boolean redireccionarPeticion;

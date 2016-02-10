@@ -49,6 +49,13 @@
 
                     <p:dialog header="Detalle de usuario" widgetVar="dialogoDetalleUsuario" resizable="false">
                         <h:panelGrid id="panelDetalleUsuario" columns="2">
+                            <f:facet name="header">
+                                <p:imageSwitch effect="zoom" id="photos">
+                                    <ui:repeat value="#{mbVUsuario.usuario.foto}" var="photo">
+                                        <p:graphicImage value="#{pageContext.contextPath}/resources/images/usuario/#{photo}" cache="false" width="250"/>
+                                    </ui:repeat>
+                                </p:imageSwitch>
+                            </f:facet>
                             <p:outputLabel style="font-weight: bold" value="Nombre Usuario: "/>
                             <h:outputText value="#{mbVUsuario.usuario.usuario}" />
                             <p:outputLabel style="font-weight: bold" value="Nombre: "/>
@@ -71,7 +78,10 @@
                             <p:inputText id="txtUsuario" label="Usuario" size="50" value="#{mbVUsuario.usuario.usuario}" disabled="true">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
-                            <p:message for="txtUsuario"/>
+                            <h:panelGrid columns="2" >
+                                <p:commandButton id="modalDialogButton" value="Capturar Foto" onclick="PF('dlg2').show();" type="button"/>
+                                <p:message for="txtUsuario"/>
+                            </h:panelGrid>
                             <p:outputLabel value="Nombre" for="txtNombre"/>
                             <p:inputText id="txtNombre" label="Nombre" size="50" value="#{mbVUsuario.usuario.nombre}">
                                 <f:validator validatorId="validarVacio"/>
@@ -117,7 +127,24 @@
                             <p:message for="selEstado"/>
                             <h:panelGroup></h:panelGroup>
                             <p:commandButton value="Guardar Cambios" ajax="false" actionListener="#{mbVUsuario.update()}" update="frmListaUsuario"/>
+
                         </h:panelGrid>
+                    </p:dialog>
+                    <p:dialog id="modalDialog" header="Modal Dialog" widgetVar="dlg2">
+                        <h:form enctype="multipart/form-data">
+                            <p:outputPanel id="outputPanelStudentUpload">  
+                                <h:panelGrid columns="2">
+                                    <p:photoCam widgetVar="pc" listener="#{mbVUsuario.oncapture}" update="outputPanelStudentUpload"/>
+                                    <p:imageSwitch effect="zoom" id="photos">
+                                        <ui:repeat value="#{mbVUsuario.foto}" var="photo">
+                                            <p:graphicImage value="#{pageContext.contextPath}/resources/images/usuario/#{mbVUsuario.foto}.png" cache="false" />
+                                        </ui:repeat>
+                                    </p:imageSwitch>
+                                    <p:commandButton type="button" value="Capture" onclick="PF('pc').capture()" ajax="false" update="frmRegistrarUsuario"/>
+                                    <p:commandButton rendered="#{not empty mbVUsuario.foto}" type="button" value="Guardar" onclick="PF('dlg2').hide();" ajax="false" update="frmEditarUsuario:modalDialog"/>
+                                </h:panelGrid>
+                            </p:outputPanel>
+                        </h:form>
                     </p:dialog>
                 </h:form>
             </ui:define>

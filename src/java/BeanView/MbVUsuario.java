@@ -18,9 +18,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import javax.faces.FacesException;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.imageio.stream.FileImageOutputStream;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
@@ -28,6 +30,7 @@ import javax.validation.ConstraintViolationException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.CaptureEvent;
 import org.primefaces.model.UploadedFile;
 
 /**
@@ -45,6 +48,9 @@ public class MbVUsuario {
     private Rol rol;
     private List<Usuario> listaUsuario;
     private List<Usuario> listaUsuarioFiltrado;
+    
+    private String foto;
+    private String rutaFoto;
     
     private String txtContrasenaRepita;
     private int rolSelect;
@@ -90,6 +96,7 @@ public class MbVUsuario {
             //Asignacion del Id del rol al pojo del rol
             this.rol = daoRol.getById(this.session, this.rolSelect);
             this.usuario.setRol(rol);
+            this.usuario.setFoto(this.rutaFoto);
             //////////////////////////////////////////////////////////
 
             this.usuario.setContrasenia(EncryptMD5.encriptaEnMD5(this.usuario.getContrasenia()));
@@ -101,6 +108,7 @@ public class MbVUsuario {
             //RequestContext.getCurrentInstance().execute("limpiarFomrmulario('frmRegistrarUsuario')");
             this.usuario = new Usuario();
             this.usuario.setEstado(true);
+            this.rutaFoto = null;
 
         } catch (ConstraintViolationException ex) {
             if (this.transaction != null) {
@@ -222,6 +230,7 @@ public class MbVUsuario {
             //Asignacion del Id del rol al pojo del rol
             this.rol = daoRol.getById(this.session, this.rolSelect);
             this.usuario.setRol(rol);
+            this.usuario.setFoto(this.rutaFoto);
             //////////////////////////////////////////////////////////
 
             daoUsuario.update(this.session, this.usuario);
@@ -229,6 +238,7 @@ public class MbVUsuario {
             this.transaction.commit();
             
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Los cambios fueron guardados correctamente"));
+            this.rutaFoto = null;
 
         } catch (Exception ex) {
             if (this.transaction != null) {
@@ -364,6 +374,36 @@ public class MbVUsuario {
         }
 
     }
+    
+    private String getRandomImageName() {
+        int i = (int) (Math.random() * 1000000000);
+         
+        return String.valueOf(i);
+    }
+    
+    public void oncapture(CaptureEvent captureEvent) {
+        this.foto = getRandomImageName();
+        byte[] data = captureEvent.getData();
+         
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        String newFileName = servletContext.getRealPath("") + File.separator + "resources"+ File.separator + "images"+ File.separator + "usuario" + File.separator + foto + ".png";
+        
+        this.rutaFoto = this.foto+".png";
+         
+        FileImageOutputStream imageOutput;
+        try {
+            imageOutput = new FileImageOutputStream(new File(newFileName));
+            imageOutput.write(data, 0, data.length);
+            imageOutput.close();
+        }
+        catch(IOException e) {
+            throw new FacesException("Error in writing captured image.", e);
+        }
+        
+        //RequestContext.getCurrentInstance().update("frmRegistrarUsuario");
+        
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public Usuario getUsuario() {
         return usuario;
@@ -412,6 +452,15 @@ public class MbVUsuario {
     public void setAvatar(UploadedFile avatar) {
         this.avatar = avatar;
     }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
     
     
     

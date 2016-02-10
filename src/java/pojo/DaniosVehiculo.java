@@ -1,5 +1,5 @@
 package pojo;
-// Generated 7/02/2016 12:30:40 PM by Hibernate Tools 4.3.1
+// Generated 9/02/2016 11:44:30 AM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -15,7 +15,7 @@ public class DaniosVehiculo  implements java.io.Serializable {
      private ParametroEvaluacion parametroEvaluacion;
      private ParteVehiculo parteVehiculo;
      private Date fecha;
-     private byte[] evidencia;
+     private String evidencia;
 
     public DaniosVehiculo() {
     }
@@ -24,7 +24,7 @@ public class DaniosVehiculo  implements java.io.Serializable {
     public DaniosVehiculo(Date fecha) {
         this.fecha = fecha;
     }
-    public DaniosVehiculo(EvaluacionEstadoVehicular evaluacionEstadoVehicular, ParametroEvaluacion parametroEvaluacion, ParteVehiculo parteVehiculo, Date fecha, byte[] evidencia) {
+    public DaniosVehiculo(EvaluacionEstadoVehicular evaluacionEstadoVehicular, ParametroEvaluacion parametroEvaluacion, ParteVehiculo parteVehiculo, Date fecha, String evidencia) {
        this.evaluacionEstadoVehicular = evaluacionEstadoVehicular;
        this.parametroEvaluacion = parametroEvaluacion;
        this.parteVehiculo = parteVehiculo;
@@ -67,11 +67,11 @@ public class DaniosVehiculo  implements java.io.Serializable {
     public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
-    public byte[] getEvidencia() {
+    public String getEvidencia() {
         return this.evidencia;
     }
     
-    public void setEvidencia(byte[] evidencia) {
+    public void setEvidencia(String evidencia) {
         this.evidencia = evidencia;
     }
 

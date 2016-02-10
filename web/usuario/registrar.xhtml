@@ -5,7 +5,9 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
-
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </h:head>
     <body>
 
         <ui:composition template="./../layout/layout.xhtml">
@@ -17,14 +19,18 @@
                 <h2>Registro de usuario</h2>
                 <hr />
                 <h:form id="frmRegistrarUsuario">
-                    <!-- <p:messages id="mensajeGeneral" showDetail="true" autoUpdate="true" closable="true" /> -->
                     <p:growl id="mensajeGeneral" showDetail="true" sticky="false"/>
                     <h:panelGrid columns="3">
                         <p:outputLabel value="Usuario" for="txtUsuario"/>
                         <p:inputText id="txtUsuario" label="Usuario" size="50" value="#{mbVUsuario.usuario.usuario}">
                             <f:validator validatorId="validarVacio"/>
                         </p:inputText>
-                        <p:message for="txtUsuario"/>
+                        <h:panelGroup>
+                            <h:panelGrid columns="2" >
+                                <p:commandButton id="modalDialogButton" value="Capturar Foto" onclick="PF('dlg2').show();" type="button"/>
+                                <p:message for="txtUsuario"/>
+                            </h:panelGrid>
+                        </h:panelGroup>
                         <p:outputLabel value="Nombre" for="txtNombre"/>
                         <p:inputText id="txtNombre" label="Nombre" size="50" value="#{mbVUsuario.usuario.nombre}">
                             <f:validator validatorId="validarVacio"/>
@@ -75,14 +81,35 @@
                             <f:selectItem itemLabel="Inactivo" itemValue="false" />
                         </p:selectOneMenu>
                         <p:message for="selEstado"/>
-                        <h:panelGroup></h:panelGroup>
-                        <p:commandButton value="Registrar Usuario" ajax="false" actionListener="#{mbVUsuario.register()}" update="frmRegistrarUsuario"/>
+                        <f:facet name="footer" >
+                            <h:panelGroup style="display:block; text-align:center">
+                                <p:commandButton value="Registrar Usuario" ajax="false" actionListener="#{mbVUsuario.register()}" update="frmRegistrarUsuario"/>
+                            </h:panelGroup>
+                        </f:facet>
+                        <p:dialog id="modalDialog" header="Modal Dialog" widgetVar="dlg2" modal="true" >
+                            <h:form enctype="multipart/form-data">
+                                <p:outputPanel id="outputPanelStudentUpload">  
+                                    <h:panelGrid columns="2">
+                                        <p:photoCam widgetVar="pc" listener="#{mbVUsuario.oncapture}" update="outputPanelStudentUpload"/>
+                                        <p:imageSwitch effect="zoom" id="photos">
+                                            <ui:repeat value="#{mbVUsuario.foto}" var="photo">
+                                                <p:graphicImage value="#{pageContext.contextPath}/resources/images/usuario/#{mbVUsuario.foto}.png" cache="false" />
+                                            </ui:repeat>
+                                        </p:imageSwitch>
+                                        <p:commandButton type="button" value="Capture" onclick="PF('pc').capture()" ajax="false" update="frmRegistrarUsuario"/>
+                                        <p:commandButton rendered="#{not empty mbVUsuario.foto}" type="button" value="Guardar" onclick="PF('dlg2').hide();" ajax="false" />
+                                        <!--<p:commandButton rendered="# {not empty mbVUsuario.foto}" type="button" value="Guardar" onclick="PF('dlg2').hide();" ajax="false" />-->
+                                        <!--<p:ajax oncomplete="PF('dlg2').hide();" />-->
+                                    </h:panelGrid>
+                                </p:outputPanel>
+                            </h:form>
+                        </p:dialog>
                     </h:panelGrid>
                 </h:form>
             </ui:define>
-            
+
             <ui:define name="bottom">
-                
+
             </ui:define>
 
         </ui:composition>

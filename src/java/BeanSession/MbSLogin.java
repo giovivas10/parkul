@@ -32,14 +32,21 @@ public class MbSLogin {
      */
     private String usuario;
     private String contrasenia;
+    
+    private int rol;
+    private Boolean mostrarAdmin;
+    private Boolean mostrarAuxiliar;
+    private Boolean mostrarRegistrador;
 
     private Session session;
     private Transaction transaction;
 
-    public MbSLogin() 
-    {
-        HttpSession miSession =(HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+    public MbSLogin() {
+        HttpSession miSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         miSession.setMaxInactiveInterval(5000);
+        this.mostrarAdmin = false;
+        this.mostrarAuxiliar = false;
+        this.mostrarRegistrador = false;
     }
 
     public String login() {
@@ -58,12 +65,34 @@ public class MbSLogin {
             if (usuarioConsulta != null) {
                 if (usuarioConsulta.getContrasenia().equals(EncryptMD5.encriptaEnMD5(this.contrasenia))) {
                     //if(rol==1){
-                        HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-                        httpSession.setAttribute("usuario", this.usuario);
-                        
-                        return "principal";
-                    //}
+                    HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+                    httpSession.setAttribute("usuario", this.usuario);
+                    httpSession.setAttribute("rol", usuarioConsulta.getRol().getId());
+                    this.rol = usuarioConsulta.getRol().getId();
                     
+                    if (this.rol == 1) {
+                        mostrarAdmin = true;
+                        mostrarAuxiliar = false;
+                        mostrarRegistrador = false;
+                    } 
+                    else if(this.rol == 2){
+                        mostrarAdmin = false;
+                        mostrarAuxiliar = true;
+                        mostrarRegistrador = false;
+                    }
+                    else if(this.rol == 3){
+                        mostrarAdmin = false;
+                        mostrarAuxiliar = false;
+                        mostrarRegistrador = true;
+                    }
+                    else {
+                        mostrarAdmin = false;
+                        mostrarAuxiliar = false;
+                        mostrarRegistrador = false;
+                    }
+                    
+                    return "principal";
+
                 }
             }
 
@@ -93,7 +122,8 @@ public class MbSLogin {
     public String cerrarSesion() {
         this.usuario = null;
         this.contrasenia = null;
-        
+        this.mostrarAdmin = false;
+
         HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         httpSession.invalidate();
 
@@ -116,4 +146,29 @@ public class MbSLogin {
         this.contrasenia = contrasenia;
     }
 
+    public Boolean getMostrarAdmin() {
+        return mostrarAdmin;
+    }
+
+    public void setMostrarAdmin(Boolean mostrarAdmin) {
+        this.mostrarAdmin = mostrarAdmin;
+    }
+
+    public Boolean getMostrarAuxiliar() {
+        return mostrarAuxiliar;
+    }
+
+    public void setMostrarAuxiliar(Boolean mostrarAuxiliar) {
+        this.mostrarAuxiliar = mostrarAuxiliar;
+    }
+
+    public Boolean getMostrarRegistrador() {
+        return mostrarRegistrador;
+    }
+
+    public void setMostrarRegistrador(Boolean mostrarRegistrador) {
+        this.mostrarRegistrador = mostrarRegistrador;
+    }
+
+    
 }

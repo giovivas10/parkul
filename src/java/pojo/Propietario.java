@@ -1,5 +1,5 @@
 package pojo;
-// Generated 7/02/2016 12:30:40 PM by Hibernate Tools 4.3.1
+// Generated 9/02/2016 11:44:30 AM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -20,23 +20,28 @@ public class Propietario  implements java.io.Serializable {
      private String telefono;
      private String email;
      private String placa;
-     private byte[] fotoPropietario;
-     private byte[] fotoVehiculo;
+     private String fotoPropietario;
+     private String marca;
+     private int modelo;
+     private String color;
      private Set evaluacionEstadoVehiculars = new HashSet(0);
 
     public Propietario() {
     }
 
 	
-    public Propietario(String documento, String nombres, String apellidos, String telefono, String email, String placa) {
+    public Propietario(String documento, String nombres, String apellidos, String telefono, String email, String placa, String marca, int modelo, String color) {
         this.documento = documento;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.telefono = telefono;
         this.email = email;
         this.placa = placa;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.color = color;
     }
-    public Propietario(TipoUsuario tipoUsuario, TipoVehiculo tipoVehiculo, String documento, String nombres, String apellidos, String telefono, String email, String placa, byte[] fotoPropietario, byte[] fotoVehiculo, Set evaluacionEstadoVehiculars) {
+    public Propietario(TipoUsuario tipoUsuario, TipoVehiculo tipoVehiculo, String documento, String nombres, String apellidos, String telefono, String email, String placa, String fotoPropietario, String marca, int modelo, String color, Set evaluacionEstadoVehiculars) {
        this.tipoUsuario = tipoUsuario;
        this.tipoVehiculo = tipoVehiculo;
        this.documento = documento;
@@ -46,7 +51,9 @@ public class Propietario  implements java.io.Serializable {
        this.email = email;
        this.placa = placa;
        this.fotoPropietario = fotoPropietario;
-       this.fotoVehiculo = fotoVehiculo;
+       this.marca = marca;
+       this.modelo = modelo;
+       this.color = color;
        this.evaluacionEstadoVehiculars = evaluacionEstadoVehiculars;
     }
    
@@ -113,19 +120,33 @@ public class Propietario  implements java.io.Serializable {
     public void setPlaca(String placa) {
         this.placa = placa;
     }
-    public byte[] getFotoPropietario() {
+    public String getFotoPropietario() {
         return this.fotoPropietario;
     }
     
-    public void setFotoPropietario(byte[] fotoPropietario) {
+    public void setFotoPropietario(String fotoPropietario) {
         this.fotoPropietario = fotoPropietario;
     }
-    public byte[] getFotoVehiculo() {
-        return this.fotoVehiculo;
+    public String getMarca() {
+        return this.marca;
     }
     
-    public void setFotoVehiculo(byte[] fotoVehiculo) {
-        this.fotoVehiculo = fotoVehiculo;
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+    public int getModelo() {
+        return this.modelo;
+    }
+    
+    public void setModelo(int modelo) {
+        this.modelo = modelo;
+    }
+    public String getColor() {
+        return this.color;
+    }
+    
+    public void setColor(String color) {
+        this.color = color;
     }
     public Set getEvaluacionEstadoVehiculars() {
         return this.evaluacionEstadoVehiculars;

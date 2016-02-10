@@ -18,7 +18,7 @@
                 <hr />
                 <h:form id="frmRegistrarEvaluacion">
                     <p:growl id="mensajeGeneral" showDetail="true" sticky="false"/>
-                    <table id="panelRegistro" style="width: 50%">
+                    <table id="panelRegistro" style="width: 50%" border="0">
                         <tr>
                             <td>
                                 <p:outputLabel value="Fecha" for="txtFechaNacimiento"/>
@@ -35,15 +35,24 @@
                                 <p:outputLabel value="Placa" for="txtPlaca"/>
                             </td>
                             <td>
-                                <p:inputText id="txtPlaca" label="Placa" size="50" value="#{mbVEvaluacion.propietario.placa}">
-                                    <!--<f:validator validatorId="validarVacio"/>-->
-                                </p:inputText>
+                                <p:inputText id="txtPlaca" label="Placa" size="50" value="#{mbVEvaluacion.propietario.placa}"/>
                             </td>
                             <td>
                                 <h:panelGrid columns="2">
                                     <p:commandButton value="validar" ajax="false" actionListener="#{mbVEvaluacion.validarPlaca()}" update="mensajeGeneral"/>
                                     <p:message for="txtPlaca"/>
                                 </h:panelGrid>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td rowspan="6">
+                                <p:imageSwitch effect="zoom" id="photos">
+                                    <ui:repeat value="#{mbVEvaluacion.propietario.fotoPropietario}" var="photo">
+                                        <p:graphicImage value="#{pageContext.contextPath}/resources/images/propietario/#{photo}" cache="false" width="150"/>
+                                    </ui:repeat>
+                                </p:imageSwitch>
                             </td>
                         </tr>
                         <tr>
@@ -144,6 +153,7 @@
                                                 </p:selectOneMenu>
                                             </td>
                                             <td>
+                                                <p:commandButton id="modalDialogButton2" value="Foto" onclick="PF('dlg').show();" type="button" rendered="#{mbVEvaluacion.evaluacionEstadoVehicular.poseeDanios}"/>
                                                 <p:commandButton value="Agregar" ajax="false" rendered="#{mbVEvaluacion.evaluacionEstadoVehicular.poseeDanios}" actionListener="#{mbVEvaluacion.agregarListaDanios()}" />
                                             </td>
                                         </tr>
@@ -217,6 +227,9 @@
                                                 <p:inputText id="txtDescripcion" value="#{mbVEvaluacion.objetosVehiculos.descripcion}" label="Descripcion" size="35" rendered="#{mbVEvaluacion.evaluacionEstadoVehicular.poseeObjetos}"/>
                                             </td>
                                             <td>
+                                                <p:commandButton id="modalDialogButton" value="Foto" onclick="PF('dlg2').show();" type="button" rendered="#{mbVEvaluacion.evaluacionEstadoVehicular.poseeObjetos}"/>
+                                            </td>
+                                            <td>
                                                 <p:commandButton value="Agregar" ajax="false" rendered="#{mbVEvaluacion.evaluacionEstadoVehicular.poseeObjetos}" actionListener="#{mbVEvaluacion.agregarListaObjetos()}" />
                                             </td>
                                         </tr>
@@ -242,13 +255,7 @@
                                                             <h:outputText value="#{item.descripcion}" />
                                                         </p:column>
                                                         <p:column headerText="Eliminar" width="100">
-                                                            <p:commandButton value="Eliminar" actionListener="#{mbVUsuario.delete(item.id)}" update="listaObjetos">
-                                                                <p:confirm header="Confirmation" message="¿Quiere Eliminar Esta Informacion?" icon="ui-icon-alert" />
-                                                            </p:commandButton>
-                                                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >
-                                                                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                                                            </p:confirmDialog>
+                                                            <p:commandButton value="Eliminar" actionListener="#{mbVEvaluacion.retirarListaObjetos(item.objetos)}" ajax="false"/>
                                                         </p:column>
                                                     </p:dataTable>
                                                 </h:form>
@@ -273,6 +280,38 @@
                         -->
 
                     </table>
+                    <p:dialog id="modalDialog2" header="TomarFoto" widgetVar="dlg" modal="true" >
+                        <h:form enctype="multipart/form-data">
+                            <p:outputPanel id="outputPanelStudentUpload2">  
+                                <h:panelGrid columns="2">
+                                    <p:photoCam widgetVar="pc" listener="#{mbVEvaluacion.oncaptureDanios}" update="outputPanelStudentUpload2"/>
+                                    <p:imageSwitch effect="zoom" id="photos2" rendered="#{mbVEvaluacion.bandera1}">
+                                        <ui:repeat value="#{mbVEvaluacion.foto}" var="photo">
+                                            <p:graphicImage value="#{pageContext.contextPath}/resources/images/evaluar/danios/#{mbVEvaluacion.foto}.png" cache="false" />
+                                        </ui:repeat>
+                                    </p:imageSwitch>
+                                    <p:commandButton type="button" value="Capture" onclick="PF('pc').capture()" ajax="false" update="frmRegistrarEvaluacion"/>
+                                    <p:commandButton rendered="#{mbVEvaluacion.bandera1}" type="button" value="Guardar" onclick="PF('dlg').hide();" ajax="false" />
+                                </h:panelGrid>
+                            </p:outputPanel>
+                        </h:form>
+                    </p:dialog>
+                    <p:dialog id="modalDialog" header="TomarFoto" widgetVar="dlg2" modal="true" >
+                        <h:form enctype="multipart/form-data">
+                            <p:outputPanel id="outputPanelStudentUpload">  
+                                <h:panelGrid columns="2">
+                                    <p:photoCam widgetVar="pc2" listener="#{mbVEvaluacion.oncaptureObjetos}" update="outputPanelStudentUpload"/>
+                                    <p:imageSwitch effect="zoom" id="photos2" rendered="#{mbVEvaluacion.bandera2}">
+                                        <ui:repeat value="#{mbVEvaluacion.foto}" var="photo">
+                                            <p:graphicImage value="#{pageContext.contextPath}/resources/images/evaluar/objetos/#{mbVEvaluacion.foto}.png" cache="false" />
+                                        </ui:repeat>
+                                    </p:imageSwitch>
+                                    <p:commandButton type="button" value="Capture" onclick="PF('pc2').capture()" ajax="false" update="frmRegistrarEvaluacion"/>
+                                    <p:commandButton rendered="#{mbVEvaluacion.bandera2}" type="button" value="Guardar" onclick="PF('dlg2').hide();" ajax="false" />
+                                </h:panelGrid>
+                            </p:outputPanel>
+                        </h:form>
+                    </p:dialog>
                 </h:form>
             </ui:define>
 

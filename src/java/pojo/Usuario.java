@@ -1,5 +1,5 @@
 package pojo;
-// Generated 7/02/2016 12:30:40 PM by Hibernate Tools 4.3.1
+// Generated 9/02/2016 11:44:30 AM by Hibernate Tools 4.3.1
 
 
 
@@ -19,7 +19,7 @@ public class Usuario  implements java.io.Serializable {
      private String telefono;
      private String direccion;
      private Boolean estado;
-     private byte[] foto;
+     private String foto;
 
     public Usuario() {
     }
@@ -34,7 +34,7 @@ public class Usuario  implements java.io.Serializable {
         this.telefono = telefono;
         this.direccion = direccion;
     }
-    public Usuario(Rol rol, String usuario, String nombre, String documento, String contrasenia, String email, String telefono, String direccion, Boolean estado, byte[] foto) {
+    public Usuario(Rol rol, String usuario, String nombre, String documento, String contrasenia, String email, String telefono, String direccion, Boolean estado, String foto) {
        this.rol = rol;
        this.usuario = usuario;
        this.nombre = nombre;
@@ -117,11 +117,11 @@ public class Usuario  implements java.io.Serializable {
     public void setEstado(Boolean estado) {
         this.estado = estado;
     }
-    public byte[] getFoto() {
+    public String getFoto() {
         return this.foto;
     }
     
-    public void setFoto(byte[] foto) {
+    public void setFoto(String foto) {
         this.foto = foto;
     }
 

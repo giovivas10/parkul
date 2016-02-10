@@ -9,14 +9,21 @@ import Dao.DaoPropietario;
 import Dao.DaoTipoUsuario;
 import Dao.DaoTipoVehiculo;
 import HibernateUtil.HibernateUtil;
+import java.io.File;
+import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
+import javax.faces.FacesException;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.imageio.stream.FileImageOutputStream;
+import javax.servlet.ServletContext;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.CaptureEvent;
 import pojo.Propietario;
 import pojo.TipoUsuario;
 import pojo.TipoVehiculo;
@@ -43,10 +50,16 @@ public class MbVPropietario {
     private List<Propietario> listaPropietario;
     private List<Propietario> listaPropietarioFiltrado;
     
+    private String foto;
+    private String rutaFoto;
+    
     public MbVPropietario() {
         this.propietario = new Propietario();
         this.tipoUsuario = new TipoUsuario();
         this.tipoVehiculo = new TipoVehiculo();
+        
+        Calendar fecha = Calendar.getInstance();
+        this.propietario.setModelo(fecha.getWeekYear());
     }
     ///////////////////////////////////////////////////////////////////////////
     //FUNCIONES
@@ -68,6 +81,7 @@ public class MbVPropietario {
             //Asignacion del Id del rol al pojo del rol
             this.propietario.setTipoUsuario(daoTipoUsuario.getById(this.session, this.tipoUsuario.getId()));
             this.propietario.setTipoVehiculo(daoTipoVehiculo.getById(this.session, this.tipoVehiculo.getId()));
+            this.propietario.setFotoPropietario(this.rutaFoto);
             //////////////////////////////////////////////////////////
 
             daoPropietario.register(this.propietario, this.session);
@@ -78,6 +92,9 @@ public class MbVPropietario {
             this.propietario = new Propietario();
             this.tipoUsuario.setId(-1);
             this.tipoVehiculo.setId(-1);
+            Calendar fecha = Calendar.getInstance();
+            this.propietario.setModelo(fecha.getWeekYear());
+            this.rutaFoto = new String();
 
         } 
         catch (Exception ex) {
@@ -184,6 +201,7 @@ public class MbVPropietario {
             //Asignacion del Id del rol al pojo del rol
             this.propietario.setTipoUsuario(daoTipoUsuario.getById(this.session, this.tipoUsuario.getId()));
             this.propietario.setTipoVehiculo(daoTipoVehiculo.getById(this.session, this.tipoVehiculo.getId()));
+            this.propietario.setFotoPropietario(this.rutaFoto);
             //////////////////////////////////////////////////////////
 
             daoPropietario.update(this.propietario, this.session);
@@ -194,6 +212,9 @@ public class MbVPropietario {
             this.propietario = new Propietario();
             this.tipoUsuario.setId(-1);
             this.tipoVehiculo.setId(-1);
+            Calendar fecha = Calendar.getInstance();
+            this.propietario.setModelo(fecha.getWeekYear());
+            this.rutaFoto = new String();
 
         } 
         catch (Exception ex) {
@@ -241,6 +262,35 @@ public class MbVPropietario {
         }
 
     }
+    
+    private String getRandomImageName() {
+        int i = (int) (Math.random() * 1000000000);
+         
+        return String.valueOf(i);
+    }
+    
+    public void oncapture(CaptureEvent captureEvent) {
+        this.foto = getRandomImageName();
+        byte[] data = captureEvent.getData();
+         
+        ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        String newFileName = servletContext.getRealPath("") + File.separator + "resources" + File.separator + "images"+ File.separator + "propietario" + File.separator + foto + ".png";
+        
+        this.rutaFoto = this.foto+".png";
+         
+        FileImageOutputStream imageOutput;
+        try {
+            imageOutput = new FileImageOutputStream(new File(newFileName));
+            imageOutput.write(data, 0, data.length);
+            imageOutput.close();
+        }
+        catch(IOException e) {
+            throw new FacesException("Error in writing captured image.", e);
+        }
+        
+        //RequestContext.getCurrentInstance().update("frmRegistrarUsuario");
+        
+    }
     //////////////////////////////////////////////////////////////////////////
     
     
@@ -285,7 +335,17 @@ public class MbVPropietario {
     public void setListaPropietarioFiltrado(List<Propietario> listaPropietarioFiltrado) {
         this.listaPropietarioFiltrado = listaPropietarioFiltrado;
     }
+    
+    
     //////////////////////////////////////////////////////////////////////////
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
 
     
 }

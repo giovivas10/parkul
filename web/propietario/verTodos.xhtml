@@ -60,10 +60,14 @@
 
                     <p:dialog header="Detalle de Propietario" widgetVar="dialogoDetallePropietario" resizable="false">
                         <h:panelGrid id="panelDetallePropietario" columns="2">
-                            <p:outputLabel style="font-weight: bold" value="Tipo vehiculo: "/>
-                            <h:outputText />
-                            <p:outputLabel style="font-weight: bold" value="Tipo Usuario: "/>
-                            <h:outputText />
+                            <f:facet name="header">
+                                <p:imageSwitch effect="zoom" id="photos">
+                                    <ui:repeat value="#{mbVPropietario.propietario.fotoPropietario}" var="photo">
+                                        <p:graphicImage value="#{pageContext.contextPath}/resources/images/propietario/#{photo}" cache="false" width="250"/>
+                                    </ui:repeat>
+                                </p:imageSwitch>
+                                <hr/>
+                            </f:facet>
                             <p:outputLabel style="font-weight: bold" value="Documento: "/>
                             <h:outputText value="#{mbVPropietario.propietario.documento}" />
                             <p:outputLabel style="font-weight: bold" value="Nombres: "/>
@@ -97,7 +101,12 @@
                             <p:inputText id="txtDocumento" label="Tipo Vehiculo" size="50" value="#{mbVPropietario.propietario.documento}">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
-                            <p:message for="txtDocumento"/>
+                            <h:panelGroup>
+                                <h:panelGrid columns="2" >
+                                    <p:commandButton id="modalDialogButton" value="Capturar Foto" onclick="PF('dlg2').show();" type="button"/>
+                                    <p:message for="txtDocumento"/>
+                                </h:panelGrid>
+                            </h:panelGroup>
                             <p:outputLabel value="Nombres" for="txtNombres"/>
                             <p:inputText id="txtNombres" label="Documento" size="50" value="#{mbVPropietario.propietario.nombres}">
                                 <f:validator validatorId="validarVacio"/>
@@ -127,9 +136,44 @@
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
                             <p:message for="txtPlaca"/>
-                            <h:panelGroup></h:panelGroup>
-                            <p:commandButton value="Actualizar" ajax="false" actionListener="#{mbVPropietario.update()}" update="frmRegistrarUsuario"/>
+                            <p:outputLabel value="Marca" for="txtMarca"/>
+                            <p:inputText id="txtMarca" label="Marca" size="25" value="#{mbVPropietario.propietario.marca}">
+                                <f:validator validatorId="validarVacio"/>
+                            </p:inputText>
+                            <p:message for="txtMarca"/>
+                            <p:outputLabel value="Modelo" for="selModelo"/>
+                            <p:selectOneMenu id="selModelo" value="#{mbVPropietario.propietario.modelo}" style="width: 47%">
+                                <f:selectItems value="#{mbRCargaAnios.anios}" noSelectionValue="true"/>
+                            </p:selectOneMenu> 
+                            <p:message for="selModelo"/>
+                            <p:outputLabel value="Color" for="txtColor"/>
+                            <p:inputText id="txtColor" label="Modelo" size="25" value="#{mbVPropietario.propietario.color}">
+                                <f:validator validatorId="validarVacio"/>
+                            </p:inputText>
+                            <p:message for="txtColor"/>
+                            <f:facet name="footer" >
+                                <h:panelGroup style="display:block; text-align:center">
+                                    <hr/>
+                                    <p:commandButton value="Actualizar" ajax="false" actionListener="#{mbVPropietario.update()}" update="frmRegistrarUsuario"/>
+                                </h:panelGroup>
+                            </f:facet>
                         </h:panelGrid>
+                    </p:dialog>
+                    <p:dialog id="modalDialog" header="Modal Dialog" widgetVar="dlg2">
+                        <h:form enctype="multipart/form-data">
+                            <p:outputPanel id="outputPanelStudentUpload">  
+                                <h:panelGrid columns="2">
+                                    <p:photoCam widgetVar="pc" listener="#{mbVPropietario.oncapture}" update="outputPanelStudentUpload"/>
+                                    <p:imageSwitch effect="zoom" id="photos">
+                                        <ui:repeat value="#{mbVPropietario.foto}" var="photo">
+                                            <p:graphicImage value="#{pageContext.contextPath}/resources/images/propietario/#{mbVPropietario.foto}.png" cache="false" />
+                                        </ui:repeat>
+                                    </p:imageSwitch>
+                                    <p:commandButton type="button" value="Capture" onclick="PF('pc').capture()" ajax="false" update="frmRegistrarUsuario"/>
+                                    <p:commandButton rendered="#{not empty mbVPropietario.foto}" type="button" value="Guardar" onclick="PF('dlg2').hide();" ajax="false" />
+                                </h:panelGrid>
+                            </p:outputPanel>
+                        </h:form>
                     </p:dialog>
                 </h:form>
             </ui:define>

@@ -34,7 +34,7 @@
                     </p:dataTable>
                 </h:form>
                 <h:form id="frmDetalle">
-                    <p:dialog header="Detalle" widgetVar="dialogoDetalle" resizable="false" width="500">
+                    <p:dialog header="Detalle" widgetVar="dialogoDetalle" resizable="true" modal="true" width="500" height="500">
                         <h:panelGrid id="panelDetalle" columns="4">
                             <p:outputLabel style="font-weight: bold" value="Fecha: "/>
                             <h:outputText value="#{mbVEvaluacion.evaluacionEstadoVehicular.fecha}" />
@@ -67,6 +67,13 @@
                                 <p:column headerText="Parte Vehiculo" >
                                     <h:outputText value="#{mbVEvaluacion.retornaNombreParteVehiculo(item.parteVehiculo.id)}" />
                                 </p:column>
+                                <p:column headerText="Evidencia" >
+                                    <p:imageSwitch effect="zoom" id="photos2">
+                                        <ui:repeat value="#{item.evidencia}" var="foto">
+                                            <p:graphicImage value="#{pageContext.contextPath}/resources/images/evaluar/danios/#{foto}" cache="false" width="145"/>
+                                        </ui:repeat>
+                                    </p:imageSwitch>
+                                </p:column>
                             </p:dataTable>
                         </h:panelGrid>
                         <br/>
@@ -80,6 +87,13 @@
                                 </p:column>
                                 <p:column headerText="Descripcion" >
                                     <h:outputText value="#{item.descripcion}" />
+                                </p:column>
+                                <p:column headerText="Evidencia" >
+                                    <p:imageSwitch effect="zoom" id="photos">
+                                        <ui:repeat value="#{item.evidencia}" var="foto">
+                                            <p:graphicImage value="#{pageContext.contextPath}/resources/images/evaluar/objetos/#{foto}" cache="false" width="145"/>
+                                        </ui:repeat>
+                                    </p:imageSwitch>
                                 </p:column>
                             </p:dataTable>
                         </h:panelGrid>
