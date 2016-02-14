@@ -61,6 +61,7 @@ public class MbVPropietario {
         Calendar fecha = Calendar.getInstance();
         this.propietario.setModelo(fecha.getWeekYear());
     }
+    
     ///////////////////////////////////////////////////////////////////////////
     //FUNCIONES
     public void register() throws Exception {
@@ -288,7 +289,8 @@ public class MbVPropietario {
             throw new FacesException("Error in writing captured image.", e);
         }
         
-        //RequestContext.getCurrentInstance().update("frmRegistrarUsuario");
+        //RequestContext.getCurrentInstance().update("frmRegistrarUsuario:modalDialog2");
+        //RequestContext.getCurrentInstance().execute("PF('dlg3').show()");
         
     }
     //////////////////////////////////////////////////////////////////////////
@@ -346,6 +348,5 @@ public class MbVPropietario {
     public void setFoto(String foto) {
         this.foto = foto;
     }
-
-    
+       
 }

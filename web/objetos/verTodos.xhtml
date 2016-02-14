@@ -18,19 +18,17 @@
                 <hr/>
                 <h:form id="frmListaObjetos">
                     <p:growl id="mensajeGeneral" sticky="false" showDetail="true"/>                    
-                    <p:dataTable id="listaObjetos" paginator="true" paginatorPosition="bottom" rows="10" var="item" value="#{mbVObjetos.getall()}" filteredValue="#{mbVObjetos.listaObjetosFiltrada}">
-
-
+                    <p:dataTable id="listaObjetos" paginator="true" paginatorPosition="bottom" rows="10" var="item" value="#{mbVObjetos.getall()}" filteredValue="#{mbVObjetos.listaObjetosFiltrada}" reflow="true">
                         <f:facet name="header">
                             Objetos
                         </f:facet>
                         <p:column headerText="Nombre" filterBy="nombre">
                             <h:outputText value="#{item.nombre}" />
                         </p:column>
-                        <p:column headerText="Actualizar" width="100">
+                        <p:column headerText="Actualizar" width="150">
                             <p:commandButton value="Actualizar" actionListener="#{mbVObjetos.cargaEditar(item.id)}" update="listaObjetos"/>
                         </p:column>
-                        <p:column headerText="Eliminar" width="100">
+                        <p:column headerText="Eliminar" width="150">
                             <p:commandButton value="Eliminar" actionListener="#{mbVObjetos.delete(item.id)}" update="listaObjetos">
                                 <p:confirm header="Confirmation" message="¿Quiere Eliminar Esta Informacion?" icon="ui-icon-alert" />
                             </p:commandButton>
@@ -44,16 +42,16 @@
                     </p:dataTable>
                 </h:form>
                 <h:form id="frmEdita">
-                    <p:dialog header="Editar Objeto" widgetVar="dialogoEditar" modal="true">
-                        <h:panelGrid columns="3" id="panelActualizar">
+                    <p:dialog header="Editar Objeto" widgetVar="dialogoEditar" modal="true" style="width: auto" resizable="false" responsive="true">
+                        <p:panelGrid columns="3" id="panelActualizar" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4,ui-grid-col-8">
                             <p:outputLabel value="Objeto" for="txtObjeto"/>
-                            <p:inputText id="txtObjeto" label="Objeto" size="50" value="#{mbVObjetos.objetos.nombre}">
+                            <p:inputText id="txtObjeto" label="Objeto" value="#{mbVObjetos.objetos.nombre}">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
                             <p:message for="txtObjeto"/>
                             <h:panelGroup></h:panelGroup>
                             <p:commandButton value="Actualizar" ajax="false" actionListener="#{mbVObjetos.update()}" update="frmListaObjetos"/>
-                        </h:panelGrid>
+                        </p:panelGrid>
                     </p:dialog>
                 </h:form>
             </ui:define>

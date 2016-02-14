@@ -18,7 +18,7 @@
                 <hr/>
                 <h:form id="frmListaObjetos">
                     <p:growl id="mensajeGeneral" sticky="false" showDetail="true"/>                    
-                    <p:dataTable id="listaObjetos" paginator="true" paginatorPosition="bottom" rows="10" var="item" value="#{mbVEvaluacion.getall()}" filteredValue="#{mbVObjetos.listaObjetosFiltrada}">
+                    <p:dataTable id="listaObjetos" paginator="true" paginatorPosition="bottom" rows="10" var="item" value="#{mbVEvaluacion.getall()}" filteredValue="#{mbVObjetos.listaObjetosFiltrada}" reflow="true">
                         <f:facet name="header">
                             Evaluaciones
                         </f:facet>
@@ -34,69 +34,80 @@
                     </p:dataTable>
                 </h:form>
                 <h:form id="frmDetalle">
-                    <p:dialog header="Detalle" widgetVar="dialogoDetalle" resizable="true" modal="true" width="500" height="500">
-                        <h:panelGrid id="panelDetalle" columns="4">
-                            <p:outputLabel style="font-weight: bold" value="Fecha: "/>
-                            <h:outputText value="#{mbVEvaluacion.evaluacionEstadoVehicular.fecha}" />
-                            <p:outputLabel style="font-weight: bold" value="Hora: "/>
-                            <h:outputText value="#{mbVEvaluacion.evaluacionEstadoVehicular.hora}" />
-                            <p:outputLabel style="font-weight: bold" value="Placa: "/>
-                            <h:outputText value="#{mbVEvaluacion.propietario.placa}" />
-                            <p:outputLabel style="font-weight: bold" value="Tipo Vehiculo: "/>
-                            <h:outputText value="#{mbVEvaluacion.tipoVehiculo.vehiculo}" />
-                            <p:outputLabel style="font-weight: bold" value="Identificacion: "/>
-                            <h:outputText value="#{mbVEvaluacion.propietario.documento}" />
-                            <p:outputLabel style="font-weight: bold" value="Nombres: "/>
-                            <h:outputText value="#{mbVEvaluacion.propietario.nombres}" />
-                            <p:outputLabel style="font-weight: bold" value="Apellidos: "/>
-                            <h:outputText value="#{mbVEvaluacion.propietario.apellidos}" />
-                            <p:outputLabel style="font-weight: bold" value="Telefono: "/>
-                            <h:outputText value="#{mbVEvaluacion.propietario.telefono}" />
-                            <p:outputLabel style="font-weight: bold" value="Email: "/>
-                            <h:outputText value="#{mbVEvaluacion.propietario.email}" />
-                        </h:panelGrid>
-                        <br/><br/>
-                        <h:panelGrid width="450" id="panelListaDanios">                  
-                            <p:dataTable id="lista" var="item" value="#{mbVEvaluacion.listaDaniosVehiculos}" style="font-size: 10px;">
-                                <f:facet name="header">
-                                    Daños
-                                </f:facet>
-                                <p:column headerText="Daño">
-                                    <h:outputText value="#{mbVEvaluacion.retornaNombreDanio(item.parametroEvaluacion.id)}" />
-                                </p:column>
-                                <p:column headerText="Parte Vehiculo" >
-                                    <h:outputText value="#{mbVEvaluacion.retornaNombreParteVehiculo(item.parteVehiculo.id)}" />
-                                </p:column>
-                                <p:column headerText="Evidencia" >
-                                    <p:imageSwitch effect="zoom" id="photos2">
-                                        <ui:repeat value="#{item.evidencia}" var="foto">
-                                            <p:graphicImage value="#{pageContext.contextPath}/resources/images/evaluar/danios/#{foto}" cache="false" width="145"/>
-                                        </ui:repeat>
-                                    </p:imageSwitch>
-                                </p:column>
-                            </p:dataTable>
-                        </h:panelGrid>
-                        <br/>
-                        <h:panelGrid width="450" id="panelListaObjetos">
-                            <p:dataTable id="listaObjetos" var="item" value="#{mbVEvaluacion.listaObjetosVehiculos}" style="font-size: 10px;">
-                                <f:facet name="header">
-                                    Objetos
-                                </f:facet>
-                                <p:column headerText="Objeto">
-                                    <h:outputText value="#{mbVEvaluacion.retornaNombreObejto(item.objetos.id)}" />
-                                </p:column>
-                                <p:column headerText="Descripcion" >
-                                    <h:outputText value="#{item.descripcion}" />
-                                </p:column>
-                                <p:column headerText="Evidencia" >
-                                    <p:imageSwitch effect="zoom" id="photos">
-                                        <ui:repeat value="#{item.evidencia}" var="foto">
-                                            <p:graphicImage value="#{pageContext.contextPath}/resources/images/evaluar/objetos/#{foto}" cache="false" width="145"/>
-                                        </ui:repeat>
-                                    </p:imageSwitch>
-                                </p:column>
-                            </p:dataTable>
-                        </h:panelGrid>
+                    <p:dialog header="Detalle" widgetVar="dialogoDetalle" style="width: auto" modal="true" resizable="true" responsive="true">
+                        <div id="divPpal" class="ui-grid ui-grid-responsive">
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-6"><p:outputLabel style="font-weight: bold" value="Fecha: "/></div>
+                                <div class="ui-grid-col-6"><h:outputText value="#{mbVEvaluacion.evaluacionEstadoVehicular.fecha}" /></div>
+                                <div class="ui-grid-col-6"><p:outputLabel style="font-weight: bold" value="Hora: "/></div>
+                                <div class="ui-grid-col-6"><h:outputText value="#{mbVEvaluacion.evaluacionEstadoVehicular.hora}" /></div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-6"><p:outputLabel style="font-weight: bold" value="Placa: "/></div>
+                                <div class="ui-grid-col-6"><h:outputText value="#{mbVEvaluacion.propietario.placa}" /></div>
+                                <div class="ui-grid-col-6"><p:outputLabel style="font-weight: bold" value="Tipo Vehiculo: "/></div>
+                                <div class="ui-grid-col-6"><h:outputText value="#{mbVEvaluacion.tipoVehiculo.vehiculo}" /></div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-6"><p:outputLabel style="font-weight: bold" value="Documento "/></div>
+                                <div class="ui-grid-col-6"><h:outputText value="#{mbVEvaluacion.propietario.documento}" /></div>
+                                <div class="ui-grid-col-6"><p:outputLabel style="font-weight: bold" value="Nombres: "/></div>
+                                <div class="ui-grid-col-6"><h:outputText value="#{mbVEvaluacion.propietario.nombres}" /></div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-6"><p:outputLabel style="font-weight: bold" value="Apellidos: "/></div>
+                                <div class="ui-grid-col-6"><h:outputText value="#{mbVEvaluacion.propietario.apellidos}" /></div>
+                                <div class="ui-grid-col-6"><p:outputLabel style="font-weight: bold" value="Telefono: "/></div>
+                                <div class="ui-grid-col-6"><h:outputText value="#{mbVEvaluacion.propietario.telefono}" /></div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <div class="ui-grid-col-6"><p:outputLabel style="font-weight: bold" value="Email: "/></div>
+                                <div class="ui-grid-col-6"><h:outputText value="#{mbVEvaluacion.propietario.email}" /></div>
+                                <div class="ui-grid-col-6"></div>
+                                <div class="ui-grid-col-6"></div>
+                            </div>
+                            <div class="ui-grid-row">
+                                <p:commandButton value="Evidencias" onclick="PF('dialogoDetalle2').show()" />
+                            </div>
+                        </div>
+                    </p:dialog>
+                    <p:dialog header="Detalle" widgetVar="dialogoDetalle2" modal="true" resizable="true" responsive="true" style="max-width: 500px;" dynamic="true" >
+                        <p:dataTable id="lista" var="item" value="#{mbVEvaluacion.listaDaniosVehiculos}" style="font-size: 10px" reflow="true" scrollable="true">
+                            <f:facet name="header">
+                                Daños
+                            </f:facet>
+                            <p:column headerText="Daño">
+                                <h:outputText value="#{mbVEvaluacion.retornaNombreDanio(item.parametroEvaluacion.id)}" />
+                            </p:column>
+                            <p:column headerText="Parte Vehiculo" >
+                                <h:outputText value="#{mbVEvaluacion.retornaNombreParteVehiculo(item.parteVehiculo.id)}" />
+                            </p:column>
+                            <p:column headerText="Evidencia" >
+                                <p:imageSwitch effect="zoom" id="photos2">
+                                    <ui:repeat value="#{item.evidencia}" var="foto">
+                                        <p:graphicImage value="#{pageContext.contextPath}/resources/images/evaluar/danios/#{foto}" cache="false" width="100"/>
+                                    </ui:repeat>
+                                </p:imageSwitch>
+                            </p:column>
+                        </p:dataTable>
+                        <p:dataTable id="listaObjetos" var="item" value="#{mbVEvaluacion.listaObjetosVehiculos}" style="font-size: 10px" reflow="true" scrollable="true">
+                            <f:facet name="header">
+                                Objetos
+                            </f:facet>
+                            <p:column headerText="Objeto">
+                                <h:outputText value="#{mbVEvaluacion.retornaNombreObejto(item.objetos.id)}" />
+                            </p:column>
+                            <p:column headerText="Descripcion" >
+                                <h:outputText value="#{item.descripcion}" />
+                            </p:column>
+                            <p:column headerText="Evidencia" >
+                                <p:imageSwitch effect="zoom" id="photos">
+                                    <ui:repeat value="#{item.evidencia}" var="foto">
+                                        <p:graphicImage value="#{pageContext.contextPath}/resources/images/evaluar/objetos/#{foto}" cache="false" width="100"/>
+                                    </ui:repeat>
+                                </p:imageSwitch>
+                            </p:column>
+                        </p:dataTable>
                     </p:dialog>
                 </h:form>
             </ui:define>

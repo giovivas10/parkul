@@ -15,97 +15,159 @@
 
             <ui:define name="content">
 
-                <h:form id="frmRegistrarUsuario">
-                    <h2>Registro de Propietario</h2>
+                <h:form id="frmRegistrarUsuario" styleClass="form-horizontal">
+                    <h3>Registro de Propietario</h3>
                     <hr />
                     <p:growl id="mensajeGeneral" showDetail="true" sticky="false"/>
-                    <h:panelGrid columns="3">
-                        <h:outputLabel value="Tipo de Usuario: " for="selTipoUsuario"/>
-                        <p:selectOneMenu id="selTipoUsuario" value="#{mbVPropietario.tipoUsuario.id}" style="width: 50%">
-                            <f:selectItems value="#{mbRCargarSelects.listaTipoUsuario}"/>
-                        </p:selectOneMenu> 
-                        <p:message for="selTipoUsuario"/>
-                        <h:outputLabel value="Tipo de Vehiculo: " for="selTipoVehiculo"/>
-                        <p:selectOneMenu id="selTipoVehiculo" value="#{mbVPropietario.tipoVehiculo.id}" style="width: 50%">
-                            <f:selectItems value="#{mbRCargarSelects.listaTipoVehiculo}"/>
-                        </p:selectOneMenu> 
+                    
+                    <div class="form-group">
+                        <div class="col-lg-offset-1 col-lg-10">
+                            <p:commandButton id="modalDialogButton" value="Capturar Foto" onclick="PF('dlg2').show();" type="button" styleClass="btn btn-default"/>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <h:outputLabel value="Tipo Usuario: " for="selTipoUsuario" styleClass="col-lg-2 control-label"/>
+                        <div class="col-lg-10">
+                            <h:selectOneMenu id="selTipoUsuario" value="#{mbVPropietario.tipoUsuario.id}" styleClass="tamanioSelect form-control">
+                                <f:selectItems value="#{mbRCargarSelects.listaTipoUsuario}"/>
+                            </h:selectOneMenu> 
+                            <p:message for="selTipoUsuario"/>
+                        </div>
+                    </div>    
+
+                    <div class="form-group">
+                        <h:outputLabel value="Tipo Vehiculo: " for="selTipoVehiculo" styleClass="col-lg-2 control-label"/>
+                        <div class="col-lg-10">
+                            <h:selectOneMenu id="selTipoVehiculo" value="#{mbVPropietario.tipoVehiculo.id}" styleClass="tamanioSelect form-control">
+                                <f:selectItems value="#{mbRCargarSelects.listaTipoVehiculo}"/>
+                            </h:selectOneMenu> 
+                        </div>
                         <p:message for="selTipoVehiculo"/>
-                        <p:outputLabel value="Documento" for="txtDocumento"/>
-                        <p:inputText id="txtDocumento" label="Tipo Vehiculo" size="50" value="#{mbVPropietario.propietario.documento}">
-                            <f:validator validatorId="validarVacio"/>
-                        </p:inputText>
-                        <h:panelGroup>
-                            <h:panelGrid columns="2" >
-                                <p:commandButton id="modalDialogButton" value="Capturar Foto" onclick="PF('dlg2').show();" type="button"/>
-                                <p:message for="txtDocumento"/>
-                            </h:panelGrid>
-                        </h:panelGroup>
-                        <p:outputLabel value="Nombres" for="txtNombres"/>
-                        <p:inputText id="txtNombres" label="Documento" size="50" value="#{mbVPropietario.propietario.nombres}">
-                            <f:validator validatorId="validarVacio"/>
-                        </p:inputText>
+                    </div>
+
+                    <div class="form-group">
+                        <p:outputLabel value="Documento" for="txtDocumento" styleClass="col-lg-2 control-label"/>
+                        <div class="col-lg-10">
+                            <p:inputText id="txtDocumento" label="Tipo Vehiculo" size="50" value="#{mbVPropietario.propietario.documento}" styleClass="tamanioInputText form-control">
+                                <f:validator validatorId="validarVacio"/>
+                            </p:inputText>
+                        </div>
+                        <p:message for="txtDocumento"/>
+                    </div>
+
+                    <div class="form-group">
+                        <p:outputLabel value="Nombres" for="txtNombres" styleClass="col-lg-2 control-label"/>
+                        <div class="col-lg-10">
+                            <p:inputText id="txtNombres" label="Documento" value="#{mbVPropietario.propietario.nombres}" styleClass="tamanioInputText form-control">
+                                <f:validator validatorId="validarVacio"/>
+                            </p:inputText>
+                        </div>
                         <p:message for="txtNombres"/>
-                        <p:outputLabel value="Apellidos" for="txtApellidos"/>
-                        <p:inputText id="txtApellidos" label="Nombres" size="50" value="#{mbVPropietario.propietario.apellidos}">
-                            <f:validator validatorId="validarVacio"/>
-                        </p:inputText>
+                    </div>
+
+                    <div class="form-group">
+                        <p:outputLabel value="Apellidos" for="txtApellidos" styleClass="col-lg-2 control-label"/>
+                        <div class="col-lg-10">
+                            <p:inputText id="txtApellidos" label="Nombres" value="#{mbVPropietario.propietario.apellidos}" styleClass="tamanioInputText form-control">
+                                <f:validator validatorId="validarVacio"/>
+                            </p:inputText>
+                        </div>
                         <p:message for="txtApellidos"/>
-                        <p:outputLabel value="Telefono" for="txtTelefono"/>
-                        <p:inputText id="txtTelefono" label="Apellidos" size="50" value="#{mbVPropietario.propietario.telefono}">
-                            <f:validator validatorId="validarVacio"/>
-                        </p:inputText>
-                        <p:message for="txtTelefono"/>
-                        <p:outputLabel value="Email" for="txtEmail"/>
-                        <p:inputText id="txtEmail" label="Telefono" size="50" title="Ejemplo: pedro@dominio.com" value="#{mbVPropietario.propietario.email}">
-                            <f:validator validatorId="validarVacio"/>
-                            <f:validator validatorId="validarEmail"/>
-                        </p:inputText>
-                        <h:panelGroup>
-                            <p:tooltip for="txtEmail" showEvent="focus" hideEvent="blur"/>
-                            <p:message for="txtEmail"/>
-                        </h:panelGroup>
-                        <p:outputLabel value="Placa Vehiculo" for="txtPlaca"/>
-                        <p:inputText id="txtPlaca" label="Placa" size="10" value="#{mbVPropietario.propietario.placa}">
-                            <f:validator validatorId="validarVacio"/>
-                        </p:inputText>
+                    </div>
+
+                    <div class="form-group">
+                        <p:outputLabel value="Telefono" for="txtTelefono" styleClass="col-lg-2 control-label"/>
+                        <div class="col-lg-10">
+                            <p:inputText id="txtTelefono" label="Apellidos" value="#{mbVPropietario.propietario.telefono}" styleClass="tamanioInputText form-control">
+                                <f:validator validatorId="validarVacio"/>
+                            </p:inputText>
+                            <p:message for="txtTelefono"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <p:outputLabel value="Email" for="txtEmail" styleClass="col-lg-2 control-label"/>
+                        <div class="col-lg-10">
+                            <p:inputText id="txtEmail" label="Telefono" title="Ejemplo: pedro@dominio.com" value="#{mbVPropietario.propietario.email}" styleClass="tamanioInputText form-control">
+                                <f:validator validatorId="validarVacio"/>
+                                <f:validator validatorId="validarEmail"/>
+                            </p:inputText>
+                        </div>
+                        <p:tooltip for="txtEmail" showEvent="focus" hideEvent="blur"/>
+                        <p:message for="txtEmail"/>
+                    </div>
+
+                    <div class="form-group">
+                        <p:outputLabel value="Placa Vehiculo" for="txtPlaca" styleClass="col-lg-2 control-label"/>
+                        <div class="col-lg-10">
+                            <p:inputText id="txtPlaca" label="Placa" value="#{mbVPropietario.propietario.placa}" styleClass="tamanioInputText form-control">
+                                <f:validator validatorId="validarVacio"/>
+                            </p:inputText>
+                        </div>
                         <p:message for="txtPlaca"/>
-                        <p:outputLabel value="Marca" for="txtMarca"/>
-                        <p:inputText id="txtMarca" label="Marca" size="25" value="#{mbVPropietario.propietario.marca}">
-                            <f:validator validatorId="validarVacio"/>
-                        </p:inputText>
+                    </div>
+
+                    <div class="form-group">
+                        <p:outputLabel value="Marca" for="txtMarca" styleClass="col-lg-2 control-label"/>
+                        <div class="col-lg-10">
+                            <p:inputText id="txtMarca" label="Marca" value="#{mbVPropietario.propietario.marca}" styleClass="tamanioInputText form-control">
+                                <f:validator validatorId="validarVacio"/>
+                            </p:inputText>
+                        </div>
                         <p:message for="txtMarca"/>
-                        <p:outputLabel value="Modelo" for="selModelo"/>
-                        <p:selectOneMenu id="selModelo" value="#{mbVPropietario.propietario.modelo}" style="width: 47%">
-                            <f:selectItems value="#{mbRCargaAnios.anios}" noSelectionValue="true"/>
-                        </p:selectOneMenu> 
+                    </div>
+
+                    <div class="form-group">
+                        <p:outputLabel value="Modelo" for="selModelo" styleClass="col-lg-2 control-label"/>
+                        <div class="col-lg-10">
+                            <h:selectOneMenu id="selModelo" value="#{mbVPropietario.propietario.modelo}" styleClass="tamanioSelect form-control">
+                                <f:selectItems value="#{mbRCargaAnios.anios}" noSelectionValue="true"/>
+                            </h:selectOneMenu> 
+                        </div>
                         <p:message for="selModelo"/>
-                        <p:outputLabel value="Color" for="txtColor"/>
-                        <p:inputText id="txtColor" label="Modelo" size="25" value="#{mbVPropietario.propietario.color}">
-                            <f:validator validatorId="validarVacio"/>
-                        </p:inputText>
+                    </div>
+
+                    <div class="form-group">
+                        <p:outputLabel value="Color" for="txtColor" styleClass="col-lg-2 control-label"/>
+                        <div class="col-lg-10">
+                            <p:inputText id="txtColor" label="Modelo" value="#{mbVPropietario.propietario.color}" styleClass="tamanioInputText form-control">
+                                <f:validator validatorId="validarVacio"/>
+                            </p:inputText>
+                        </div>
                         <p:message for="txtColor"/>
-                        <f:facet name="footer" >
-                            <h:panelGroup style="display:block; text-align:center">
-                                <p:commandButton value="Registrar Propietario" ajax="false" actionListener="#{mbVPropietario.register()}" update="frmRegistrarUsuario"/>
-                            </h:panelGroup>
-                        </f:facet>
-                        <p:dialog id="modalDialog" header="Modal Dialog" widgetVar="dlg2" modal="true" >
-                            <h:form enctype="multipart/form-data">
-                                <p:outputPanel id="outputPanelStudentUpload">  
-                                    <h:panelGrid columns="2">
-                                        <p:photoCam widgetVar="pc" listener="#{mbVPropietario.oncapture}" update="outputPanelStudentUpload"/>
-                                        <p:imageSwitch effect="zoom" id="photos">
-                                            <ui:repeat value="#{mbVPropietario.foto}" var="photo">
-                                                <p:graphicImage value="#{pageContext.contextPath}/resources/images/propietario/#{mbVPropietario.foto}.png" cache="false" />
-                                            </ui:repeat>
-                                        </p:imageSwitch>
-                                        <p:commandButton type="button" value="Capture" onclick="PF('pc').capture()" ajax="false" update="frmRegistrarUsuario"/>
-                                        <p:commandButton rendered="#{not empty mbVPropietario.foto}" type="button" value="Guardar" onclick="PF('dlg2').hide();" ajax="false" />
-                                    </h:panelGrid>
-                                </p:outputPanel>
-                            </h:form>
-                        </p:dialog>
-                    </h:panelGrid>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-lg-offset-2 col-lg-10">
+                            <p:commandButton value="Registrar Propietario" ajax="false" actionListener="#{mbVPropietario.register()}" update="frmRegistrarUsuario" styleClass="btn btn-default"/>
+                        </div>
+                    </div>
+                    <p:dialog id="modalDialog" header="Foto" widgetVar="dlg2" modal="true" responsive="true" resizable="false" position="top">
+                        <h:form enctype="multipart/form-data">
+                            <p:outputPanel id="outputPanelStudentUpload">  
+                                <p:panelGrid columns="1" styleClass="ui-panelgrid-blank" layout="grid">
+                                    <p:photoCam widgetVar="pc" listener="#{mbVPropietario.oncapture}" update="frmRegistrarUsuario:modalDialog2" width="250"/>
+                                    <p:commandButton type="button" value="Capture" onclick="PF('dlg3').show();PF('pc').capture();" ajax="false" />
+                                </p:panelGrid>
+                            </p:outputPanel>
+                        </h:form>
+                    </p:dialog>
+                    <p:dialog id="modalDialog2" header="Foto" widgetVar="dlg3" modal="true" responsive="true" resizable="false" dynamic="true" position="top" >
+                        <h:form enctype="multipart/form-data">
+                            <p:outputPanel id="outputPanelStudentUpload">  
+                                <p:panelGrid columns="1" styleClass="ui-panelgrid-blank" layout="grid">
+                                    <p:imageSwitch effect="zoom" id="photos">
+                                        <ui:repeat value="#{mbVPropietario.foto}" var="photo">
+                                            <p:graphicImage value="#{pageContext.contextPath}/resources/images/propietario/#{mbVPropietario.foto}.png" cache="false" />
+                                        </ui:repeat>
+                                    </p:imageSwitch>
+                                    
+                                </p:panelGrid>
+                            </p:outputPanel>
+                        </h:form>
+                    </p:dialog>
+
                 </h:form>
             </ui:define>
 

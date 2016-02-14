@@ -18,93 +18,132 @@
             <ui:define name="content">
                 <h2>Registro de usuario</h2>
                 <hr />
-                <h:form id="frmRegistrarUsuario">
+                <h:form id="frmRegistrarUsuario" styleClass="form-horizontal">
                     <p:growl id="mensajeGeneral" showDetail="true" sticky="false"/>
-                    <h:panelGrid columns="3">
-                        <p:outputLabel value="Usuario" for="txtUsuario"/>
-                        <p:inputText id="txtUsuario" label="Usuario" size="50" value="#{mbVUsuario.usuario.usuario}">
-                            <f:validator validatorId="validarVacio"/>
-                        </p:inputText>
-                        <h:panelGroup>
-                            <h:panelGrid columns="2" >
-                                <p:commandButton id="modalDialogButton" value="Capturar Foto" onclick="PF('dlg2').show();" type="button"/>
-                                <p:message for="txtUsuario"/>
-                            </h:panelGrid>
-                        </h:panelGroup>
-                        <p:outputLabel value="Nombre" for="txtNombre"/>
-                        <p:inputText id="txtNombre" label="Nombre" size="50" value="#{mbVUsuario.usuario.nombre}">
-                            <f:validator validatorId="validarVacio"/>
-                        </p:inputText>
+
+                    <div class="form-group">
+                        <p:outputLabel value="Usuario" for="txtUsuario" styleClass="col-lg-2 control-label"/>
+                        <div class="col-lg-4">
+                            <p:inputText id="txtUsuario" label="Usuario" size="50" value="#{mbVUsuario.usuario.usuario}" styleClass="tamanioInputText form-control">
+                                <f:validator validatorId="validarVacio"/>
+                            </p:inputText>
+                        </div>
+                        <div class="col-lg-3">
+                            <p:commandButton id="modalDialogButton" value="Capturar Foto" onclick="PF('dlg2').show();" type="button" styleClass="btn btn-default"/>
+                            <p:message for="txtUsuario"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <p:outputLabel value="Nombre" for="txtNombre" styleClass="col-lg-2 control-label"/>
+                        <div class="col-lg-4">
+                            <p:inputText id="txtNombre" label="Nombre" size="50" value="#{mbVUsuario.usuario.nombre}" styleClass="tamanioInputText form-control">
+                                <f:validator validatorId="validarVacio"/>
+                            </p:inputText>
+                        </div>
                         <p:message for="txtNombre"/>
-                        <p:outputLabel value="Documento" for="txtDocumento"/>
-                        <p:inputText id="txtDocumento" label="Documento" size="50" value="#{mbVUsuario.usuario.documento}">
-                            <f:validator validatorId="validarVacio"/>
-                        </p:inputText>
+                    </div>
+                    <div class="form-group">
+                        <p:outputLabel value="Documento" for="txtDocumento" styleClass="col-lg-2 control-label"/>
+                        <div class="col-lg-4">
+                            <p:inputText id="txtDocumento" label="Documento" size="50" value="#{mbVUsuario.usuario.documento}" styleClass="tamanioInputText form-control">
+                                <f:validator validatorId="validarVacio"/>
+                            </p:inputText>
+                        </div>
                         <p:message for="txtDocumento"/>
-                        <p:outputLabel value="Contraseña" for="txtContrasena"/>
-                        <p:password id="txtContrasena" label="Contrasenia" size="50" value="#{mbVUsuario.usuario.contrasenia}">
-                            <f:validator validatorId="validarVacio"/>
-                        </p:password>
+                    </div>
+                    <div class="form-group">
+                        <p:outputLabel value="Contraseña" for="txtContrasena" styleClass="col-lg-2 control-label"/>
+                        <div class="col-lg-4">
+                            <p:password id="txtContrasena" label="Contrasenia" size="50" value="#{mbVUsuario.usuario.contrasenia}" styleClass="tamanioInputText form-control">
+                                <f:validator validatorId="validarVacio"/>
+                            </p:password>
+                        </div>
                         <p:message for="txtContrasena"/>
-                        <p:outputLabel value="Repita contraseña" for="txtContrasenaRepita"/>
-                        <p:password id="txtContrasenaRepita" label="Contrasenia Repita" size="50" value="#{mbVUsuario.txtContrasenaRepita}"/>
-                        <h:panelGroup></h:panelGroup>
-                        <p:outputLabel value="Email" for="txtEmail"/>
-                        <p:inputText id="txtEmail" label="Email" size="50" title="Ejemplo: pedro@dominio.com" value="#{mbVUsuario.usuario.email}">
-                            <f:validator validatorId="validarVacio"/>
-                            <f:validator validatorId="validarEmail"/>
-                        </p:inputText>
-                        <h:panelGroup>
-                            <p:tooltip for="txtEmail" showEvent="focus" hideEvent="blur"/>
-                            <p:message for="txtEmail"/>
-                        </h:panelGroup>
-                        <p:outputLabel value="Telefono" for="txtTelefono"/>
-                        <p:inputText id="txtTelefono" label="Telefono" size="50" value="#{mbVUsuario.usuario.telefono}">
-                            <f:validator validatorId="validarVacio"/>
-                        </p:inputText>
+                    </div>
+                    <div class="form-group">
+                        <p:outputLabel value="Repita contraseña" for="txtContrasenaRepita" styleClass="col-lg-2 control-label"/>
+                        <div class="col-lg-4">
+                            <p:password id="txtContrasenaRepita" label="Contrasenia Repita" size="50" value="#{mbVUsuario.txtContrasenaRepita}" styleClass="tamanioInputText form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <p:outputLabel value="Email" for="txtEmail" styleClass="col-lg-2 control-label"/>
+                        <div class="col-lg-4">
+                            <p:inputText id="txtEmail" label="Email" size="50" title="Ejemplo: pedro@dominio.com" value="#{mbVUsuario.usuario.email}" styleClass="tamanioInputText form-control">
+                                <f:validator validatorId="validarVacio"/>
+                                <f:validator validatorId="validarEmail"/>
+                            </p:inputText>
+                        </div>
+                        <p:tooltip for="txtEmail" showEvent="focus" hideEvent="blur"/>
+                        <p:message for="txtEmail"/>
+                    </div>
+                    <div class="form-group">
+                        <p:outputLabel value="Telefono" for="txtTelefono" styleClass="col-lg-2 control-label"/>
+                        <div class="col-lg-4">
+                            <p:inputText id="txtTelefono" label="Telefono" size="50" value="#{mbVUsuario.usuario.telefono}" styleClass="tamanioInputText form-control">
+                                <f:validator validatorId="validarVacio"/>
+                            </p:inputText>
+                        </div>
                         <p:message for="txtTelefono"/>
-                        <p:outputLabel value="Direccion" for="txtDireccion"/>
-                        <p:inputText id="txtDireccion" label="Direccion" size="50" value="#{mbVUsuario.usuario.direccion}">
-                            <f:validator validatorId="validarVacio"/>
-                        </p:inputText>
+                    </div>
+                    <div class="form-group">
+                        <p:outputLabel value="Direccion" for="txtDireccion" styleClass="col-lg-2 control-label"/>
+                        <div class="col-lg-4">
+                            <p:inputText id="txtDireccion" label="Direccion" size="50" value="#{mbVUsuario.usuario.direccion}" styleClass="tamanioInputText form-control">
+                                <f:validator validatorId="validarVacio"/>
+                            </p:inputText>
+                        </div>
                         <p:message for="txtDireccion"/>
-                        <p:outputLabel value="Rol" for="selRol"/>
-                        <p:selectOneMenu id="selRol" style="width: 50%" value="#{mbVUsuario.rolSelect}">
-                            <f:selectItem itemLabel="Administrador" itemValue="1" />
-                            <f:selectItem itemLabel="Auxiliar" itemValue="2" />
-                            <f:selectItem itemLabel="Registrador" itemValue="3" />
-                        </p:selectOneMenu>
+                    </div>
+                    <div class="form-group">
+                        <p:outputLabel value="Rol" for="selRol" styleClass="col-lg-2 control-label"/>
+                        <div class="col-lg-4">
+                            <h:selectOneMenu id="selRol" style="width: 50%" value="#{mbVUsuario.rolSelect}" styleClass="tamanioSelect form-control">
+                                <f:selectItem itemLabel="Administrador" itemValue="1" />
+                                <f:selectItem itemLabel="Auxiliar" itemValue="2" />
+                                <f:selectItem itemLabel="Registrador" itemValue="3" />
+                            </h:selectOneMenu>
+                        </div>
                         <p:message for="selRol"/>
-                        <p:outputLabel value="Estado" for="selEstado"/>
-                        <p:selectOneMenu id="selEstado" label="Estado" style="width: 50%" value="#{mbVUsuario.usuario.estado}" required="true" requiredMessage="Sie haben keinen Tag angegeben!">
-                            <f:selectItem itemLabel="Activo" itemValue="true" />
-                            <f:selectItem itemLabel="Inactivo" itemValue="false" />
-                        </p:selectOneMenu>
+                    </div>
+                    <div class="form-group">
+                        <p:outputLabel value="Estado" for="selEstado" styleClass="col-lg-2 control-label"/>
+                        <div class="col-lg-4">
+                            <h:selectOneMenu id="selEstado" label="Estado" style="width: 50%" value="#{mbVUsuario.usuario.estado}" styleClass="tamanioSelect form-control">
+                                <f:selectItem itemLabel="Activo" itemValue="true" />
+                                <f:selectItem itemLabel="Inactivo" itemValue="false" />
+                            </h:selectOneMenu>
+                        </div>
                         <p:message for="selEstado"/>
-                        <f:facet name="footer" >
-                            <h:panelGroup style="display:block; text-align:center">
-                                <p:commandButton value="Registrar Usuario" ajax="false" actionListener="#{mbVUsuario.register()}" update="frmRegistrarUsuario"/>
-                            </h:panelGroup>
-                        </f:facet>
-                        <p:dialog id="modalDialog" header="Modal Dialog" widgetVar="dlg2" modal="true" >
-                            <h:form enctype="multipart/form-data">
-                                <p:outputPanel id="outputPanelStudentUpload">  
-                                    <h:panelGrid columns="2">
-                                        <p:photoCam widgetVar="pc" listener="#{mbVUsuario.oncapture}" update="outputPanelStudentUpload"/>
-                                        <p:imageSwitch effect="zoom" id="photos">
-                                            <ui:repeat value="#{mbVUsuario.foto}" var="photo">
-                                                <p:graphicImage value="#{pageContext.contextPath}/resources/images/usuario/#{mbVUsuario.foto}.png" cache="false" />
-                                            </ui:repeat>
-                                        </p:imageSwitch>
-                                        <p:commandButton type="button" value="Capture" onclick="PF('pc').capture()" ajax="false" update="frmRegistrarUsuario"/>
-                                        <p:commandButton rendered="#{not empty mbVUsuario.foto}" type="button" value="Guardar" onclick="PF('dlg2').hide();" ajax="false" />
-                                        <!--<p:commandButton rendered="# {not empty mbVUsuario.foto}" type="button" value="Guardar" onclick="PF('dlg2').hide();" ajax="false" />-->
-                                        <!--<p:ajax oncomplete="PF('dlg2').hide();" />-->
-                                    </h:panelGrid>
-                                </p:outputPanel>
-                            </h:form>
-                        </p:dialog>
-                    </h:panelGrid>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-lg-offset-2 col-lg-10">
+                            <p:commandButton value="Registrar Usuario" ajax="false" actionListener="#{mbVUsuario.register()}" update="frmRegistrarUsuario" styleClass="btn btn-default"/>
+                        </div>
+                    </div>
+
+
+                    <p:dialog id="modalDialog" header="Modal Dialog" widgetVar="dlg2" modal="true" >
+                        <h:form enctype="multipart/form-data">
+                            <p:outputPanel id="outputPanelStudentUpload">  
+                                <h:panelGrid columns="2">
+                                    <p:photoCam widgetVar="pc" listener="#{mbVUsuario.oncapture}" update="outputPanelStudentUpload"/>
+                                    <p:imageSwitch effect="zoom" id="photos">
+                                        <ui:repeat value="#{mbVUsuario.foto}" var="photo">
+                                            <p:graphicImage value="#{pageContext.contextPath}/resources/images/usuario/#{mbVUsuario.foto}.png" cache="false" />
+                                        </ui:repeat>
+                                    </p:imageSwitch>
+                                    <p:commandButton type="button" value="Capture" onclick="PF('pc').capture()" ajax="false" update="frmRegistrarUsuario"/>
+                                    <p:commandButton rendered="#{not empty mbVUsuario.foto}" type="button" value="Guardar" onclick="PF('dlg2').hide();" ajax="false" />
+                                    <!--<p:commandButton rendered="# {not empty mbVUsuario.foto}" type="button" value="Guardar" onclick="PF('dlg2').hide();" ajax="false" />-->
+                                    <!--<p:ajax oncomplete="PF('dlg2').hide();" />-->
+                                </h:panelGrid>
+                            </p:outputPanel>
+                        </h:form>
+                    </p:dialog>
+
                 </h:form>
             </ui:define>
 

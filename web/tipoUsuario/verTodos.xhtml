@@ -28,10 +28,10 @@
                         <p:column headerText="Descripcion">
                             <h:outputText value="#{item.descripcion}" />
                         </p:column>
-                        <p:column headerText="Actualizar" width="100">
+                        <p:column headerText="Actualizar" width="150">
                             <p:commandButton value="Actualizar" actionListener="#{mbVTipoUsuario.cargaEditar(item.id)}" update="listado"/>
                         </p:column>
-                        <p:column headerText="Eliminar" width="100">
+                        <p:column headerText="Eliminar" width="150">
                             <p:commandButton value="Eliminar" actionListener="#{mbVTipoUsuario.delete(item.id)}" update="listado">
                                 <p:confirm header="Confirmation" message="¿Quiere Eliminar Esta Informacion?" icon="ui-icon-alert" />
                             </p:commandButton>
@@ -45,8 +45,8 @@
                     </p:dataTable>
                 </h:form>
                 <h:form id="frmEdita">
-                    <p:dialog header="Editar Tipo Usuario" widgetVar="dialogoEditar" modal="true">
-                        <h:panelGrid columns="3" id="panelActualizar">
+                    <p:dialog header="Editar Tipo Usuario" widgetVar="dialogoEditar" modal="true" style="width: auto" resizable="false" responsive="true">
+                        <p:panelGrid columns="3" layout="grid" id="panelActualizar" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4,ui-grid-col-8">
                             <p:outputLabel value="Nombre" for="txtNombre"/>
                             <p:inputText id="txtNombre" label="Nombre" size="50" value="#{mbVTipoUsuario.tipoUsuario.nombre}">
                                 <f:validator validatorId="validarVacio"/>
@@ -57,7 +57,7 @@
                             <p:message for="txtDesripcion"/>
                             <h:panelGroup></h:panelGroup>
                             <p:commandButton value="Actualizar" ajax="false" actionListener="#{mbVTipoUsuario.update()}" update="frmListado"/>
-                        </h:panelGrid>
+                        </p:panelGrid>
                     </p:dialog>
                 </h:form>
             </ui:define>

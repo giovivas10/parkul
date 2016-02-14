@@ -14,19 +14,25 @@
             </ui:define>
 
             <ui:define name="content">
-                <h:form id="frmRegistrarUsuario">
+                <h:form id="frmRegistrarUsuario" styleClass="form-horizontal">
                     <h2>Registro de Objeto</h2>
                     <hr />
                     <p:growl id="mensajeGeneral" showDetail="true" sticky="false"/>
-                    <h:panelGrid columns="3">
-                        <p:outputLabel value="Objeto" for="txtObjeto"/>
-                        <p:inputText id="txtObjeto" label="Objeto" size="50" value="#{mbVObjetos.objetos.nombre}">
-                            <f:validator validatorId="validarVacio"/>
-                        </p:inputText>
-                        <p:message for="txtObjeto"/>
+                        <div class="form-group">
+                            <p:outputLabel value="Objeto" for="txtObjeto" styleClass="col-lg-2 control-label"/>
+                            <div class="col-lg-10">
+                                <p:inputText id="txtObjeto" label="Objeto" value="#{mbVObjetos.objetos.nombre}" styleClass="tamanioInputText form-control">
+                                    <f:validator validatorId="validarVacio"/>
+                                </p:inputText>
+                            </div>
+                            <p:message for="txtObjeto"/>
+                        </div>
                         <h:panelGroup></h:panelGroup>
-                        <p:commandButton value="Registrar" ajax="false" actionListener="#{mbVObjetos.register()}" update="frmRegistrarUsuario"/>
-                    </h:panelGrid>
+                        <div class="form-group">
+                            <div class="col-lg-offset-2 col-lg-10">
+                                <p:commandButton value="Registrar" ajax="false" actionListener="#{mbVObjetos.register()}" update="frmRegistrarUsuario" styleClass="btn btn-default"/>
+                            </div>
+                        </div>
                 </h:form>
             </ui:define>
 

@@ -14,22 +14,30 @@
             <ui:define name="content">
                 <h2>Inicio de Sesion</h2>
                 <hr/>
-                <h:form id="frmLogin">
+                <h:form id="frmLogin" styleClass="form-horizontal" >
                     <p:growl id="mensajeGeneral" showDetail="true" sticky="false"/>
-                    <h:panelGrid columns="2">
-                        <p:outputLabel value="Usuario" for="txtUsuario"/>
-                        <p:inputText id="txtUsuario" size="40" value="#{mbSLogin.usuario}"/>
-                        <p:outputLabel value="Contraseña" />
-                        <p:password id="txtContrasena" size="40" value="#{mbSLogin.contrasenia}"/>
-                        <h:panelGroup></h:panelGroup>
-                        <p:commandButton value="Ingresar" ajax="false" action="#{mbSLogin.login()}" update="frmLogin"/>
-                    </h:panelGrid>
-                    
+                    <div class="form-group">
+                        <p:outputLabel value="Usuario" for="txtUsuario" styleClass="col-lg-2 control-label"/>
+                        <div class="col-lg-10">
+                            <p:inputText id="txtUsuario" value="#{mbSLogin.usuario}" styleClass="tamanioInputText form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <p:outputLabel value="Contraseña" styleClass="control-label col-lg-2"/>
+                        <div class="col-lg-10">
+                            <p:password id="txtContrasena" value="#{mbSLogin.contrasenia}" styleClass="tamanioInputText form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-offset-2 col-lg-10">
+                            <p:commandButton value="Ingresar" ajax="false" action="#{mbSLogin.login()}" update="frmLogin" styleClass="btn btn-default"/>
+                        </div>
+                    </div>
                 </h:form>
             </ui:define>
-            
+
             <ui:define name="bottom">
-                
+
             </ui:define>
 
         </ui:composition>

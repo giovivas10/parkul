@@ -15,6 +15,7 @@ import Dao.DaoTipoDanio;
 import HibernateUtil.HibernateUtil;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -64,16 +65,18 @@ public class MbVEvaluacion {
 
     private List<DaniosVehiculo> listaDaniosVehiculos;
     private List<ObjetosVehiculos> listaObjetosVehiculos;
-    
+
     private String foto;
     private String rutaFoto;
+
+    private String fechaM;
 
     private Session session;
     private Transaction transaction;
 
     private Boolean flag;
     private Boolean bandera1;
-    private Boolean bandera2;   
+    private Boolean bandera2;
 
     public MbVEvaluacion() {
         this.evaluacionEstadoVehicular = new EvaluacionEstadoVehicular();
@@ -86,6 +89,10 @@ public class MbVEvaluacion {
         this.objetos = new Objetos();
 
         java.util.Date fecha = new Date();
+
+        Date fechaActual = new Date();
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        this.fechaM = formato.format(fechaActual);
         this.evaluacionEstadoVehicular.setFecha(fecha);
 
         this.evaluacionEstadoVehicular.setPoseeDanios(false);
@@ -93,14 +100,14 @@ public class MbVEvaluacion {
 
         this.listaDaniosVehiculos = new ArrayList<>();
         this.listaObjetosVehiculos = new ArrayList<>();
-        
+
         this.flag = false;
         this.bandera1 = false;
         this.bandera2 = false;
 
     }
-
     ////////////////////////////////////////////////////////////////////////////
+
     public void validarPlaca() {
         this.session = null;
         this.transaction = null;
@@ -155,7 +162,7 @@ public class MbVEvaluacion {
 
                 this.daniosVehiculo.setParametroEvaluacion(daoTipoDanio.getById(this.session, this.parametroEvaluacion.getId()));
                 this.daniosVehiculo.setParteVehiculo(daoParteVehiculo.getById(this.session, this.parteVehiculo.getId()));
-                
+
                 java.util.Date fecha = new Date();
                 this.listaDaniosVehiculos.add(new DaniosVehiculo(null, this.daniosVehiculo.getParametroEvaluacion(), this.daniosVehiculo.getParteVehiculo(), fecha, this.rutaFoto));
 
@@ -172,7 +179,7 @@ public class MbVEvaluacion {
                 this.foto = new String();
                 this.rutaFoto = new String();
                 this.bandera1 = false;
-                
+
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe elegir un tipo de daño y una parte del vehiculo"));
                 RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:divListaDaños");
@@ -216,7 +223,7 @@ public class MbVEvaluacion {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", ex.getMessage()));
         }
     }
-    
+
     public void agregarListaObjetos() {
         this.session = null;
         this.transaction = null;
@@ -230,9 +237,9 @@ public class MbVEvaluacion {
                 DaoObjetos daoObjetos = new DaoObjetos();
 
                 this.objetosVehiculos.setObjetos(daoObjetos.getById(this.session, this.objetos.getId()));
-                
+
                 java.util.Date fecha = new Date();
-                this.listaObjetosVehiculos.add(new ObjetosVehiculos(null, this.objetosVehiculos.getObjetos(), this.objetosVehiculos.getDescripcion(), this.rutaFoto,fecha));
+                this.listaObjetosVehiculos.add(new ObjetosVehiculos(null, this.objetosVehiculos.getObjetos(), this.objetosVehiculos.getDescripcion(), this.rutaFoto, fecha));
 
                 this.transaction.commit();
 
@@ -247,7 +254,7 @@ public class MbVEvaluacion {
                 this.foto = new String();
                 this.rutaFoto = new String();
                 this.bandera2 = false;
-                
+
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe elegir un tipo de daño y una parte del vehiculo"));
                 RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:divListaObjetos");
@@ -266,13 +273,13 @@ public class MbVEvaluacion {
             }
         }
     }
-    
+
     public void retirarListaObjetos(Objetos objetos) {
         try {
             int i = 0;
 
             for (ObjetosVehiculos item : this.listaObjetosVehiculos) {
-                if (item.getObjetos().equals(objetos) ) {
+                if (item.getObjetos().equals(objetos)) {
                     this.listaObjetosVehiculos.remove(i);
 
                     break;
@@ -291,51 +298,47 @@ public class MbVEvaluacion {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", ex.getMessage()));
         }
     }
-    
-    public void registrar()
-    {
-        this.session=null;
-        this.transaction=null;
-        
-        try
-        {
-            this.session=HibernateUtil.getSessionFactory().openSession();
-            this.transaction=this.session.beginTransaction();
-            
-            if(this.propietario.getPlaca()!=null && this.flag == true) {
-                
+
+    public void registrar() {
+        this.session = null;
+        this.transaction = null;
+
+        try {
+            this.session = HibernateUtil.getSessionFactory().openSession();
+            this.transaction = this.session.beginTransaction();
+
+            if (this.propietario.getPlaca() != null && this.flag == true) {
+
                 DaoPropietario daoPropietario = new DaoPropietario();
                 DaoEvaluacionEstadoVehicular daoEvaluacionEstadoVehicular = new DaoEvaluacionEstadoVehicular();
                 DaoDaniosVehiculo daoDaniosVehiculo = new DaoDaniosVehiculo();
                 DaoObjetosVehiculos daoObjetosVehiculos = new DaoObjetosVehiculos();
                 java.util.Date fecha = new Date();
-                
+
                 this.propietario = daoPropietario.getByPlaca(this.session, this.propietario.getPlaca());
                 this.evaluacionEstadoVehicular.setPropietario(this.propietario);
                 this.evaluacionEstadoVehicular.setFecha(fecha);
                 this.evaluacionEstadoVehicular.setHora(fecha);
                 this.evaluacionEstadoVehicular.setPlaca(this.propietario.getPlaca());
-                
+
                 HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
                 this.evaluacionEstadoVehicular.setUsuario(httpSession.getAttribute("usuario").toString());
-                
+
                 daoEvaluacionEstadoVehicular.register(this.evaluacionEstadoVehicular, this.session);
                 this.evaluacionEstadoVehicular = daoEvaluacionEstadoVehicular.getUltimoRegistro(this.session);
-                
-                for(DaniosVehiculo item : this.listaDaniosVehiculos)
-                {
+
+                for (DaniosVehiculo item : this.listaDaniosVehiculos) {
                     item.setEvaluacionEstadoVehicular(this.evaluacionEstadoVehicular);
                     daoDaniosVehiculo.register(this.session, item);
                 }
-                
-                for(ObjetosVehiculos item : this.listaObjetosVehiculos)
-                {
+
+                for (ObjetosVehiculos item : this.listaObjetosVehiculos) {
                     item.setEvaluacionEstadoVehicular(this.evaluacionEstadoVehicular);
                     daoObjetosVehiculos.register(this.session, item);
                 }
-                
+
                 this.transaction.commit();
-                
+
                 this.evaluacionEstadoVehicular = new EvaluacionEstadoVehicular();
                 this.objetosVehiculos = new ObjetosVehiculos();
                 this.daniosVehiculo = new DaniosVehiculo();
@@ -348,80 +351,63 @@ public class MbVEvaluacion {
                 this.evaluacionEstadoVehicular.setPoseeObjetos(false);
                 this.listaDaniosVehiculos = new ArrayList<>();
                 this.listaObjetosVehiculos = new ArrayList<>();
-                
+
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Evaluacion realizada correctamente"));
                 RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:mensajeGeneral");
-            }
-            else
-            {
+            } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe validar la placa del vehiculo"));
                 RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:mensajeGeneral");
             }
-                
-        }
-        catch(Exception ex)
-        {
-            if(this.transaction!=null)
-            {
+
+        } catch (Exception ex) {
+            if (this.transaction != null) {
                 transaction.rollback();
             }
-            
+
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", ex.getMessage()));
-        }
-        finally
-        {
-            if(this.session!=null)
-            {
+        } finally {
+            if (this.session != null) {
                 this.session.close();
             }
         }
-        
+
     }
-    
-    public List<EvaluacionEstadoVehicular> getall(){
-        
+
+    public List<EvaluacionEstadoVehicular> getall() {
+
         this.session = null;
         this.transaction = null;
-        
-        try
-        {
+
+        try {
             DaoEvaluacionEstadoVehicular daoEvaluacionEstadoVehicular = new DaoEvaluacionEstadoVehicular();
-            
+
             this.session = HibernateUtil.getSessionFactory().openSession();
             this.transaction = session.beginTransaction();
-            
+
             HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             java.util.Date fecha = new Date();
-            
-            
-            this.listaEvaluacionEstadoVehicular = daoEvaluacionEstadoVehicular.getall(this.session,fecha,httpSession.getAttribute("usuario").toString());
+
+            this.listaEvaluacionEstadoVehicular = daoEvaluacionEstadoVehicular.getall(this.session, fecha, httpSession.getAttribute("usuario").toString());
             this.transaction.commit();
-            
+
             return listaEvaluacionEstadoVehicular;
-            
-        }
-        catch(Exception ex)
-        {
-            if(this.transaction!=null)
-            {
+
+        } catch (Exception ex) {
+            if (this.transaction != null) {
                 this.transaction.rollback();
             }
-            
+
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error fatal", ex.getMessage() + " Contacte al administrador"));
-            
+
             return null;
-        }
-        finally
-        {
-            if(this.transaction!=null)
-            {
+        } finally {
+            if (this.transaction != null) {
                 this.session.close();
             }
         }
     }
-    
-    public void mosrarDetalle(int Id)
-    {
+
+    public void mosrarDetalle(int Id) {
         this.session = null;
         this.transaction = null;
 
@@ -429,26 +415,27 @@ public class MbVEvaluacion {
 
             this.session = HibernateUtil.getSessionFactory().openSession();
             this.transaction = session.beginTransaction();
-            
+
             DaoPropietario daoPropietario = new DaoPropietario();
             DaoEvaluacionEstadoVehicular daoEvaluacionEstadoVehicular = new DaoEvaluacionEstadoVehicular();
             DaoDaniosVehiculo daoDaniosVehiculo = new DaoDaniosVehiculo();
             DaoObjetosVehiculos daoObjetosVehiculos = new DaoObjetosVehiculos();
-            
+
             this.evaluacionEstadoVehicular = daoEvaluacionEstadoVehicular.getById(this.session, Id);
             this.propietario = daoPropietario.getByIdPropietario(this.session, this.evaluacionEstadoVehicular.getPropietario().getId());
             this.tipoVehiculo.setVehiculo(this.propietario.getTipoVehiculo().getVehiculo());
-            
-            this.listaDaniosVehiculos = daoDaniosVehiculo.getAllByIdEvaluacion(this.session,Id);
+
+            this.listaDaniosVehiculos = daoDaniosVehiculo.getAllByIdEvaluacion(this.session, Id);
             this.listaObjetosVehiculos = daoObjetosVehiculos.getAllByIdEvaluacion(this.session, Id);
 
-            RequestContext.getCurrentInstance().update("frmDetalle:panelDetalle");
-            RequestContext.getCurrentInstance().update("frmDetalle:panelListaDanios");
-            RequestContext.getCurrentInstance().update("frmDetalle:panelListaObjetos");
+            //RequestContext.getCurrentInstance().update("frmDetalle:panelDetalle");
+            RequestContext.getCurrentInstance().update("frmDetalle");
+           // RequestContext.getCurrentInstance().update("frmDetalle:panelListaDanios");
+           // RequestContext.getCurrentInstance().update("frmDetalle:panelListaObjetos");
             RequestContext.getCurrentInstance().execute("PF('dialogoDetalle').show()");
-            
+
             this.transaction.commit();
-                        
+
         } catch (Exception ex) {
             if (this.transaction != null) {
                 this.transaction.rollback();
@@ -461,16 +448,16 @@ public class MbVEvaluacion {
             }
         }
     }
-    
-    public String retornaNombreDanio(int id) throws Exception{
-        
+
+    public String retornaNombreDanio(int id) throws Exception {
+
         this.session = null;
         this.transaction = null;
-        try{
+        try {
             this.session = HibernateUtil.getSessionFactory().openSession();
             this.transaction = session.beginTransaction();
             DaoTipoDanio daoTipoDanio = new DaoTipoDanio();
-            this.parametroEvaluacion = daoTipoDanio.getById(this.session, id); 
+            this.parametroEvaluacion = daoTipoDanio.getById(this.session, id);
             this.transaction.commit();
             return parametroEvaluacion.getNombre();
         } catch (Exception ex) {
@@ -485,16 +472,16 @@ public class MbVEvaluacion {
             }
         }
     }
-    
-    public String retornaNombreParteVehiculo(int id) throws Exception{
-        
+
+    public String retornaNombreParteVehiculo(int id) throws Exception {
+
         this.session = null;
         this.transaction = null;
-        try{
+        try {
             this.session = HibernateUtil.getSessionFactory().openSession();
             this.transaction = session.beginTransaction();
             DaoParteVehiculo daoParteVehiculo = new DaoParteVehiculo();
-            this.parteVehiculo = daoParteVehiculo.getById(this.session, id); 
+            this.parteVehiculo = daoParteVehiculo.getById(this.session, id);
             this.transaction.commit();
             return parteVehiculo.getNombre();
         } catch (Exception ex) {
@@ -509,16 +496,16 @@ public class MbVEvaluacion {
             }
         }
     }
-    
-    public String retornaNombreObejto(int id) throws Exception{
-        
+
+    public String retornaNombreObejto(int id) throws Exception {
+
         this.session = null;
         this.transaction = null;
-        try{
+        try {
             this.session = HibernateUtil.getSessionFactory().openSession();
             this.transaction = session.beginTransaction();
             DaoObjetos daoObjetos = new DaoObjetos();
-            this.objetos = daoObjetos.getById(this.session, id); 
+            this.objetos = daoObjetos.getById(this.session, id);
             this.transaction.commit();
             return objetos.getNombre();
         } catch (Exception ex) {
@@ -533,51 +520,49 @@ public class MbVEvaluacion {
             }
         }
     }
-    
+
     private String getRandomImageName() {
         int i = (int) (Math.random() * 1000000000);
-         
+
         return String.valueOf(i);
     }
-    
+
     public void oncaptureDanios(CaptureEvent captureEvent) {
         this.foto = getRandomImageName();
         byte[] data = captureEvent.getData();
-         
+
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        String newFileName = servletContext.getRealPath("")+ File.separator + "resources" + File.separator + "images"+ File.separator + "evaluar"+ File.separator + "danios" + File.separator + foto + ".png";
-        
-        this.rutaFoto = this.foto+".png";
+        String newFileName = servletContext.getRealPath("") + File.separator + "resources" + File.separator + "images" + File.separator + "evaluar" + File.separator + "danios" + File.separator + foto + ".png";
+
+        this.rutaFoto = this.foto + ".png";
         this.bandera1 = true;
-         
+
         FileImageOutputStream imageOutput;
         try {
             imageOutput = new FileImageOutputStream(new File(newFileName));
             imageOutput.write(data, 0, data.length);
             imageOutput.close();
-        }
-        catch(IOException e) {
+        } catch (IOException e) {
             throw new FacesException("Error in writing captured image.", e);
         }
     }
-    
+
     public void oncaptureObjetos(CaptureEvent captureEvent) {
         this.foto = getRandomImageName();
         byte[] data = captureEvent.getData();
-         
+
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        String newFileName = servletContext.getRealPath("")+ File.separator + "resources" + File.separator + "images"+ File.separator + "evaluar"+ File.separator + "objetos" + File.separator + foto + ".png";
-        
-        this.rutaFoto = this.foto+".png";
+        String newFileName = servletContext.getRealPath("") + File.separator + "resources" + File.separator + "images" + File.separator + "evaluar" + File.separator + "objetos" + File.separator + foto + ".png";
+
+        this.rutaFoto = this.foto + ".png";
         this.bandera2 = true;
-         
+
         FileImageOutputStream imageOutput;
         try {
             imageOutput = new FileImageOutputStream(new File(newFileName));
             imageOutput.write(data, 0, data.length);
             imageOutput.close();
-        }
-        catch(IOException e) {
+        } catch (IOException e) {
             throw new FacesException("Error in writing captured image.", e);
         }
     }
@@ -702,7 +687,13 @@ public class MbVEvaluacion {
     public void setBandera2(Boolean bandera2) {
         this.bandera2 = bandera2;
     }
-    
-    
-    
+
+    public String getFechaM() {
+        return fechaM;
+    }
+
+    public void setFechaM(String fechaM) {
+        this.fechaM = fechaM;
+    }
+
 }

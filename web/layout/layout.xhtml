@@ -7,99 +7,78 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
+        
+        <h:outputScript name="bootstrap.min.js" library="js"/>
         <h:outputStylesheet name="./css/default.css"/>
         <h:outputStylesheet name="./css/cssLayout.css"/>
+        <h:outputStylesheet name="./css/bootstrap.min.css"/>
+
         <h:outputScript name="jsControles.js" library="js"/>
+
+        
         <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/images/favicon.png" />
         <title>ParkUL</title>
     </h:head>
 
     <h:body>
         <div id="top" class="top">
-            <h1>ParkUL</h1>
-            <h:form>
-                <div id="divSesionUsuario">
-                    <span>
-                        <b>Sesion Iniciada por: </b>
-                        <p:outputLabel value="#{mbSLogin.usuario==null ? 'Anonimo':mbSLogin.usuario}" />
 
-                    </span>
-                    <p:commandButton value="Cerrar sesion" action="#{mbSLogin.cerrarSesion()}" ajax="false"/>
-                </div>
-                <p:megaMenu id="menuPpal" style="background-color: #9B9340">
-                    <p:menuitem value="Inicio" outcome="/principal" icon="ui-icon-check"/>
-                    <p:submenu label="Parametros" icon="ui-icon-gear" rendered="#{mbSLogin.mostrarAdmin || mbSLogin.mostrarAuxiliar}">
-                        <p:column style="background-color: #CDC78B;">
-                            <p:submenu label="Tipo Usuario" style="background-color: #9B9340">
-                                <p:menuitem value="Registrar" outcome="/tipoUsuario/registrar" icon="ui-icon-pencil"/>
-                                <p:menuitem value="Ver" icon="ui-icon-document" outcome="/tipoUsuario/verTodos"/>
-                            </p:submenu>
-                             <p:submenu label="Objetos" style="background-color: #9B9340">
-                                <p:menuitem value="Registrar" outcome="/objetos/registrar" icon="ui-icon-pencil"/>
-                                <p:menuitem value="Ver" icon="ui-icon-document" outcome="/objetos/verTodos"/>
-                            </p:submenu>
-                            <p:submenu label="Tipos Daños" style="background-color: #9B9340">
-                                <p:menuitem value="Registrar" outcome="/tiposDaños/registrar" icon="ui-icon-pencil"/>
-                                <p:menuitem value="Ver" icon="ui-icon-document" outcome="/tiposDaños/verTodos"/>
-                            </p:submenu>
-                        </p:column>
-                        <p:column style="background-color: #CDC78B;">
-                           <p:submenu label="Tipo Vehiculo" style="background-color: #9B9340">
-                                <p:menuitem value="Registrar" outcome="/tipoVehiculo/registrar" icon="ui-icon-pencil"/>
-                                <p:menuitem value="Ver" icon="ui-icon-document" outcome="/tipoVehiculo/verTodos"/>
-                            </p:submenu>
-                            <p:submenu label="Partes Vehiculo" style="background-color: #9B9340">
-                                <p:menuitem value="Registrar" outcome="/partesVehiculo/registrar" icon="ui-icon-pencil"/>
-                                <p:menuitem value="Ver" icon="ui-icon-document" outcome="/partesVehiculo/verTodos"/>
-                            </p:submenu>
-                        </p:column>
-                    </p:submenu>
-                    <p:submenu label="Usuario" icon="ui-icon-gear" rendered="#{mbSLogin.mostrarAdmin || mbSLogin.mostrarAuxiliar}">
-                        <p:column style="background-color: #CDC78B;">
-                            <p:submenu label="Administrar" style="background-color: #9B9340">
-                                <p:menuitem value="Registrar" outcome="/usuario/registrar" icon="ui-icon-pencil"/>
-                                <p:menuitem value="Ver" outcome="/usuario/verTodos" icon="ui-icon-document"/>
-                                <p:menuitem value="Mis datos" outcome="/usuario/misDatos" icon="ui-icon-document"/>
-                            </p:submenu>
-                        </p:column>
-                    </p:submenu>
-                    <p:submenu label="Propietarios" icon="ui-icon-gear" rendered="#{mbSLogin.mostrarAdmin || mbSLogin.mostrarAuxiliar}">
-                        <p:column style="background-color: #CDC78B;">
-                            <p:submenu label="Administrar" style="background-color: #9B9340">
-                                <p:menuitem value="Registrar" outcome="/propietario/registrar" icon="ui-icon-pencil"/>
-                                <p:menuitem value="Ver" icon="ui-icon-document" outcome="/propietario/verTodos"/>
-                            </p:submenu>
-                        </p:column>
-                    </p:submenu>
-                    <p:submenu label="Auxiliar" icon="ui-icon-gear" rendered="#{mbSLogin.mostrarAdmin || mbSLogin.mostrarRegistrador}">
-                        <p:column style="background-color: #CDC78B;">
-                            <p:submenu label="Vehiculos" style="background-color: #9B9340">
-                                <p:menuitem value="Evaluar" outcome="/auxiliar/evaluar" icon="ui-icon-pencil"/>
-                                <p:menuitem value="Consultar" icon="ui-icon-document" outcome="/auxiliar/consultar"/>
-                            </p:submenu>
-                        </p:column>
-                    </p:submenu>
-                    <p:submenu label="Informes" icon="ui-icon-gear" rendered="#{mbSLogin.mostrarAdmin}">
-                        <p:column style="background-color: #CDC78B;">
-                            <p:submenu label="Vehiculos" style="background-color: #9B9340">
-                                <p:menuitem value="Evaluar" outcome="/auxiliar/evaluar" icon="ui-icon-pencil"/>
-                                <p:menuitem value="Consultar" icon="ui-icon-document" outcome="/auxiliar/consultar"/>
-                            </p:submenu>
-                        </p:column>
-                    </p:submenu>
-                </p:megaMenu>
+            <h:form styleClass="form-horizontal">
+                <nav class="navbar navbar-inverse">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="/parkUL/faces/index.xhtml">ParkUL</a>
+                        </div>
+
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Parametros<span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li role="separator" class="divider"></li>
+                                        <li class="dropdown-header">Tipo Usuario</li>
+                                        <li><a href="/parkUL/faces/tipoUsuario/registrar.xhtml">Registrar</a></li>
+                                        <li><a href="./parkUL/faces/tipoUsuario/verTodos.xhtml">Ver</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="#">Action</a></li>
+                                        <li><a href="#">Another action</a></li>
+                                        <li><a href="#">Something else here</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="#">Separated link</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="#">One more separated link</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="#"><span class="glyphicon glyphicon-user"></span><b>Sesion Iniciada por: </b><p:outputLabel value="#{mbSLogin.usuario==null ? 'Anonimo':mbSLogin.usuario}" /></a></li>
+                                <li><a href="#"><span class="glyphicon"></span><p:commandButton value="Cerrar sesion" action="#{mbSLogin.cerrarSesion()}" ajax="false" styleClass="btn btn-default"/></a></li>
+                            </ul>
+                        </div><!-- /.navbar-collapse -->
+                    </div><!-- /.container-fluid -->
+                </nav>
             </h:form>
-            <ui:insert name="top">Top</ui:insert>
+            <ui:insert name="top"></ui:insert>
         </div>
 
         <div id="content" class="center_content">
-            <ui:insert name="content">Content</ui:insert>
+            <ui:insert name="content"></ui:insert>
         </div>
 
         <div id="bottom" class="bottom" name="bottom">
             <hr/>
             Universidad Libre de Colombia
-            <ui:insert name="bottom">Bottom</ui:insert>
+            <ui:insert name="bottom"></ui:insert>
         </div>
 
     </h:body>

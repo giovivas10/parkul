@@ -18,17 +18,17 @@
                 <hr/>
                 <h:form id="frmListado">
                     <p:growl id="mensajeGeneral" sticky="false" showDetail="true"/>                    
-                    <p:dataTable id="listado" paginator="true" paginatorPosition="bottom" rows="10" var="item" value="#{mbVTipoDanio.getall()}" filteredValue="#{mbVTipoUsuario.listaTipoUsuarioFiltrada}">
+                    <p:dataTable id="listado" paginator="true" paginatorPosition="bottom" rows="10" var="item" value="#{mbVTipoDanio.getall()}" filteredValue="#{mbVTipoUsuario.listaTipoUsuarioFiltrada}" reflow="true">
                         <f:facet name="header">
                             Tipos de Usuarios
                         </f:facet>
                         <p:column headerText="Nombre" filterBy="nombre">
                             <h:outputText value="#{item.nombre}" />
                         </p:column>
-                        <p:column headerText="Actualizar" width="100">
+                        <p:column headerText="Actualizar" width="150">
                             <p:commandButton value="Actualizar" actionListener="#{mbVTipoDanio.cargaEditar(item.id)}" update="listado"/>
                         </p:column>
-                        <p:column headerText="Eliminar" width="100">
+                        <p:column headerText="Eliminar" width="150">
                             <p:commandButton value="Eliminar" actionListener="#{mbVTipoDanio.delete(item.id)}" update="listado">
                                 <p:confirm header="Confirmation" message="¿Quiere Eliminar Esta Informacion?" icon="ui-icon-alert" />
                             </p:commandButton>
@@ -42,16 +42,29 @@
                     </p:dataTable>
                 </h:form>
                 <h:form id="frmEdita">
-                    <p:dialog header="Editar" widgetVar="dialogoEditar" modal="true">
-                        <h:panelGrid columns="3" id="panelActualizar">
+                    <p:dialog header="Editar" widgetVar="dialogoEditar" modal="true" resizable="false" responsive="true">
+                        <p:panelGrid columns="3" layout="grid" id="panelActualizar" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-8">
                             <p:outputLabel value="Nombre" for="txtNombre"/>
-                            <p:inputText id="txtNombre" label="Nombre" size="50" value="#{mbVTipoDanio.tipoDanio.nombre}">
+                            <p:inputText id="txtNombre" label="Nombre" value="#{mbVTipoDanio.tipoDanio.nombre}">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
                             <p:message for="txtNombre"/>
                             <h:panelGroup></h:panelGroup>
                             <p:commandButton value="Actualizar" ajax="false" actionListener="#{mbVTipoDanio.update()}" update="frmListado"/>
-                        </h:panelGrid>
+                        </p:panelGrid>
+                    </p:dialog>
+                    <p:dialog header="Login" widgetVar="dlg" resizable="false" responsive="true">
+                        <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4,ui-grid-col-8">
+                            <h:outputLabel for="username" value="Username:" />
+                            <p:inputText id="username" />
+
+                            <h:outputLabel for="password" value="Password:" />
+                            <p:password id="password" />
+
+                            <f:facet name="footer">
+                                <p:commandButton value="Login" type="button" onclick="PF('dlg').hide()"/>
+                            </f:facet>  
+                        </p:panelGrid>
                     </p:dialog>
                 </h:form>
             </ui:define>
