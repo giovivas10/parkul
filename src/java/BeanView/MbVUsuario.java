@@ -59,6 +59,21 @@ public class MbVUsuario {
     public MbVUsuario() {
         this.usuario = new Usuario();
         this.usuario.setEstado(true);
+        HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        if (httpSession.getAttribute("rol") != null) {
+            String rol = httpSession.getAttribute("rol").toString();
+            switch (rol) {
+                case "1":
+                    RequestContext.getCurrentInstance().execute("mostrarMenu('liParametros,liUsuario,liPropietarios,liAuxiliar,liInformes')");
+                    break;
+                case "2":
+                    RequestContext.getCurrentInstance().execute("mostrarMenu('liAuxiliar')");
+                    break;
+                case "3":
+                    RequestContext.getCurrentInstance().execute("mostrarMenu('liPropietarios')");
+                    break;
+            }
+        }
     }
 
     public void register() throws Exception {

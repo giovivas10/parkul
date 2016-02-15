@@ -36,27 +36,62 @@
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <a class="navbar-brand" href="/parkUL/faces/index.xhtml">ParkUL</a>
+                            <a class="navbar-brand" href="/parkUL/faces/principal.xhtml">ParkUL</a>
                         </div>
 
                         <!-- Collect the nav links, forms, and other content for toggling -->
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav">
-                                <li class="dropdown">
+                                <li class="dropdown" id="liParametros" style="display: none" >
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Parametros<span class="caret"></span></a>
                                     <ul class="dropdown-menu">
-                                        <li role="separator" class="divider"></li>
                                         <li class="dropdown-header">Tipo Usuario</li>
                                         <li><a href="/parkUL/faces/tipoUsuario/registrar.xhtml">Registrar</a></li>
-                                        <li><a href="./parkUL/faces/tipoUsuario/verTodos.xhtml">Ver</a></li>
+                                        <li><a href="/parkUL/faces/tipoUsuario/verTodos.xhtml">Ver</a></li>
                                         <li role="separator" class="divider"></li>
-                                        <li><a href="#">Action</a></li>
-                                        <li><a href="#">Another action</a></li>
-                                        <li><a href="#">Something else here</a></li>
+                                        <li class="dropdown-header">Objetos</li>
+                                        <li><a href="/parkUL/faces/objetos/registrar.xhtml">Registrar</a></li>
+                                        <li><a href="/parkUL/faces/objetos/verTodos.xhtml">Ver</a></li>
                                         <li role="separator" class="divider"></li>
-                                        <li><a href="#">Separated link</a></li>
+                                        <li class="dropdown-header">Tipos Daños</li>
+                                        <li><a href="/parkUL/faces/tiposDaños/registrar.xhtml">Registrar</a></li>
+                                        <li><a href="/parkUL/faces/tiposDaños/verTodos.xhtml">Ver</a></li>
                                         <li role="separator" class="divider"></li>
-                                        <li><a href="#">One more separated link</a></li>
+                                        <li class="dropdown-header">Tipo Vehiculo</li>
+                                        <li><a href="/parkUL/faces/tipoVehiculo/registrar.xhtml">Registrar</a></li>
+                                        <li><a href="/parkUL/faces/tipoVehiculo/verTodos.xhtml">Ver</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li class="dropdown-header">Partes Vehiculos</li>
+                                        <li><a href="/parkUL/faces/partesVehiculo/registrar.xhtml">Registrar</a></li>
+                                        <li><a href="/parkUL/faces/partesVehiculo/verTodos.xhtml">Ver</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown" id="liUsuario" style="display: none">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuario<span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/parkUL/faces/usuario/registrar.xhtml">Registrar</a></li>
+                                        <li><a href="/parkUL/faces/usuario/verTodos.xhtml">Ver</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown" id="liPropietarios" style="display: none">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Propietarios<span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/parkUL/faces/propietario/registrar.xhtml">Registrar</a></li>
+                                        <li><a href="/parkUL/faces/propietario/verTodos.xhtml">Ver</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown" id="liAuxiliar" style="display: none">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Auxiliar<span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/parkUL/faces/auxiliar/evaluar.xhtml">Evaluar</a></li>
+                                        <li><a href="/parkUL/faces/auxiliar/consultar.xhtml">Consultar</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown" id="liInformes" style="display: none">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Informes<span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">....</a></li>
+                                        <li><a href="#">...</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -76,7 +111,7 @@
         </div>
 
         <div id="bottom" class="bottom" name="bottom">
-            <hr/>
+            <p:separator />
             Universidad Libre de Colombia
             <ui:insert name="bottom"></ui:insert>
         </div>

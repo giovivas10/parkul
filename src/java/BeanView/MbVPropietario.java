@@ -20,6 +20,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.primefaces.context.RequestContext;
@@ -60,6 +61,22 @@ public class MbVPropietario {
         
         Calendar fecha = Calendar.getInstance();
         this.propietario.setModelo(fecha.getWeekYear());
+        
+        HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        if (httpSession.getAttribute("rol") != null) {
+            String rol = httpSession.getAttribute("rol").toString();
+            switch (rol) {
+                case "1":
+                    RequestContext.getCurrentInstance().execute("mostrarMenu('liParametros,liUsuario,liPropietarios,liAuxiliar,liInformes')");
+                    break;
+                case "2":
+                    RequestContext.getCurrentInstance().execute("mostrarMenu('liAuxiliar')");
+                    break;
+                case "3":
+                    RequestContext.getCurrentInstance().execute("mostrarMenu('liPropietarios')");
+                    break;
+            }
+        }
     }
     
     ///////////////////////////////////////////////////////////////////////////

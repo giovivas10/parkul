@@ -21,65 +21,55 @@ import javax.servlet.http.HttpSession;
  *
  * @author Giovanni
  */
-
 @WebFilter("*.xhtml")
-public class SessionUrlFilter implements Filter{
+public class SessionUrlFilter implements Filter {
 
     FilterConfig filterConfig;
-    
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        this.filterConfig=filterConfig;
+        this.filterConfig = filterConfig;
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest req=(HttpServletRequest) request;
-        HttpServletResponse res=(HttpServletResponse) response;
-        HttpSession session=req.getSession(true);
-        
-        String requestUrl=req.getRequestURL().toString();
-        
-        String[] urlPermitidaSinSesion=new String[]
-        {
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
+        HttpSession session = req.getSession(true);
+
+        String requestUrl = req.getRequestURL().toString();
+
+        String[] urlPermitidaSinSesion = new String[]{
             "/faces/index.xhtml"//,
-            // "/faces/usuario/registrar.xhtml"
+        // "/faces/usuario/registrar.xhtml"
         };
-        
+
         boolean redireccionarPeticion;
-        
-        if(session.getAttribute("usuario")==null)
-        {            
-            redireccionarPeticion=true;
-            
-            for(String item : urlPermitidaSinSesion)
-            {
-                if(requestUrl.contains(item))
-                {
-                    redireccionarPeticion=false;
-                    
+
+        if (session.getAttribute("usuario") == null) {
+            redireccionarPeticion = true;
+
+            for (String item : urlPermitidaSinSesion) {
+                if (requestUrl.contains(item)) {
+                    redireccionarPeticion = false;
+
                     break;
                 }
             }
+        } else {
+            redireccionarPeticion = false;
         }
-        else
-        {
-            redireccionarPeticion=false;
-        }
-        
-        if(redireccionarPeticion)
-        {
-            res.sendRedirect(req.getContextPath()+"/faces/index.xhtml");
-        }
-        else
-        {
+
+        if (redireccionarPeticion) {
+            res.sendRedirect(req.getContextPath() + "/faces/index.xhtml");
+        } else {
             chain.doFilter(request, response);
         }
     }
 
     @Override
     public void destroy() {
-        this.filterConfig=null;
+        this.filterConfig = null;
     }
-    
+
 }

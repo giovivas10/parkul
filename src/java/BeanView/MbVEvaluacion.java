@@ -104,6 +104,22 @@ public class MbVEvaluacion {
         this.flag = false;
         this.bandera1 = false;
         this.bandera2 = false;
+        
+        HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        if (httpSession.getAttribute("rol") != null) {
+            String rol = httpSession.getAttribute("rol").toString();
+            switch (rol) {
+                case "1":
+                    RequestContext.getCurrentInstance().execute("mostrarMenu('liParametros,liUsuario,liPropietarios,liAuxiliar,liInformes')");
+                    break;
+                case "2":
+                    RequestContext.getCurrentInstance().execute("mostrarMenu('liAuxiliar')");
+                    break;
+                case "3":
+                    RequestContext.getCurrentInstance().execute("mostrarMenu('liPropietarios')");
+                    break;
+            }
+        }
 
     }
     ////////////////////////////////////////////////////////////////////////////

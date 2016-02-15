@@ -16,6 +16,7 @@ import org.hibernate.Transaction;
 import org.primefaces.context.RequestContext;
 import pojo.Objetos;
 import javax.faces.bean.ViewScoped;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -37,6 +38,21 @@ public class MbVObjetos {
     
     public MbVObjetos() {
         this.objetos = new Objetos();
+        HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        if (httpSession.getAttribute("rol") != null) {
+            String rol = httpSession.getAttribute("rol").toString();
+            switch (rol) {
+                case "1":
+                    RequestContext.getCurrentInstance().execute("mostrarMenu('liParametros,liUsuario,liPropietarios,liAuxiliar,liInformes')");
+                    break;
+                case "2":
+                    RequestContext.getCurrentInstance().execute("mostrarMenu('liAuxiliar')");
+                    break;
+                case "3":
+                    RequestContext.getCurrentInstance().execute("mostrarMenu('liPropietarios')");
+                    break;
+            }
+        }
     }
     
     ///////////////////////////////////////////////////////////////////////////

@@ -16,6 +16,7 @@ import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.primefaces.context.RequestContext;
 import pojo.Usuario;
 
 /**
@@ -70,7 +71,7 @@ public class MbSLogin {
                     httpSession.setAttribute("rol", usuarioConsulta.getRol().getId());
                     this.rol = usuarioConsulta.getRol().getId();
                     
-                    if (this.rol == 1) {
+                    /*if (this.rol == 1) {
                         mostrarAdmin = true;
                         mostrarAuxiliar = false;
                         mostrarRegistrador = false;
@@ -89,6 +90,16 @@ public class MbSLogin {
                         mostrarAdmin = false;
                         mostrarAuxiliar = false;
                         mostrarRegistrador = false;
+                    }*/
+                    
+                    if (this.rol == 1) {
+                        RequestContext.getCurrentInstance().execute("mostrarMenu('liParametros,liUsuario,liPropietarios,liAuxiliar,liInformes')");
+                    } 
+                    else if(this.rol == 2){
+                        RequestContext.getCurrentInstance().execute("mostrarMenu('liAuxiliar')");
+                    }
+                    else if(this.rol == 3){
+                        RequestContext.getCurrentInstance().execute("mostrarMenu('liPropietarios')");
                     }
                     
                     return "principal";
