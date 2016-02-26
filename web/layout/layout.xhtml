@@ -90,14 +90,15 @@
                                 <li class="dropdown" id="liInformes" style="display: none">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Informes<span class="caret"></span></a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="#">....</a></li>
-                                        <li><a href="#">...</a></li>
+                                        <li><a href="/parkUL/faces/informes/informeFechas.xhtml">Fechas</a></li>
+                                        <li><a href="/parkUL/faces/informes/informePlaca.xhtml">Placa</a></li>
+                                        <li><a href="/parkUL/faces/informes/informeAuxiliar.xhtml">Auxiliar</a></li>
                                     </ul>
                                 </li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
-                                <li><a href="#"><span class="glyphicon glyphicon-user"></span><b>Sesion Iniciada por: </b><p:outputLabel value="#{mbSLogin.usuario==null ? 'Anonimo':mbSLogin.usuario}" /></a></li>
-                                <li><a href="#"><span class="glyphicon"></span><p:commandButton value="Cerrar sesion" action="#{mbSLogin.cerrarSesion()}" ajax="false" styleClass="btn btn-default"/></a></li>
+                                <li><a href="#"><span class="glyphicon glyphicon-user"></span><b>Usuario: </b><p:outputLabel value="#{mbSLogin.usuario==null ? 'Anonimo':mbSLogin.usuario}" /></a></li>
+                                <li><a href="#"><span class="glyphicon"></span><p:commandButton  value="Cerrar sesion" action="#{mbSLogin.cerrarSesion()}" ajax="false" style="padding: 0px" styleClass="btn btn-default"/></a></li>
                             </ul>
                         </div><!-- /.navbar-collapse -->
                     </div><!-- /.container-fluid -->

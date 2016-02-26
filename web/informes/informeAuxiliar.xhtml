@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../layout/layout.xhtml">
+
+            <ui:define name="top">
+            </ui:define>
+
+            <ui:define name="content">
+                <h3>Informe por Auxiliar</h3>
+                <hr/>
+                <h:form id="frmListaObjetos">
+                    <p:growl id="mensajeGeneral" sticky="false" showDetail="true"/>    
+                    <div class="ui-fluid">
+                        <p:panelGrid columns="2" columnClasses="ui-grid-col-1,ui-grid-col-7" layout="grid" styleClass="ui-panelgrid-blank">
+                            <p:outputLabel value="Auxiliar" for="txtAuxiliar" />
+                            <p:inputText value="#{mbVInforme.auxiliar}" id="txtAuxiliar" label="Fecha Inicio"/>
+                            <f:facet name="footer">
+                                <p:commandButton value="Generar" style="max-width: 100px" ajax="true" actionListener="#{mbVInforme.listarPorAuxliar()}" update="frmListaObjetos"/>
+                                <p:commandButton value="Limpiar" style="max-width: 100px" ajax="true" actionListener="#{mbVInforme.limpiarPorAuxiliar()}" update="frmListaObjetos"/>
+                                <h:commandLink> 
+                                    <p:graphicImage name="img/pdf.png" width="30" style="width: 30px"/>
+                                    <p:dataExporter type="pdf" target="tbl" fileName="informeAuxiliar-#{mbVInforme.randomName()}" pageOnly="true"/>
+                                </h:commandLink>
+                                <h:commandLink> 
+                                    <p:graphicImage name="img/xls.png" width="30" style="width: 30px"/>
+                                    <p:dataExporter type="xls" target="tbl" fileName="informeAuxiliar-#{mbVInforme.randomName()}" pageOnly="true"/>
+                                </h:commandLink>
+                            </f:facet>
+                        </p:panelGrid>
+                        <br/>
+                        <p:dataTable style="font-size: 10px" id="tbl" paginator="true" paginatorPosition="bottom" rows="10" var="item" value="#{mbVInforme.listarPorAuxliar()}" filteredValue="#{mbVInforme.listaEvaluacionVehiciluarFiltrada}" reflow="true">
+                            <f:facet name="header">
+                                Evaluaciones Registradas
+                            </f:facet>
+                            <p:column headerText="Fecha" >
+                                <h:outputText value="#{item.fecha}" />
+                            </p:column>
+                            <p:column headerText="Hora" >
+                                <h:outputText value="#{item.hora}" />
+                            </p:column>
+                            <p:column headerText="Placa" >
+                                <h:outputText value="#{item.placa}" />
+                            </p:column>
+                            <p:column headerText="Propietario" filterBy="documento">
+                                <h:outputText value="#{mbVInforme.retornaNombrePropietario(item.propietario.id)}" />
+                            </p:column>
+                            <p:column headerText="Telefono" filterBy="Telefono">
+                                <h:outputText value="#{mbVInforme.retornaTelefono(item.propietario.id)}" />
+                            </p:column>
+                            <p:column headerText="Tiene Daños" >
+                                <h:outputText value="#{item.poseeDanios == true ? 'Si':'No'}" />
+                            </p:column>
+                            <p:column headerText="Tiene Objetos" >
+                                <h:outputText value="#{item.poseeObjetos == true ? 'Si':'No'}" />
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="bottom">
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

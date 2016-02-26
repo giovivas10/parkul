@@ -14,11 +14,11 @@
             </ui:define>
 
             <ui:define name="content">
-                <h2>Lista de Propietarios</h2>
+                <h3>Lista de Propietarios</h3>
                 <hr/>
                 <h:form id="frmListaPropietario">
                     <p:growl id="mensajeGeneral" sticky="false" showDetail="true"/>                    
-                    <p:dataTable id="listaPropietario" paginator="true" paginatorPosition="bottom" rows="10" var="item" value="#{mbVPropietario.getall()}" selection="#{mbVPropietario.propietario}" selectionMode="single" rowKey="#{item.id}" filteredValue="#{mbVPropietario.listaPropietarioFiltrado}">
+                    <p:dataTable id="listaPropietario" paginator="true" paginatorPosition="bottom" rows="10" var="item" value="#{mbVPropietario.getall()}" selection="#{mbVPropietario.propietario}" selectionMode="single" rowKey="#{item.id}" filteredValue="#{mbVPropietario.listaPropietarioFiltrado}" reflow="true">
 
                         <p:ajax event="rowSelect" update=":frmListaPropietario:panelDetallePropietario" oncomplete="PF('dialogoDetallePropietario').show()"/>
                         <f:facet name="header">
@@ -42,10 +42,10 @@
                         <p:column headerText="Placa" >
                             <h:outputText value="#{item.placa}" />
                         </p:column>
-                        <p:column headerText="Actualizar" width="100">
+                        <p:column headerText="Actualizar" width="150">
                             <p:commandButton value="Actualizar" actionListener="#{mbVPropietario.cargaUsuarioEditar(item.id)}" update="listaPropietario"/>
                         </p:column>
-                        <p:column headerText="Eliminar" width="100">
+                        <p:column headerText="Eliminar" width="150">
                             <p:commandButton value="Eliminar" actionListener="#{mbVPropietario.delete(item.id)}" update="listaPropietario">
                                 <p:confirm header="Confirmation" message="¿Quiere Eliminar Esta Informacion?" icon="ui-icon-alert" />
                             </p:commandButton>
@@ -58,12 +58,12 @@
                         </p:column>
                     </p:dataTable>
 
-                    <p:dialog header="Detalle de Propietario" widgetVar="dialogoDetallePropietario" resizable="false">
-                        <h:panelGrid id="panelDetallePropietario" columns="2">
+                    <p:dialog header="Detalle de Propietario" widgetVar="dialogoDetallePropietario" resizable="false" responsive="true" appendTo="@(body)" style="position: absolute" dynamic="true" draggable="true" modal="true">
+                        <p:panelGrid id="panelDetallePropietario" columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4,ui-grid-col-8">
                             <f:facet name="header">
                                 <p:imageSwitch effect="zoom" id="photos">
                                     <ui:repeat value="#{mbVPropietario.propietario.fotoPropietario}" var="photo">
-                                        <p:graphicImage value="#{pageContext.contextPath}/resources/images/propietario/#{photo}" cache="false" width="250"/>
+                                        <p:graphicImage value="#{pageContext.contextPath}/resources/images/propietario/#{photo}" cache="false" styleClass="img-responsive" style="max-width: 250px"/>
                                     </ui:repeat>
                                 </p:imageSwitch>
                                 <hr/>
@@ -80,50 +80,48 @@
                             <h:outputText value="#{mbVPropietario.propietario.email}" />
                             <p:outputLabel style="font-weight: bold" value="Placa Vehiculo "/>
                             <h:outputText value="#{mbVPropietario.propietario.placa}" />
-                        </h:panelGrid>
+                        </p:panelGrid>
                     </p:dialog>
 
                 </h:form>
                 <h:form id="frmEditarPropietario">
-                    <p:dialog header="Editar Propietario" widgetVar="dialogoEditarPropietario" modal="true">
-                        <h:panelGrid columns="3" id="panelActualizarPropietario">
+                    <p:dialog header="Editar Propietario" widgetVar="dialogoEditarPropietario" appendTo="@(body)" style="position: absolute" dynamic="true" draggable="true"  modal="true" resizable="false" responsive="true">
+                        <p:panelGrid columns="3" id="panelActualizarPropietario" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4,ui-grid-col-8">
+                            <h:panelGroup></h:panelGroup>
+                            <p:commandButton id="modalDialogButton" value="Foto" onclick="PF('dlg2').show();" type="button"/>
+                            <h:panelGroup></h:panelGroup>
                             <h:outputLabel value="Tipo de Usuario: " for="selTipoUsuario"/>
-                            <p:selectOneMenu id="selTipoUsuario" value="#{mbVPropietario.tipoUsuario.id}" style="width: 50%">
+                            <p:selectOneMenu id="selTipoUsuario" value="#{mbVPropietario.tipoUsuario.id}">
                                 <f:selectItems value="#{mbRCargarSelects.listaTipoUsuario}"/>
                             </p:selectOneMenu> 
                             <p:message for="selTipoUsuario"/>
                             <h:outputLabel value="Tipo de Vehiculo: " for="selTipoVehiculo"/>
-                            <p:selectOneMenu id="selTipoVehiculo" value="#{mbVPropietario.tipoVehiculo.id}" style="width: 50%">
+                            <p:selectOneMenu id="selTipoVehiculo" value="#{mbVPropietario.tipoVehiculo.id}">
                                 <f:selectItems value="#{mbRCargarSelects.listaTipoVehiculo}"/>
                             </p:selectOneMenu> 
                             <p:message for="selTipoVehiculo"/>
                             <p:outputLabel value="Documento" for="txtDocumento"/>
-                            <p:inputText id="txtDocumento" label="Tipo Vehiculo" size="50" value="#{mbVPropietario.propietario.documento}">
+                            <p:inputText id="txtDocumento" label="Tipo Vehiculo" value="#{mbVPropietario.propietario.documento}">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
-                            <h:panelGroup>
-                                <h:panelGrid columns="2" >
-                                    <p:commandButton id="modalDialogButton" value="Capturar Foto" onclick="PF('dlg2').show();" type="button"/>
-                                    <p:message for="txtDocumento"/>
-                                </h:panelGrid>
-                            </h:panelGroup>
+                            <p:message for="txtDocumento"/>
                             <p:outputLabel value="Nombres" for="txtNombres"/>
-                            <p:inputText id="txtNombres" label="Documento" size="50" value="#{mbVPropietario.propietario.nombres}">
+                            <p:inputText id="txtNombres" label="Documento" value="#{mbVPropietario.propietario.nombres}">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
                             <p:message for="txtNombres"/>
                             <p:outputLabel value="Apellidos" for="txtApellidos"/>
-                            <p:inputText id="txtApellidos" label="Nombres" size="50" value="#{mbVPropietario.propietario.apellidos}">
+                            <p:inputText id="txtApellidos" label="Nombres" value="#{mbVPropietario.propietario.apellidos}">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
                             <p:message for="txtApellidos"/>
                             <p:outputLabel value="Telefono" for="txtTelefono"/>
-                            <p:inputText id="txtTelefono" label="Apellidos" size="50" value="#{mbVPropietario.propietario.telefono}">
+                            <p:inputText id="txtTelefono" label="Apellidos" value="#{mbVPropietario.propietario.telefono}">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
                             <p:message for="txtTelefono"/>
                             <p:outputLabel value="Email" for="txtEmail"/>
-                            <p:inputText id="txtEmail" label="Telefono" size="50" title="Ejemplo: pedro@dominio.com" value="#{mbVPropietario.propietario.email}">
+                            <p:inputText id="txtEmail" label="Telefono" title="Ejemplo: pedro@dominio.com" value="#{mbVPropietario.propietario.email}">
                                 <f:validator validatorId="validarVacio"/>
                                 <f:validator validatorId="validarEmail"/>
                             </p:inputText>
@@ -132,48 +130,52 @@
                                 <p:message for="txtEmail"/>
                             </h:panelGroup>
                             <p:outputLabel value="Placa Vehiculo" for="txtPlaca"/>
-                            <p:inputText id="txtPlaca" label="Placa" size="10" value="#{mbVPropietario.propietario.placa}">
+                            <p:inputText id="txtPlaca" label="Placa" value="#{mbVPropietario.propietario.placa}">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
                             <p:message for="txtPlaca"/>
                             <p:outputLabel value="Marca" for="txtMarca"/>
-                            <p:inputText id="txtMarca" label="Marca" size="25" value="#{mbVPropietario.propietario.marca}">
+                            <p:inputText id="txtMarca" label="Marca" value="#{mbVPropietario.propietario.marca}">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
                             <p:message for="txtMarca"/>
                             <p:outputLabel value="Modelo" for="selModelo"/>
-                            <p:selectOneMenu id="selModelo" value="#{mbVPropietario.propietario.modelo}" style="width: 47%">
+                            <p:selectOneMenu id="selModelo" value="#{mbVPropietario.propietario.modelo}">
                                 <f:selectItems value="#{mbRCargaAnios.anios}" noSelectionValue="true"/>
                             </p:selectOneMenu> 
                             <p:message for="selModelo"/>
                             <p:outputLabel value="Color" for="txtColor"/>
-                            <p:inputText id="txtColor" label="Modelo" size="25" value="#{mbVPropietario.propietario.color}">
+                            <p:inputText id="txtColor" label="Modelo" value="#{mbVPropietario.propietario.color}">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
                             <p:message for="txtColor"/>
                             <f:facet name="footer" >
                                 <h:panelGroup style="display:block; text-align:center">
                                     <hr/>
-                                    <p:commandButton value="Actualizar" ajax="false" actionListener="#{mbVPropietario.update()}" update="frmRegistrarUsuario"/>
+                                    <p:commandButton value="Actualizar" ajax="true" actionListener="#{mbVPropietario.update()}" update="frmListaPropietario"/>
                                 </h:panelGroup>
                             </f:facet>
-                        </h:panelGrid>
+                        </p:panelGrid>
                     </p:dialog>
-                    <p:dialog id="modalDialog" header="Modal Dialog" widgetVar="dlg2">
-                        <h:form enctype="multipart/form-data">
-                            <p:outputPanel id="outputPanelStudentUpload">  
-                                <h:panelGrid columns="2">
-                                    <p:photoCam widgetVar="pc" listener="#{mbVPropietario.oncapture}" update="outputPanelStudentUpload"/>
+                    <p:dialog id="modalDialog" header="Modal Dialog" widgetVar="dlg2" responsive="true" resizable="false" position="top">
+                        <p:outputPanel id="outputPanelStudentUpload">
+                            <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank" id="panelFoto">  
+                                <h:panelGroup>  
+                                    <p:photoCam width="250" height="250" widgetVar="pc" listener="#{mbVPropietario.oncapture}" update="photos,panelBoton"/>
+                                    <p:commandButton type="button" value="Capture" onclick="PF('pc').capture()"/>
+                                </h:panelGroup>  
+                                <h:panelGroup>  
                                     <p:imageSwitch effect="zoom" id="photos">
                                         <ui:repeat value="#{mbVPropietario.foto}" var="photo">
-                                            <p:graphicImage value="#{pageContext.contextPath}/resources/images/propietario/#{mbVPropietario.foto}.png" cache="false" />
+                                            <p:graphicImage rendered="#{not empty mbVPropietario.foto}" height="185px" width="250px" value="#{pageContext.contextPath}/resources/images/propietario/#{photo}.png"/>
                                         </ui:repeat>
                                     </p:imageSwitch>
-                                    <p:commandButton type="button" value="Capture" onclick="PF('pc').capture()" ajax="false" update="frmRegistrarUsuario"/>
-                                    <p:commandButton rendered="#{not empty mbVPropietario.foto}" type="button" value="Guardar" onclick="PF('dlg2').hide();" ajax="false" />
-                                </h:panelGrid>
-                            </p:outputPanel>
-                        </h:form>
+                                    <h:panelGroup id="panelBoton">
+                                        <p:commandButton rendered="#{not empty mbVPropietario.foto}" value="Guardar" onclick="PF('dlg2').hide()"/>
+                                    </h:panelGroup>
+                                </h:panelGroup>  
+                            </p:panelGrid> 
+                        </p:outputPanel>
                     </p:dialog>
                 </h:form>
             </ui:define>

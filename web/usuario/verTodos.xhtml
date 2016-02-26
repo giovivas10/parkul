@@ -12,12 +12,12 @@
 
             <ui:define name="top"></ui:define>
 
-            <ui:define name="content">
-                <h2>Lista de Usuarios</h2>
+            <ui:define name="content" >
+                <h3>Lista de Usuarios</h3>
                 <hr/>
                 <h:form id="frmListaUsuario">
                     <p:growl id="mensajeGeneral" sticky="false" showDetail="true"/>                    
-                    <p:dataTable id="listaUsuario" paginator="true" paginatorPosition="bottom" rows="10" var="item" value="#{mbVUsuario.getall()}" selection="#{mbVUsuario.usuario}" selectionMode="single" rowKey="#{item.id}" filteredValue="#{mbVUsuario.listaUsuarioFiltrado}">
+                    <p:dataTable id="listaUsuario" paginator="true" paginatorPosition="bottom" rows="10" var="item" value="#{mbVUsuario.getall()}" selection="#{mbVUsuario.usuario}" selectionMode="single" rowKey="#{item.id}" filteredValue="#{mbVUsuario.listaUsuarioFiltrado}" reflow="true">
 
                         <p:ajax event="rowSelect" update=":frmListaUsuario:panelDetalleUsuario" oncomplete="PF('dialogoDetalleUsuario').show()"/>
 
@@ -33,10 +33,10 @@
                         <p:column headerText="Documento" >
                             <h:outputText value="#{item.documento}" />
                         </p:column>
-                        <p:column headerText="Actualizar" width="100">
+                        <p:column headerText="Actualizar" width="150">
                             <p:commandButton value="Actualizar" actionListener="#{mbVUsuario.cargaUsuarioEditar(item.id)}" />
                         </p:column>
-                        <p:column headerText="Eliminar" width="100">
+                        <p:column headerText="Eliminar" width="150">
                             <p:commandButton value="Eliminar" actionListener="#{mbVUsuario.delete(item.id)}" update="listaUsuario">
                                 <p:confirm header="Confirmation" message="¿Quiere Eliminar Esta Informacion?" icon="ui-icon-alert" />
                             </p:commandButton>
@@ -47,12 +47,12 @@
                         </p:column>
                     </p:dataTable>
 
-                    <p:dialog header="Detalle de usuario" widgetVar="dialogoDetalleUsuario" resizable="false">
-                        <h:panelGrid id="panelDetalleUsuario" columns="2">
+                    <p:dialog widgetVar="dialogoDetalleUsuario" position="top" header="Detalle de usuario" appendTo="@(body)" style="position: absolute" dynamic="true" draggable="true"  modal="true" resizable="false" responsive="true">
+                        <p:panelGrid id="panelDetalleUsuario" columns="2" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4,ui-grid-col-8">
                             <f:facet name="header">
                                 <p:imageSwitch effect="zoom" id="photos">
                                     <ui:repeat value="#{mbVUsuario.usuario.foto}" var="photo">
-                                        <p:graphicImage value="#{pageContext.contextPath}/resources/images/usuario/#{photo}" cache="false" width="250"/>
+                                        <p:graphicImage value="#{pageContext.contextPath}/resources/images/usuario/#{photo}" cache="false" styleClass="img-responsive" style="max-width: 250px"/>
                                     </ui:repeat>
                                 </p:imageSwitch>
                             </f:facet>
@@ -68,14 +68,14 @@
                             <h:outputText value="#{mbVUsuario.usuario.telefono}" />
                             <p:outputLabel style="font-weight: bold" value="Direccion "/>
                             <h:outputText value="#{mbVUsuario.usuario.direccion}" />
-                        </h:panelGrid>
+                        </p:panelGrid>
                     </p:dialog>
                 </h:form>
                 <h:form id="frmEditarUsuario">
-                    <p:dialog header="Editar Usuario" widgetVar="dialogoEditarUsuario" modal="true">
-                        <h:panelGrid columns="3" id="panelActualizarUsuario">
+                    <p:dialog appendTo="@(body)" style="position: absolute" dynamic="true" draggable="true" header="Editar Usuario" widgetVar="dialogoEditarUsuario" modal="true" resizable="false" responsive="true">
+                        <p:panelGrid columns="3" id="panelActualizarUsuario" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4,ui-grid-col-8">
                             <p:outputLabel value="Usuario" for="txtUsuario"/>
-                            <p:inputText id="txtUsuario" label="Usuario" size="50" value="#{mbVUsuario.usuario.usuario}" disabled="true">
+                            <p:inputText id="txtUsuario" label="Usuario" value="#{mbVUsuario.usuario.usuario}" disabled="true">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
                             <h:panelGrid columns="2" >
@@ -83,18 +83,18 @@
                                 <p:message for="txtUsuario"/>
                             </h:panelGrid>
                             <p:outputLabel value="Nombre" for="txtNombre"/>
-                            <p:inputText id="txtNombre" label="Nombre" size="50" value="#{mbVUsuario.usuario.nombre}">
+                            <p:inputText id="txtNombre" label="Nombre" value="#{mbVUsuario.usuario.nombre}">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
                             <p:message for="txtNombre"/>
                             <p:outputLabel value="Documento" for="txtDocumento"/>
-                            <p:inputText id="txtDocumento" label="Documento" size="50" value="#{mbVUsuario.usuario.documento}">
+                            <p:inputText id="txtDocumento" label="Documento" value="#{mbVUsuario.usuario.documento}">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
                             <p:message for="txtDocumento"/>
 
                             <p:outputLabel value="Email" for="txtEmail"/>
-                            <p:inputText id="txtEmail" label="Email" size="50" title="Ejemplo: pedro@dominio.com" value="#{mbVUsuario.usuario.email}">
+                            <p:inputText id="txtEmail" label="Email" title="Ejemplo: pedro@dominio.com" value="#{mbVUsuario.usuario.email}">
                                 <f:validator validatorId="validarVacio"/>
                                 <f:validator validatorId="validarEmail"/>
                             </p:inputText>
@@ -103,48 +103,52 @@
                                 <p:message for="txtEmail"/>
                             </h:panelGroup>
                             <p:outputLabel value="Telefono" for="txtTelefono"/>
-                            <p:inputText id="txtTelefono" label="Telefono" size="50" value="#{mbVUsuario.usuario.telefono}">
+                            <p:inputText id="txtTelefono" label="Telefono" value="#{mbVUsuario.usuario.telefono}">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
                             <p:message for="txtTelefono"/>
                             <p:outputLabel value="Direccion" for="txtDireccion"/>
-                            <p:inputText id="txtDireccion" label="Direccion" size="50" value="#{mbVUsuario.usuario.direccion}">
+                            <p:inputText id="txtDireccion" label="Direccion" value="#{mbVUsuario.usuario.direccion}">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
                             <p:message for="txtDireccion"/>
                             <p:outputLabel value="Rol" for="selRol"/>
-                            <p:selectOneMenu id="selRol" style="width: 50%" value="#{mbVUsuario.rolSelect}">
+                            <p:selectOneMenu id="selRol" value="#{mbVUsuario.rolSelect}">
                                 <f:selectItem itemLabel="Administrador" itemValue="1" />
                                 <f:selectItem itemLabel="Auxiliar" itemValue="2" />
                                 <f:selectItem itemLabel="Registrador" itemValue="3" />
                             </p:selectOneMenu>
                             <p:message for="selRol"/>
                             <p:outputLabel value="Estado" for="selEstado"/>
-                            <p:selectOneMenu id="selEstado" label="Estado" style="width: 50%" value="#{mbVUsuario.usuario.estado}" required="true" requiredMessage="Sie haben keinen Tag angegeben!">
+                            <p:selectOneMenu id="selEstado" label="Estado" value="#{mbVUsuario.usuario.estado}" required="true" requiredMessage="Sie haben keinen Tag angegeben!">
                                 <f:selectItem itemLabel="Activo" itemValue="true" />
                                 <f:selectItem itemLabel="Inactivo" itemValue="false" />
                             </p:selectOneMenu>
                             <p:message for="selEstado"/>
                             <h:panelGroup></h:panelGroup>
-                            <p:commandButton value="Guardar Cambios" ajax="false" actionListener="#{mbVUsuario.update()}" update="frmListaUsuario"/>
+                            <p:commandButton value="Guardar Cambios" ajax="true" actionListener="#{mbVUsuario.update()}" update="frmListaUsuario"/>
 
-                        </h:panelGrid>
+                        </p:panelGrid>
                     </p:dialog>
-                    <p:dialog id="modalDialog" header="Modal Dialog" widgetVar="dlg2">
-                        <h:form enctype="multipart/form-data">
-                            <p:outputPanel id="outputPanelStudentUpload">  
-                                <h:panelGrid columns="2">
-                                    <p:photoCam widgetVar="pc" listener="#{mbVUsuario.oncapture}" update="outputPanelStudentUpload"/>
+                    <p:dialog id="modalDialog" header="Modal Dialog" widgetVar="dlg2" responsive="true" resizable="false" position="top">
+                        <p:outputPanel id="outputPanelStudentUpload">
+                            <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank" id="panelFoto">  
+                                <h:panelGroup>  
+                                    <p:photoCam width="250" height="250" widgetVar="pc" listener="#{mbVUsuario.oncapture}" update="photos,panelBoton"/>
+                                    <p:commandButton type="button" value="Capture" onclick="PF('pc').capture()"/>
+                                </h:panelGroup>  
+                                <h:panelGroup>  
                                     <p:imageSwitch effect="zoom" id="photos">
                                         <ui:repeat value="#{mbVUsuario.foto}" var="photo">
-                                            <p:graphicImage value="#{pageContext.contextPath}/resources/images/usuario/#{mbVUsuario.foto}.png" cache="false" />
+                                            <p:graphicImage rendered="#{not empty mbVUsuario.foto}" height="185px" width="250px" value="#{pageContext.contextPath}/resources/images/usuario/#{photo}.png"/>
                                         </ui:repeat>
                                     </p:imageSwitch>
-                                    <p:commandButton type="button" value="Capture" onclick="PF('pc').capture()" ajax="false" update="frmRegistrarUsuario"/>
-                                    <p:commandButton rendered="#{not empty mbVUsuario.foto}" type="button" value="Guardar" onclick="PF('dlg2').hide();" ajax="false" update="frmEditarUsuario:modalDialog"/>
-                                </h:panelGrid>
-                            </p:outputPanel>
-                        </h:form>
+                                    <h:panelGroup id="panelBoton">
+                                        <p:commandButton rendered="#{not empty mbVUsuario.foto}" value="Guardar" onclick="PF('dlg2').hide()"/>
+                                    </h:panelGroup>
+                                </h:panelGroup>  
+                            </p:panelGrid> 
+                        </p:outputPanel>
                     </p:dialog>
                 </h:form>
             </ui:define>

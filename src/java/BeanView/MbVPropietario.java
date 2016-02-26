@@ -113,6 +113,8 @@ public class MbVPropietario {
             Calendar fecha = Calendar.getInstance();
             this.propietario.setModelo(fecha.getWeekYear());
             this.rutaFoto = new String();
+            this.foto = new String();
+            RequestContext.getCurrentInstance().update("frmRegistrarUsuario");
 
         } 
         catch (Exception ex) {
@@ -233,6 +235,7 @@ public class MbVPropietario {
             Calendar fecha = Calendar.getInstance();
             this.propietario.setModelo(fecha.getWeekYear());
             this.rutaFoto = new String();
+            RequestContext.getCurrentInstance().execute("PF('dialogoEditarPropietario').hide()");
 
         } 
         catch (Exception ex) {
@@ -266,6 +269,15 @@ public class MbVPropietario {
             this.transaction.commit();
             
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Informacion Eliminada"));
+            
+            this.propietario = new Propietario();
+            this.tipoUsuario.setId(-1);
+            this.tipoVehiculo.setId(-1);
+            Calendar fecha = Calendar.getInstance();
+            this.propietario.setModelo(fecha.getWeekYear());
+            this.rutaFoto = new String();
+            this.foto = new String();
+            RequestContext.getCurrentInstance().update("frmRegistrarUsuario");
 
         } catch (Exception ex) {
             if (this.transaction != null) {

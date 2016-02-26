@@ -178,6 +178,7 @@ public class MbVParteVehiculo {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Se ha actualizado correctamente"));
 
             this.parteVehiculo = new ParteVehiculo();
+            RequestContext.getCurrentInstance().execute("PF('dialogoEditar').hide()");
 
         } 
         catch (Exception ex) {

@@ -19,13 +19,13 @@
                     <h3>Registro de Propietario</h3>
                     <hr />
                     <p:growl id="mensajeGeneral" showDetail="true" sticky="false"/>
-                    
+
                     <div class="form-group">
-                        <div class="col-lg-offset-1 col-lg-10">
+                        <div class="col-lg-offset-2 col-lg-10">
                             <p:commandButton id="modalDialogButton" value="Capturar Foto" onclick="PF('dlg2').show();" type="button" styleClass="btn btn-default"/>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <h:outputLabel value="Tipo Usuario: " for="selTipoUsuario" styleClass="col-lg-2 control-label"/>
                         <div class="col-lg-10">
@@ -140,33 +140,48 @@
 
                     <div class="form-group">
                         <div class="col-lg-offset-2 col-lg-10">
-                            <p:commandButton value="Registrar Propietario" ajax="false" actionListener="#{mbVPropietario.register()}" update="frmRegistrarUsuario" styleClass="btn btn-default"/>
+                            <p:commandButton value="Registrar Propietario" ajax="true" actionListener="#{mbVPropietario.register()}" update="frmRegistrarUsuario" styleClass="btn btn-default"/>
                         </div>
                     </div>
-                    <p:dialog id="modalDialog" header="Foto" widgetVar="dlg2" modal="true" responsive="true" resizable="false" position="top">
-                        <h:form enctype="multipart/form-data">
-                            <p:outputPanel id="outputPanelStudentUpload">  
+                    <p:dialog style="position: absolute" id="modalDialog" header="Foto" widgetVar="dlg2" modal="true" responsive="true" resizable="false" position="top">
+                        <!--<p:panelGrid columns="1" styleClass="ui-panelgrid-blank" layout="grid" id="panelfoto">
+                            <h:panelGroup id="Upload1">  
                                 <p:panelGrid columns="1" styleClass="ui-panelgrid-blank" layout="grid">
-                                    <p:photoCam widgetVar="pc" listener="#{mbVPropietario.oncapture}" update="frmRegistrarUsuario:modalDialog2" width="250"/>
-                                    <p:commandButton type="button" value="Capture" onclick="PF('dlg3').show();PF('pc').capture();" ajax="false" />
+                                    <p:photoCam widgetVar="pc" listener="# {mbVPropietario.oncapture}" width="250"/>
+                                    <p:commandButton type="button" value="Capture" onclick="PF('pc').capture();" ajax="true"/>
                                 </p:panelGrid>
-                            </p:outputPanel>
-                        </h:form>
-                    </p:dialog>
-                    <p:dialog id="modalDialog2" header="Foto" widgetVar="dlg3" modal="true" responsive="true" resizable="false" dynamic="true" position="top" >
-                        <h:form enctype="multipart/form-data">
-                            <p:outputPanel id="outputPanelStudentUpload">  
-                                <p:panelGrid columns="1" styleClass="ui-panelgrid-blank" layout="grid">
+                            </h:panelGroup>
+                            <h:panelGroup id="Upload2">  
+                                <p:imageSwitch effect="zoom" id="foto">
+                                    <ui:repeat value="# {mbVPropietario.foto}" var="photo">
+                                        <p:graphicImage value="# {pageContext.contextPath}/resources/images/propietario/# {mbVPropietario.foto}.png" cache="false" />
+                                        <p:commandButton type="button" value="Guardar" ajax="true"/>
+                                    </ui:repeat>
+                                </p:imageSwitch>
+                            </h:panelGroup>
+                        </p:panelGrid>-->
+
+                        <p:outputPanel id="outputPanelStudentUpload">
+                            <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank" id="panelFoto">  
+                                <h:panelGroup>  
+                                    <p:photoCam width="250" height="250" widgetVar="pc" listener="#{mbVPropietario.oncapture}" update="photos,panelBoton"/>
+                                    <p:commandButton type="button" value="Capture" onclick="PF('pc').capture()"/>
+                                </h:panelGroup>  
+                                <h:panelGroup>  
                                     <p:imageSwitch effect="zoom" id="photos">
                                         <ui:repeat value="#{mbVPropietario.foto}" var="photo">
-                                            <p:graphicImage value="#{pageContext.contextPath}/resources/images/propietario/#{mbVPropietario.foto}.png" cache="false" />
+                                            <p:graphicImage rendered="#{not empty mbVPropietario.foto}" height="185px" width="250px" value="#{pageContext.contextPath}/resources/images/propietario/#{photo}.png"/>
                                         </ui:repeat>
                                     </p:imageSwitch>
-                                    
-                                </p:panelGrid>
-                            </p:outputPanel>
-                        </h:form>
+                                    <h:panelGroup id="panelBoton">
+                                        <p:commandButton rendered="#{not empty mbVPropietario.foto}" value="Guardar" onclick="PF('dlg2').hide()" update="frmRegistrarUsuario:modalDialog"/>
+                                    </h:panelGroup>
+                                </h:panelGroup>  
+                            </p:panelGrid> 
+                        </p:outputPanel>
                     </p:dialog>
+
+
 
                 </h:form>
             </ui:define>

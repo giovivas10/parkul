@@ -4,7 +4,7 @@ function limpiarFomrmulario(idFormulario) {
 
 function mostrarMenu(menus){
     var op = menus.split(",");
-    for(var i = 0;op.length;i++){
+    for(var i = 0;i<op.length;i++){
         document.getElementById(op[i]).style.display = "block";
     }
 }

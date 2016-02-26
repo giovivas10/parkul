@@ -19,4 +19,7 @@ public interface InterfaceEvaluacionEstadoVehicular {
     public EvaluacionEstadoVehicular getUltimoRegistro(Session session) throws Exception;
     public List<EvaluacionEstadoVehicular> getall(Session session, Date fecha, String usuario)throws Exception;
     public EvaluacionEstadoVehicular getById(Session session, int Id)throws Exception;
+    public List<EvaluacionEstadoVehicular> listadoInforme(Session session, Date fechaInicio, Date fechaFin)throws Exception;
+    public List<EvaluacionEstadoVehicular> listadoInformePorPlaca(Session session, String placa)throws Exception;
+    public List<EvaluacionEstadoVehicular> listadoInformePorAuxiliar(Session session, String auxiliar)throws Exception;
 }

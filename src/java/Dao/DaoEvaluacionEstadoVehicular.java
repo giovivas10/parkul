@@ -50,6 +50,40 @@ public class DaoEvaluacionEstadoVehicular implements InterfaceEvaluacionEstadoVe
     public EvaluacionEstadoVehicular getById(Session session, int Id) throws Exception {
         return (EvaluacionEstadoVehicular) session.get(EvaluacionEstadoVehicular.class, Id);
     }
+
+    @Override
+    public List<EvaluacionEstadoVehicular> listadoInforme(Session session, Date fechaInicio, Date fechaFin) throws Exception {
+        String hql="from EvaluacionEstadoVehicular where fecha BETWEEN :fechaInicio AND :fechaFin";
+        Query query = session.createQuery(hql);
+        query.setParameter("fechaInicio", fechaInicio);
+        query.setParameter("fechaFin", fechaFin);
+        
+        List<EvaluacionEstadoVehicular> listaEvaluacion =  query.list();
+        
+        return listaEvaluacion;
+    }
+
+    @Override
+    public List<EvaluacionEstadoVehicular> listadoInformePorPlaca(Session session, String placa) throws Exception {
+        String hql="from EvaluacionEstadoVehicular where placa=:placa";
+        Query query = session.createQuery(hql);
+        query.setParameter("placa", placa);
+        
+        List<EvaluacionEstadoVehicular> listaEvaluacion =  query.list();
+        
+        return listaEvaluacion;
+    }
+
+    @Override
+    public List<EvaluacionEstadoVehicular> listadoInformePorAuxiliar(Session session, String auxiliar) throws Exception {
+        String hql="from EvaluacionEstadoVehicular where usuario=:auxiliar";
+        Query query = session.createQuery(hql);
+        query.setParameter("auxiliar", auxiliar);
+        
+        List<EvaluacionEstadoVehicular> listaEvaluacion =  query.list();
+        
+        return listaEvaluacion;
+    }
     
     
 }

@@ -40,7 +40,7 @@ import org.primefaces.model.UploadedFile;
 @ManagedBean
 @ViewScoped
 public class MbVUsuario {
-    
+
     private Session session;
     private Transaction transaction;
 
@@ -48,10 +48,10 @@ public class MbVUsuario {
     private Rol rol;
     private List<Usuario> listaUsuario;
     private List<Usuario> listaUsuarioFiltrado;
-    
+
     private String foto;
     private String rutaFoto;
-    
+
     private String txtContrasenaRepita;
     private int rolSelect;
     private UploadedFile avatar;
@@ -91,7 +91,7 @@ public class MbVUsuario {
 
             DaoUsuario daoUsuario = new DaoUsuario();
             DaoRol daoRol = new DaoRol();
-            
+
             this.session = HibernateUtil.getSessionFactory().openSession();
             this.transaction = session.beginTransaction();
 
@@ -123,17 +123,20 @@ public class MbVUsuario {
             //RequestContext.getCurrentInstance().execute("limpiarFomrmulario('frmRegistrarUsuario')");
             this.usuario = new Usuario();
             this.usuario.setEstado(true);
-            this.rutaFoto = null;
+            this.foto = new String();
+            this.rutaFoto = new String();
+            RequestContext.getCurrentInstance().update("frmRegistrarUsuario");
+            
 
         } catch (ConstraintViolationException ex) {
             if (this.transaction != null) {
                 this.transaction.rollback();
             }
-            
-            for(ConstraintViolation constraint:ex.getConstraintViolations()){
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: ", constraint.getPropertyPath()+": " + constraint.getMessage()));
+
+            for (ConstraintViolation constraint : ex.getConstraintViolations()) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: ", constraint.getPropertyPath() + ": " + constraint.getMessage()));
             }
-            
+
         } catch (Exception ex) {
             if (this.transaction != null) {
                 this.transaction.rollback();
@@ -147,87 +150,71 @@ public class MbVUsuario {
         }
 
     }
-    
-    public List<Usuario> getall(){
-        
+
+    public List<Usuario> getall() {
+
         this.session = null;
         this.transaction = null;
-        
-        
-        try
-        {
+
+        try {
             DaoUsuario daoUsuario = new DaoUsuario();
-            
+
             this.session = HibernateUtil.getSessionFactory().openSession();
             this.transaction = session.beginTransaction();
-            
+
             this.listaUsuario = daoUsuario.getAll(this.session);
             this.transaction.commit();
-            
+
             return listaUsuario;
-            
-        }
-        catch(Exception ex)
-        {
-            if(this.transaction!=null)
-            {
+
+        } catch (Exception ex) {
+            if (this.transaction != null) {
                 this.transaction.rollback();
             }
-            
+
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error fatal", ex.getMessage() + " Contacte al administrador"));
-            
+
             return null;
-        }
-        finally
-        {
-            if(this.transaction!=null)
-            {
+        } finally {
+            if (this.transaction != null) {
                 this.session.close();
             }
         }
     }
-    
-    public Usuario getByUsuario(){
-        
+
+    public Usuario getByUsuario() {
+
         this.session = null;
         this.transaction = null;
-        
-        
-        try
-        {
+
+        try {
             DaoUsuario daoUsuario = new DaoUsuario();
-            
+
             this.session = HibernateUtil.getSessionFactory().openSession();
             this.transaction = session.beginTransaction();
-            
+
             HttpSession sessionUsuario = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-            
-            this.usuario = daoUsuario.getByNombreUsuario(this.session,sessionUsuario.getAttribute("usuario").toString());
+
+            this.usuario = daoUsuario.getByNombreUsuario(this.session, sessionUsuario.getAttribute("usuario").toString());
             this.transaction.commit();
-            
+
             return usuario;
-            
-        }
-        catch(Exception ex)
-        {
-            if(this.transaction!=null)
-            {
+
+        } catch (Exception ex) {
+            if (this.transaction != null) {
                 this.transaction.rollback();
             }
-            
+
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error fatal", ex.getMessage() + " Contacte al administrador"));
-            
+
             return null;
-        }
-        finally
-        {
-            if(this.transaction!=null)
-            {
+        } finally {
+            if (this.transaction != null) {
                 this.session.close();
             }
         }
     }
-    
+
     public void update() throws Exception {
 
         this.session = null;
@@ -237,7 +224,7 @@ public class MbVUsuario {
 
             DaoUsuario daoUsuario = new DaoUsuario();
             DaoRol daoRol = new DaoRol();
-            
+
             this.session = HibernateUtil.getSessionFactory().openSession();
             this.transaction = session.beginTransaction();
 
@@ -251,9 +238,16 @@ public class MbVUsuario {
             daoUsuario.update(this.session, this.usuario);
 
             this.transaction.commit();
-            
+
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Los cambios fueron guardados correctamente"));
-            this.rutaFoto = null;
+            
+            this.usuario = new Usuario();
+            this.usuario.setEstado(true);
+            this.foto = new String();
+            this.rutaFoto = new String();
+            RequestContext.getCurrentInstance().update("frmRegistrarUsuario");
+
+            RequestContext.getCurrentInstance().execute("PF('dialogoEditarUsuario').hide()");
 
         } catch (Exception ex) {
             if (this.transaction != null) {
@@ -268,64 +262,54 @@ public class MbVUsuario {
         }
 
     }
-    
-    public void actualizarAvatar()throws IOException {
+
+    public void actualizarAvatar() throws IOException {
         InputStream inputStream = null;
         OutputStream outputStream = null;
-        
-        try
-        {
-            if(this.avatar.getSize()<=0)
-            {
+
+        try {
+            if (this.avatar.getSize() <= 0) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "Ud. debe seleccionar un archivo de imagen \".png\""));
                 return;
             }
-            
+
             /*if(!this.avatar.getFileName().endsWith(".png"))
-            {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "El archivo debe ser con extensión \".png\""));
-                return;
-            }*/
-            
-            if(this.avatar.getSize()>2097152)
-            {
+             {
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "El archivo debe ser con extensión \".png\""));
+             return;
+             }*/
+            if (this.avatar.getSize() > 2097152) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "El archivo no puede ser más de 2mb"));
                 return;
             }
-            
-            ServletContext servletContext=(ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext();
-            String carpetaAvatar=(String)servletContext.getRealPath("/avatar");
-            
-            outputStream=new FileOutputStream(new File(carpetaAvatar+"/"+this.usuario.getId()+".png"));
-            inputStream=this.avatar.getInputstream();
-            
-            int read=0;
-            byte[] bytes=new byte[1024];
-            
-            while((read=inputStream.read(bytes))!=-1)
-            {
+
+            ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String carpetaAvatar = (String) servletContext.getRealPath("/avatar");
+
+            outputStream = new FileOutputStream(new File(carpetaAvatar + "/" + this.usuario.getId() + ".png"));
+            inputStream = this.avatar.getInputstream();
+
+            int read = 0;
+            byte[] bytes = new byte[1024];
+
+            while ((read = inputStream.read(bytes)) != -1) {
                 outputStream.write(bytes, 0, read);
             }
-            
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Avatar actualizado correctamente")); 
-        }
-        catch(Exception ex)
-        {
-           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error fatal", ex.getMessage() + " Contacte al administrador")); 
-        }
-        finally
-        {
-            if(inputStream!=null){
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Avatar actualizado correctamente"));
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error fatal", ex.getMessage() + " Contacte al administrador"));
+        } finally {
+            if (inputStream != null) {
                 inputStream.close();
             }
-            if(outputStream!=null){
+            if (outputStream != null) {
                 outputStream.close();
             }
         }
     }
-    
-    public void cargaUsuarioEditar(int Id)
-    {
+
+    public void cargaUsuarioEditar(int Id) {
         this.session = null;
         this.transaction = null;
 
@@ -334,16 +318,15 @@ public class MbVUsuario {
             DaoUsuario daoUsuario = new DaoUsuario();
             this.session = HibernateUtil.getSessionFactory().openSession();
             this.transaction = session.beginTransaction();
-            
+
             this.usuario = daoUsuario.getByIdUsuario(this.session, Id);
 
             RequestContext.getCurrentInstance().update("frmEditarUsuario:panelActualizarUsuario");
             RequestContext.getCurrentInstance().execute("PF('dialogoEditarUsuario').show()");
-            
-            this.transaction.commit();
-                        
-            //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Los cambios fueron guardados correctamente"));
 
+            this.transaction.commit();
+
+            //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Los cambios fueron guardados correctamente"));
         } catch (Exception ex) {
             if (this.transaction != null) {
                 this.transaction.rollback();
@@ -356,7 +339,7 @@ public class MbVUsuario {
             }
         }
     }
-    
+
     public void delete(int Id) throws Exception {
 
         this.session = null;
@@ -365,15 +348,15 @@ public class MbVUsuario {
         try {
 
             DaoUsuario daoUsuario = new DaoUsuario();
-            
+
             this.session = HibernateUtil.getSessionFactory().openSession();
             this.transaction = session.beginTransaction();
-            
+
             this.usuario = daoUsuario.getByIdUsuario(this.session, Id);
             daoUsuario.delete(this.session, this.usuario);
 
             this.transaction.commit();
-            
+
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Informacion Eliminada"));
 
         } catch (Exception ex) {
@@ -389,34 +372,32 @@ public class MbVUsuario {
         }
 
     }
-    
+
     private String getRandomImageName() {
         int i = (int) (Math.random() * 1000000000);
-         
+
         return String.valueOf(i);
     }
-    
+
     public void oncapture(CaptureEvent captureEvent) {
         this.foto = getRandomImageName();
         byte[] data = captureEvent.getData();
-         
+
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        String newFileName = servletContext.getRealPath("") + File.separator + "resources"+ File.separator + "images"+ File.separator + "usuario" + File.separator + foto + ".png";
-        
-        this.rutaFoto = this.foto+".png";
-         
+        String newFileName = servletContext.getRealPath("") + File.separator + "resources" + File.separator + "images" + File.separator + "usuario" + File.separator + foto + ".png";
+
+        this.rutaFoto = this.foto + ".png";
+
         FileImageOutputStream imageOutput;
         try {
             imageOutput = new FileImageOutputStream(new File(newFileName));
             imageOutput.write(data, 0, data.length);
             imageOutput.close();
-        }
-        catch(IOException e) {
+        } catch (IOException e) {
             throw new FacesException("Error in writing captured image.", e);
         }
-        
+
         //RequestContext.getCurrentInstance().update("frmRegistrarUsuario");
-        
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -475,10 +456,5 @@ public class MbVUsuario {
     public void setFoto(String foto) {
         this.foto = foto;
     }
-
-    
-    
-    
-    
 
 }

@@ -14,7 +14,7 @@
             </ui:define>
 
             <ui:define name="content">
-                <h2>Evaluaciones Registradas</h2>
+                <h3>Evaluaciones Registradas</h3>
                 <hr/>
                 <h:form id="frmListaObjetos">
                     <p:growl id="mensajeGeneral" sticky="false" showDetail="true"/>                    
@@ -34,7 +34,7 @@
                     </p:dataTable>
                 </h:form>
                 <h:form id="frmDetalle">
-                    <p:dialog header="Detalle" widgetVar="dialogoDetalle" style="width: auto" modal="true" resizable="true" responsive="true">
+                    <p:dialog header="Detalle" widgetVar="dialogoDetalle" style="width: auto;position: absolute" modal="true" resizable="true" responsive="true">
                         <div id="divPpal" class="ui-grid ui-grid-responsive">
                             <div class="ui-grid-row">
                                 <div class="ui-grid-col-6"><p:outputLabel style="font-weight: bold" value="Fecha: "/></div>
@@ -71,7 +71,7 @@
                             </div>
                         </div>
                     </p:dialog>
-                    <p:dialog header="Detalle" widgetVar="dialogoDetalle2" modal="true" resizable="true" responsive="true" style="max-width: 500px;" dynamic="true" >
+                    <p:dialog header="Detalle" widgetVar="dialogoDetalle2" modal="true" resizable="true" responsive="true" style="max-width: 500px;position: absolute" dynamic="true" >
                         <p:dataTable id="lista" var="item" value="#{mbVEvaluacion.listaDaniosVehiculos}" style="font-size: 10px" reflow="true" scrollable="true">
                             <f:facet name="header">
                                 Daños

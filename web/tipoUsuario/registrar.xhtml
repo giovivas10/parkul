@@ -15,7 +15,7 @@
 
             <ui:define name="content">
                 <h:form id="frmRegistrarUsuario" styleClass="form-horizontal">
-                    <h2>Registro de Tipo de Usuarios</h2>
+                    <h3>Registro de Tipo de Usuarios</h3>
                     <hr />
                     <p:growl id="mensajeGeneral" showDetail="true" sticky="false"/>
                     <div class="form-group">
@@ -37,7 +37,7 @@
 
                     <div class="form-group">
                         <div class="col-lg-offset-2 col-lg-10">
-                            <p:commandButton value="Registrar" ajax="false" actionListener="#{mbVTipoUsuario.register()}" update="frmRegistrarUsuario" styleClass="btn btn-default"/>
+                            <p:commandButton value="Registrar" ajax="true" actionListener="#{mbVTipoUsuario.register()}" update="frmRegistrarUsuario" styleClass="btn btn-default"/>
                         </div>
                     </div>
                 </h:form>

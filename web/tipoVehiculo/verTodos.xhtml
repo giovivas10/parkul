@@ -14,7 +14,7 @@
             </ui:define>
 
             <ui:define name="content">
-                <h2>Listado</h2>
+                <h3>Listado</h3>
                 <hr/>
                 <h:form id="frmListado">
                     <p:growl id="mensajeGeneral" sticky="false" showDetail="true"/>                    
@@ -50,7 +50,7 @@
                             </p:inputText>
                             <p:message for="txtNombre"/>
                             <h:panelGroup></h:panelGroup>
-                            <p:commandButton value="Actualizar" ajax="false" actionListener="#{mbVTipoVehiculo.update()}" update="frmListado"/>
+                            <p:commandButton value="Actualizar" ajax="true" actionListener="#{mbVTipoVehiculo.update()}" update="frmListado"/>
                         </p:panelGrid>
                     </p:dialog>
                 </h:form>

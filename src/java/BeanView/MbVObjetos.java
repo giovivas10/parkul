@@ -179,6 +179,8 @@ public class MbVObjetos {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Se ha actualizado correctamente"));
 
             this.objetos = new Objetos();
+            
+            RequestContext.getCurrentInstance().execute("PF('dialogoEditar').hide()");
 
         } 
         catch (Exception ex) {

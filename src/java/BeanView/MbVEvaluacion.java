@@ -105,6 +105,11 @@ public class MbVEvaluacion {
         this.bandera1 = false;
         this.bandera2 = false;
         
+        session();
+
+    }
+    ////////////////////////////////////////////////////////////////////////////
+    public final void session(){
         HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         if (httpSession.getAttribute("rol") != null) {
             String rol = httpSession.getAttribute("rol").toString();
@@ -120,9 +125,7 @@ public class MbVEvaluacion {
                     break;
             }
         }
-
     }
-    ////////////////////////////////////////////////////////////////////////////
 
     public void validarPlaca() {
         this.session = null;
@@ -138,13 +141,13 @@ public class MbVEvaluacion {
 
             if (this.propietario != null) {
                 this.tipoVehiculo.setVehiculo(this.propietario.getTipoVehiculo().getVehiculo());
-                //RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:panelRegistro");
+                RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion");
                 this.flag = true;
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "No se encontraron datos relacionados a esta placa"));
                 this.propietario = new Propietario();
                 this.tipoVehiculo = new TipoVehiculo();
-                //RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:panelRegistro");
+                RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion");
                 this.flag = false;
             }
             this.transaction.commit();
@@ -185,7 +188,11 @@ public class MbVEvaluacion {
                 this.transaction.commit();
 
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Daño agregado"));
-
+                
+                this.foto = new String();
+                this.rutaFoto = new String();
+                
+                RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:modalDialog2");
                 RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:divListaDaños");
                 RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:divDaños");
                 RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:mensajeGeneral");
@@ -195,12 +202,18 @@ public class MbVEvaluacion {
                 this.foto = new String();
                 this.rutaFoto = new String();
                 this.bandera1 = false;
+                session();
 
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe elegir un tipo de daño y una parte del vehiculo"));
                 RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:divListaDaños");
                 RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:divDaños");
                 RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:mensajeGeneral");
+                this.foto = new String();
+                this.rutaFoto = new String();
+                
+                RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:modalDialog2");
+                session();
             }
         } catch (Exception ex) {
             if (this.transaction != null) {
@@ -232,8 +245,9 @@ public class MbVEvaluacion {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Correcto", "Daño retirado de la lista"));
 
             RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:divListaDaños");
-            RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:divDaños");
-            RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:mensajeGeneral");
+                RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:divDaños");
+                RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:mensajeGeneral");
+            session();
 
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", ex.getMessage()));
@@ -260,10 +274,15 @@ public class MbVEvaluacion {
                 this.transaction.commit();
 
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Objeto agregado"));
-
+                
+                this.foto = new String();
+                this.rutaFoto = new String();
+                
+                RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:modalDialog");
                 RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:divListaObjetos");
                 RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:divObejtos");
                 RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:mensajeGeneral");
+                session();
 
                 this.objetos.setId(-1);
                 this.objetosVehiculos.setDescripcion("");
@@ -273,9 +292,15 @@ public class MbVEvaluacion {
 
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe elegir un tipo de daño y una parte del vehiculo"));
+                
+                this.foto = new String();
+                this.rutaFoto = new String();
+                
+                RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:modalDialog");
                 RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:divListaObjetos");
                 RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:divObejtos");
                 RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:mensajeGeneral");
+                session();
             }
         } catch (Exception ex) {
             if (this.transaction != null) {
@@ -309,6 +334,7 @@ public class MbVEvaluacion {
             RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:divListaObjetos");
             RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:divObejtos");
             RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:mensajeGeneral");
+            session();
 
         } catch (Exception ex) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", ex.getMessage()));
@@ -370,9 +396,11 @@ public class MbVEvaluacion {
 
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Evaluacion realizada correctamente"));
                 RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:mensajeGeneral");
+                RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion");
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe validar la placa del vehiculo"));
                 RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:mensajeGeneral");
+                RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion");
             }
 
         } catch (Exception ex) {

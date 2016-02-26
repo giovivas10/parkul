@@ -5,9 +5,12 @@
  */
 package BeanView;
 
-import Dao.DaoTipoDanio;
+import Dao.DaoEvaluacionEstadoVehicular;
+import Dao.DaoPropietario;
 import HibernateUtil.HibernateUtil;
+import java.util.Date;
 import java.util.List;
+import javax.inject.Named;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -16,28 +19,34 @@ import javax.servlet.http.HttpSession;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.primefaces.context.RequestContext;
-import pojo.ParametroEvaluacion;
+import pojo.EvaluacionEstadoVehicular;
+import pojo.Propietario;
 
 /**
  *
  * @author Giovanni
  */
+@Named(value = "mbVInforme")
 @ManagedBean
 @ViewScoped
-public class MbVTipoDanio {
+public class MbVInforme {
 
     /**
-     * Creates a new instance of MbVTipoDanio
+     * Creates a new instance of MbVInforme
      */
-    public ParametroEvaluacion tipoDanio;
-    public List<ParametroEvaluacion> listaParametroEvaluacion;
-    public List<ParametroEvaluacion> listaParametroEvaluacionFiltrada;
+    public Date fechaInicio;
+    public Date fechaFin;
+    public Propietario propietario;
+    public List<EvaluacionEstadoVehicular> listaEvaluacionVehiciluar;
+    public List<EvaluacionEstadoVehicular> listaEvaluacionVehiciluarFiltrada;
     
-    public Session session;
-    public Transaction transaction;
-    
-    public MbVTipoDanio() {
-        this.tipoDanio = new ParametroEvaluacion();
+    public String placa;
+    public String auxiliar;
+
+    private Session session;
+    private Transaction transaction;
+
+    public MbVInforme() {
         HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         if (httpSession.getAttribute("rol") != null) {
             String rol = httpSession.getAttribute("rol").toString();
@@ -54,165 +63,61 @@ public class MbVTipoDanio {
             }
         }
     }
-    
-    ///////////////////////////////////////////////////////////////////////////
-    //FUNCIONES
-    public void register() throws Exception {
 
+    public List<EvaluacionEstadoVehicular> listarPorFechas() {
         this.session = null;
         this.transaction = null;
 
         try {
+            DaoEvaluacionEstadoVehicular daoEvaluacionEstadoVehicular = new DaoEvaluacionEstadoVehicular();
 
-            DaoTipoDanio daoTipoDanio = new DaoTipoDanio();
-            
             this.session = HibernateUtil.getSessionFactory().openSession();
             this.transaction = session.beginTransaction();
 
-            daoTipoDanio.register(this.tipoDanio,this.session);
-
+            this.listaEvaluacionVehiciluar = daoEvaluacionEstadoVehicular.listadoInforme(this.session, this.fechaInicio, this.fechaFin);
             this.transaction.commit();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Se ha registrado correctamente"));
 
-            this.tipoDanio = new ParametroEvaluacion();
+            RequestContext.getCurrentInstance().update("frmListaObjetos:tbl");
 
-        } 
-        catch (Exception ex) {
+            return listaEvaluacionVehiciluar;
+
+        } catch (Exception ex) {
             if (this.transaction != null) {
                 this.transaction.rollback();
             }
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error fatal", ex.getMessage() + " Contacte al administrador"));
-        } finally {
-            if (this.transaction != null) {
-                this.session.close();
-            }
-        }
 
-    }
-    
-    public List<ParametroEvaluacion> getall(){
-        
-        this.session = null;
-        this.transaction = null;
-        
-        
-        try
-        {
-            DaoTipoDanio daoTipoDanio = new DaoTipoDanio();
-            
-            this.session = HibernateUtil.getSessionFactory().openSession();
-            this.transaction = session.beginTransaction();
-            
-            this.listaParametroEvaluacion = daoTipoDanio.getAll(this.session);
-            this.transaction.commit();
-            
-            return listaParametroEvaluacion;
-            
-        }
-        catch(Exception ex)
-        {
-            if(this.transaction!=null)
-            {
-                this.transaction.rollback();
-            }
-            
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error fatal", ex.getMessage() + " Contacte al administrador"));
-            
             return null;
-        }
-        finally
-        {
-            if(this.transaction!=null)
-            {
-                this.session.close();
-            }
-        }
-    }
-    
-    public void cargaEditar(int Id)
-    {
-        this.session = null;
-        this.transaction = null;
-
-        try {
-
-            DaoTipoDanio daoTipoDanio = new DaoTipoDanio();
-            this.session = HibernateUtil.getSessionFactory().openSession();
-            this.transaction = session.beginTransaction();
-            
-            this.tipoDanio = daoTipoDanio.getById(this.session, Id);
-
-            RequestContext.getCurrentInstance().update("frmEdita:panelActualizar");
-            RequestContext.getCurrentInstance().execute("PF('dialogoEditar').show()");
-            
-            this.transaction.commit();
-                        
-        } catch (Exception ex) {
-            if (this.transaction != null) {
-                this.transaction.rollback();
-            }
-
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error fatal", ex.getMessage() + " Contacte al administrador"));
         } finally {
             if (this.transaction != null) {
                 this.session.close();
             }
         }
     }
-    
-    public void update() throws Exception
-    {
-        this.session = null;
-        this.transaction = null;
 
-        try {
-
-            DaoTipoDanio daoTipoDanio = new DaoTipoDanio();
-            
-            this.session = HibernateUtil.getSessionFactory().openSession();
-            this.transaction = session.beginTransaction();
-
-            daoTipoDanio.update(this.tipoDanio, this.session);
-
-            this.transaction.commit();
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Se ha actualizado correctamente"));
-
-            this.tipoDanio = new ParametroEvaluacion();
-            RequestContext.getCurrentInstance().execute("PF('dialogoEditar').hide()");
-
-        } 
-        catch (Exception ex) {
-            if (this.transaction != null) {
-                this.transaction.rollback();
-            }
-
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error fatal", ex.getMessage() + " Contacte al administrador"));
-        } finally {
-            if (this.transaction != null) {
-                this.session.close();
-            }
-        }
+    public void limpiarPorFechas() {
+        this.fechaInicio = null;
+        this.fechaFin = null;
+        listarPorFechas();
     }
     
-    public void delete(int Id) throws Exception {
-
+    public List<EvaluacionEstadoVehicular> listarPorPlaca() {
         this.session = null;
         this.transaction = null;
 
         try {
+            DaoEvaluacionEstadoVehicular daoEvaluacionEstadoVehicular = new DaoEvaluacionEstadoVehicular();
 
-            DaoTipoDanio daoTipoDanio = new DaoTipoDanio();
-            
             this.session = HibernateUtil.getSessionFactory().openSession();
             this.transaction = session.beginTransaction();
-            
-            this.tipoDanio = daoTipoDanio.getById(this.session, Id);
-            daoTipoDanio.delete(this.tipoDanio, this.session);
 
+            this.listaEvaluacionVehiciluar = daoEvaluacionEstadoVehicular.listadoInformePorPlaca(this.session, this.placa);
             this.transaction.commit();
-            
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Informacion Eliminada"));
+
+            RequestContext.getCurrentInstance().update("frmListaObjetos:tbl");
+
+            return listaEvaluacionVehiciluar;
 
         } catch (Exception ex) {
             if (this.transaction != null) {
@@ -220,37 +125,164 @@ public class MbVTipoDanio {
             }
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error fatal", ex.getMessage() + " Contacte al administrador"));
+
+            return null;
         } finally {
             if (this.transaction != null) {
                 this.session.close();
             }
         }
-
-    }
-    ///////////////////////////////////////////////////////////////////////////
-
-    public ParametroEvaluacion getTipoDanio() {
-        return tipoDanio;
-    }
-
-    public void setTipoDanio(ParametroEvaluacion tipoDanio) {
-        this.tipoDanio = tipoDanio;
-    }
-
-    public List<ParametroEvaluacion> getListaParametroEvaluacion() {
-        return listaParametroEvaluacion;
-    }
-
-    public void setListaParametroEvaluacion(List<ParametroEvaluacion> listaParametroEvaluacion) {
-        this.listaParametroEvaluacion = listaParametroEvaluacion;
-    }
-
-    public List<ParametroEvaluacion> getListaParametroEvaluacionFiltrada() {
-        return listaParametroEvaluacionFiltrada;
-    }
-
-    public void setListaParametroEvaluacionFiltrada(List<ParametroEvaluacion> listaParametroEvaluacionFiltrada) {
-        this.listaParametroEvaluacionFiltrada = listaParametroEvaluacionFiltrada;
     }
     
+    public void limpiarPorPlaca() {
+        this.placa = null;
+        listarPorPlaca();
+    }
+    
+    public List<EvaluacionEstadoVehicular> listarPorAuxliar() {
+        this.session = null;
+        this.transaction = null;
+
+        try {
+            DaoEvaluacionEstadoVehicular daoEvaluacionEstadoVehicular = new DaoEvaluacionEstadoVehicular();
+
+            this.session = HibernateUtil.getSessionFactory().openSession();
+            this.transaction = session.beginTransaction();
+
+            this.listaEvaluacionVehiciluar = daoEvaluacionEstadoVehicular.listadoInformePorAuxiliar(this.session, this.auxiliar);
+            this.transaction.commit();
+
+            RequestContext.getCurrentInstance().update("frmListaObjetos:tbl");
+
+            return listaEvaluacionVehiciluar;
+
+        } catch (Exception ex) {
+            if (this.transaction != null) {
+                this.transaction.rollback();
+            }
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error fatal", ex.getMessage() + " Contacte al administrador"));
+
+            return null;
+        } finally {
+            if (this.transaction != null) {
+                this.session.close();
+            }
+        }
+    }
+    
+    public void limpiarPorAuxiliar() {
+        this.auxiliar = null;
+        listarPorAuxliar();
+    }
+
+    public String retornaNombrePropietario(int id) throws Exception {
+
+        this.session = null;
+        this.transaction = null;
+        try {
+            this.session = HibernateUtil.getSessionFactory().openSession();
+            this.transaction = session.beginTransaction();
+
+            DaoPropietario daoPropietario = new DaoPropietario();
+            this.propietario = daoPropietario.getByIdPropietario(this.session, id);
+            this.transaction.commit();
+
+            return propietario.getNombres() + " " + propietario.getApellidos();
+        } catch (Exception ex) {
+            if (this.transaction != null) {
+                this.transaction.rollback();
+            }
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error fatal", ex.getMessage() + " Contacte al administrador"));
+            return null;
+        } finally {
+            if (this.transaction != null) {
+                this.session.close();
+            }
+        }
+    }
+
+    public String retornaTelefono(int id) throws Exception {
+
+        this.session = null;
+        this.transaction = null;
+        try {
+            this.session = HibernateUtil.getSessionFactory().openSession();
+            this.transaction = session.beginTransaction();
+
+            DaoPropietario daoPropietario = new DaoPropietario();
+            this.propietario = daoPropietario.getByIdPropietario(this.session, id);
+            this.transaction.commit();
+
+            return propietario.getTelefono();
+        } catch (Exception ex) {
+            if (this.transaction != null) {
+                this.transaction.rollback();
+            }
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error fatal", ex.getMessage() + " Contacte al administrador"));
+            return null;
+        } finally {
+            if (this.transaction != null) {
+                this.session.close();
+            }
+        }
+    }
+    
+    public String randomName() {
+        int i = (int) (Math.random() * 10000);
+
+        return String.valueOf(i);
+    }
+    //////////////////////////////////////////////////////////////////////////
+
+    public Date getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public Date getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(Date fechaFin) {
+        this.fechaFin = fechaFin;
+    }
+
+    public List<EvaluacionEstadoVehicular> getListaEvaluacionVehiciluar() {
+        return listaEvaluacionVehiciluar;
+    }
+
+    public void setListaEvaluacionVehiciluar(List<EvaluacionEstadoVehicular> listaEvaluacionVehiciluar) {
+        this.listaEvaluacionVehiciluar = listaEvaluacionVehiciluar;
+    }
+
+    public List<EvaluacionEstadoVehicular> getListaEvaluacionVehiciluarFiltrada() {
+        return listaEvaluacionVehiciluarFiltrada;
+    }
+
+    public void setListaEvaluacionVehiciluarFiltrada(List<EvaluacionEstadoVehicular> listaEvaluacionVehiciluarFiltrada) {
+        this.listaEvaluacionVehiciluarFiltrada = listaEvaluacionVehiciluarFiltrada;
+    }
+
+    public String getPlaca() {
+        return placa;
+    }
+
+    public void setPlaca(String placa) {
+        this.placa = placa;
+    }
+
+    public String getAuxiliar() {
+        return auxiliar;
+    }
+
+    public void setAuxiliar(String auxiliar) {
+        this.auxiliar = auxiliar;
+    }
+    
+    
+
 }
