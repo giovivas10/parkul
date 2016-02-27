@@ -52,10 +52,10 @@
                             <p:column headerText="Propietario" filterBy="documento">
                                 <h:outputText value="#{mbVInforme.retornaNombrePropietario(item.propietario.id)}" />
                             </p:column>
-                            <p:column headerText="Teléfono" filterBy="Telefono">
+                            <p:column headerText="Telefono" filterBy="Telefono">
                                 <h:outputText value="#{mbVInforme.retornaTelefono(item.propietario.id)}" />
                             </p:column>
-                            <p:column headerText="Tiene Daños" >
+                            <p:column headerText="Tiene Danos" >
                                 <h:outputText value="#{item.poseeDanios == true ? 'Si':'No'}" />
                             </p:column>
                             <p:column headerText="Tiene Objetos" >
