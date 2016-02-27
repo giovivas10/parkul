@@ -233,6 +233,10 @@ public class MbVInforme {
 
         return String.valueOf(i);
     }
+    
+    public void refrescar(){
+        RequestContext.getCurrentInstance().update("frmListaObjetos");
+    }
     //////////////////////////////////////////////////////////////////////////
 
     public Date getFechaInicio() {

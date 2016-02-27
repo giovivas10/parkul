@@ -25,7 +25,7 @@
                         <p:column headerText="Nombre" filterBy="nombre">
                             <h:outputText value="#{item.nombre}" />
                         </p:column>
-                        <p:column headerText="Descripcion">
+                        <p:column headerText="Descripción">
                             <h:outputText value="#{item.descripcion}" />
                         </p:column>
                         <p:column headerText="Actualizar" width="150">
@@ -52,7 +52,7 @@
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
                             <p:message for="txtNombre"/>
-                            <p:outputLabel value="Descripcion" for="txtDesripcion"/>
+                            <p:outputLabel value="Descripción" for="txtDesripcion"/>
                             <p:inputTextarea id="txtDesripcion" style="height: 50px;width: 378px;" label="Descripcion" value="#{mbVTipoUsuario.tipoUsuario.descripcion}"/>
                             <p:message for="txtDesripcion"/>
                             <h:panelGroup></h:panelGroup>

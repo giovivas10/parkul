@@ -63,35 +63,14 @@ public class MbSLogin {
             Usuario usuarioConsulta = daoUsuario.getByNombreUsuario(this.session, this.usuario);
             //int rol = usuarioConsulta.getRol().getId();
 
-            if (usuarioConsulta != null) {
+            if (usuarioConsulta != null && usuarioConsulta.getEstado()!=false) {
                 if (usuarioConsulta.getContrasenia().equals(EncryptMD5.encriptaEnMD5(this.contrasenia))) {
                     //if(rol==1){
                     HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
                     httpSession.setAttribute("usuario", this.usuario);
                     httpSession.setAttribute("rol", usuarioConsulta.getRol().getId());
                     this.rol = usuarioConsulta.getRol().getId();
-                    
-                    /*if (this.rol == 1) {
-                        mostrarAdmin = true;
-                        mostrarAuxiliar = false;
-                        mostrarRegistrador = false;
-                    } 
-                    else if(this.rol == 2){
-                        mostrarAdmin = false;
-                        mostrarAuxiliar = true;
-                        mostrarRegistrador = false;
-                    }
-                    else if(this.rol == 3){
-                        mostrarAdmin = false;
-                        mostrarAuxiliar = false;
-                        mostrarRegistrador = true;
-                    }
-                    else {
-                        mostrarAdmin = false;
-                        mostrarAuxiliar = false;
-                        mostrarRegistrador = false;
-                    }*/
-                    
+                                        
                     if (this.rol == 1) {
                         RequestContext.getCurrentInstance().execute("mostrarMenu('liParametros,liUsuario,liPropietarios,liAuxiliar,liInformes')");
                     } 

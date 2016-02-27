@@ -15,11 +15,11 @@
 
             <ui:define name="content">
                 <h:form id="frmRegistrarParteVehiculo" styleClass="form-horizontal">
-                    <h3>Registro de Partes de vehiculo</h3>
+                    <h3>Registro de Partes de vehículo</h3>
                     <hr />
                     <p:growl id="mensajeGeneral" showDetail="true" sticky="false"/>
                     <div class="form-group">
-                        <p:outputLabel value="Parte Vehiculo" for="txtObjeto" styleClass="col-xs-2 control-label"/>
+                        <p:outputLabel value="Parte Vehículo" for="txtObjeto" styleClass="col-xs-2 control-label"/>
                         <div class="col-lg-10">
                             <p:inputText id="txtObjeto" label="Objeto" size="50" value="#{mbVParteVehiculo.parteVehiculo.nombre}" styleClass="tamanioInputText form-control">
                                 <f:validator validatorId="validarVacio"/>

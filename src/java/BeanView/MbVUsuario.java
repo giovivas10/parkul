@@ -245,8 +245,7 @@ public class MbVUsuario {
             this.usuario.setEstado(true);
             this.foto = new String();
             this.rutaFoto = new String();
-            RequestContext.getCurrentInstance().update("frmRegistrarUsuario");
-
+            RequestContext.getCurrentInstance().update("frmListaUsuario");
             RequestContext.getCurrentInstance().execute("PF('dialogoEditarUsuario').hide()");
 
         } catch (Exception ex) {

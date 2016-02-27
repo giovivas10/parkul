@@ -46,14 +46,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <p:outputLabel value="Tipo de vehiculo" for="txtTipoVehiculo" styleClass="col-lg-2 control-label"/>
+                        <p:outputLabel value="Tipo de vehículo" for="txtTipoVehiculo" styleClass="col-lg-2 control-label"/>
                         <div class="col-lg-10">
                             <p:inputText id="txtTipoVehiculo" value="#{mbVEvaluacion.tipoVehiculo.vehiculo}" label="Tipo de vehiculo" disabled="true" styleClass="tamanioInputText form-control"/>
                             <p:message for="txtTipoVehiculo"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <p:outputLabel value="Cedula" for="txtCedula" styleClass="col-lg-2 control-label"/>
+                        <p:outputLabel value="Cédula" for="txtCedula" styleClass="col-lg-2 control-label"/>
                         <div class="col-lg-10">
                             <p:inputText id="txtCedula" value="#{mbVEvaluacion.propietario.documento}" label="Cedula" disabled="true" styleClass="tamanioInputText form-control"/>
                             <p:message for="txtCedula"/>
@@ -74,7 +74,7 @@
                         <p:message for="txtApellidos"/>
                     </div>
                     <div class="form-group">
-                        <p:outputLabel value="Telefono" for="txtTelefono" styleClass="col-lg-2 control-label"/>
+                        <p:outputLabel value="Teléfono" for="txtTelefono" styleClass="col-lg-2 control-label"/>
                         <div class="col-lg-10">
                             <p:inputText id="txtTelefono" value="#{mbVEvaluacion.propietario.telefono}" label="Telefono" disabled="true" styleClass="tamanioInputText form-control"/>
                             <p:message for="txtTelefono"/>
@@ -99,7 +99,7 @@
                                     <f:selectItems value="#{mbRCargarSelects.listaTipoDanio}"/>
                                 </h:selectOneMenu>
                             </div>
-                            <p:outputLabel value="Parte Vehiculo" for="selParteVehiculo" styleClass="col-lg-2 control-label" rendered="#{mbVEvaluacion.evaluacionEstadoVehicular.poseeDanios}"/> 
+                            <p:outputLabel value="Parte Vehículo" for="selParteVehiculo" styleClass="col-lg-2 control-label" rendered="#{mbVEvaluacion.evaluacionEstadoVehicular.poseeDanios}"/> 
                             <div class="col-lg-10">
                                 <h:selectOneMenu id="selParteVehiculo" value="#{mbVEvaluacion.parteVehiculo.id}" styleClass="tamanioSelect form-control" rendered="#{mbVEvaluacion.evaluacionEstadoVehicular.poseeDanios}">
                                     <f:selectItems value="#{mbRCargarSelects.listaParteVehiculo}"/>
@@ -122,7 +122,7 @@
                                     <p:column headerText="Daño">
                                         <h:outputText value="#{item.parametroEvaluacion.nombre}" />
                                     </p:column>
-                                    <p:column headerText="Parte Vehiculo" >
+                                    <p:column headerText="Parte Vehículo" >
                                         <h:outputText value="#{item.parteVehiculo.nombre}" />
                                     </p:column>
                                     <p:column headerText="Eliminar" width="100">
@@ -152,7 +152,7 @@
                                     <f:selectItems value="#{mbRCargarSelects.listaObjetos}"/>
                                 </h:selectOneMenu>
                             </div>
-                            <p:outputLabel value="Descrpcion" for="txtDescripcion" rendered="#{mbVEvaluacion.evaluacionEstadoVehicular.poseeObjetos}" styleClass="col-lg-2 control-label"/>
+                            <p:outputLabel value="Descripción" for="txtDescripcion" rendered="#{mbVEvaluacion.evaluacionEstadoVehicular.poseeObjetos}" styleClass="col-lg-2 control-label"/>
                             <div class="col-lg-10">
                                 <p:inputText id="txtDescripcion" value="#{mbVEvaluacion.objetosVehiculos.descripcion}" label="Descripcion" size="35" rendered="#{mbVEvaluacion.evaluacionEstadoVehicular.poseeObjetos}" styleClass="tamanioInputText form-control"/>
                             </div>
@@ -173,7 +173,7 @@
                                     <p:column headerText="Objeto">
                                         <h:outputText value="#{item.objetos.nombre}" />
                                     </p:column>
-                                    <p:column headerText="Descripcion" >
+                                    <p:column headerText="Descripción" >
                                         <h:outputText value="#{item.descripcion}" />
                                     </p:column>
                                     <p:column headerText="Eliminar" width="100">

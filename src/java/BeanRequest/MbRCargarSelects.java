@@ -10,6 +10,7 @@ import Dao.DaoParteVehiculo;
 import Dao.DaoTipoDanio;
 import Dao.DaoTipoUsuario;
 import Dao.DaoTipoVehiculo;
+import Dao.DaoUsuario;
 import HibernateUtil.HibernateUtil;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ import pojo.ParametroEvaluacion;
 import pojo.ParteVehiculo;
 import pojo.TipoUsuario;
 import pojo.TipoVehiculo;
+import pojo.Usuario;
 
 /**
  *
@@ -52,6 +54,9 @@ public class MbRCargarSelects {
     
     private List<SelectItem> listaObjetos;
     private Objetos objetos;
+    
+    private List<SelectItem> listaUsuarios;
+    private Usuario usuario;
 
     public MbRCargarSelects() {
         this.tipoUsuario = new TipoUsuario();
@@ -261,6 +266,49 @@ public class MbRCargarSelects {
         }
     }
     
+    public List<SelectItem> getListaUsuarios() {
+        this.session = null;
+        this.transaction = null;
+
+        try 
+        {
+            this.listaUsuarios = new ArrayList<>();
+            DaoUsuario daoUsuario = new DaoUsuario();
+
+            this.session = HibernateUtil.getSessionFactory().openSession();
+            this.transaction = this.session.beginTransaction();
+
+            List<Usuario> lista = daoUsuario.getAll(this.session);
+            this.transaction.commit();
+            
+            SelectItem items = new SelectItem("-1","Seleccione...");
+            this.listaUsuarios.add(items);
+            
+            for (Usuario var : lista) {
+                items = new SelectItem(var.getUsuario(),var.getNombre());
+                this.listaUsuarios.add(items);
+            }
+            
+            return listaUsuarios;
+        } 
+        catch (Exception ex) 
+        {
+            if(this.transaction!=null)
+            {
+                this.transaction.rollback();
+            }
+            
+            return null;
+        } 
+        finally 
+        {
+            if(this.transaction!=null)
+            {
+                this.session.close();
+            }
+        }
+    }
+    
     ///////////////////////////////////////////////////////////////////////////////////////
     public TipoVehiculo getTipoVehiculo() {
         return tipoVehiculo;
@@ -321,5 +369,20 @@ public class MbRCargarSelects {
     public void setObjetos(Objetos objetos) {
         this.objetos = objetos;
     }
+
+    
+
+    public void setListaUsuarios(List<SelectItem> listaUsuarios) {
+        this.listaUsuarios = listaUsuarios;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
     
  }

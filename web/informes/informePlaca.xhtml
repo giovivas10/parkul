@@ -14,7 +14,7 @@
             </ui:define>
 
             <ui:define name="content">
-                <h3>Informe por Placa</h3>
+                <h3>Reporte por Placa</h3>
                 <hr/>
                 <h:form id="frmListaObjetos">
                     <p:growl id="mensajeGeneral" sticky="false" showDetail="true"/>    
@@ -52,7 +52,7 @@
                             <p:column headerText="Propietario" filterBy="documento">
                                 <h:outputText value="#{mbVInforme.retornaNombrePropietario(item.propietario.id)}" />
                             </p:column>
-                            <p:column headerText="Telefono" filterBy="Telefono">
+                            <p:column headerText="Teléfono" filterBy="Telefono">
                                 <h:outputText value="#{mbVInforme.retornaTelefono(item.propietario.id)}" />
                             </p:column>
                             <p:column headerText="Tiene Daños" >

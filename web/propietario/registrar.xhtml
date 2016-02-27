@@ -37,7 +37,7 @@
                     </div>    
 
                     <div class="form-group">
-                        <h:outputLabel value="Tipo Vehiculo: " for="selTipoVehiculo" styleClass="col-lg-2 control-label"/>
+                        <h:outputLabel value="Tipo Vehículo: " for="selTipoVehiculo" styleClass="col-lg-2 control-label"/>
                         <div class="col-lg-10">
                             <h:selectOneMenu id="selTipoVehiculo" value="#{mbVPropietario.tipoVehiculo.id}" styleClass="tamanioSelect form-control">
                                 <f:selectItems value="#{mbRCargarSelects.listaTipoVehiculo}"/>
@@ -49,7 +49,7 @@
                     <div class="form-group">
                         <p:outputLabel value="Documento" for="txtDocumento" styleClass="col-lg-2 control-label"/>
                         <div class="col-lg-10">
-                            <p:inputText id="txtDocumento" label="Tipo Vehiculo" size="50" value="#{mbVPropietario.propietario.documento}" styleClass="tamanioInputText form-control">
+                            <p:inputText onkeypress="return checkIt(event)" maxlength="10" id="txtDocumento" label="Tipo Vehiculo" size="50" value="#{mbVPropietario.propietario.documento}" styleClass="tamanioInputText form-control">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
                         </div>
@@ -77,9 +77,9 @@
                     </div>
 
                     <div class="form-group">
-                        <p:outputLabel value="Telefono" for="txtTelefono" styleClass="col-lg-2 control-label"/>
+                        <p:outputLabel value="Teléfono" for="txtTelefono" styleClass="col-lg-2 control-label"/>
                         <div class="col-lg-10">
-                            <p:inputText id="txtTelefono" label="Apellidos" value="#{mbVPropietario.propietario.telefono}" styleClass="tamanioInputText form-control">
+                            <p:inputText id="txtTelefono" maxlength="10" onkeypress="return checkIt(event)" label="Apellidos" value="#{mbVPropietario.propietario.telefono}" styleClass="tamanioInputText form-control">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
                             <p:message for="txtTelefono"/>
@@ -99,7 +99,7 @@
                     </div>
 
                     <div class="form-group">
-                        <p:outputLabel value="Placa Vehiculo" for="txtPlaca" styleClass="col-lg-2 control-label"/>
+                        <p:outputLabel value="Placa Vehículo" for="txtPlaca" styleClass="col-lg-2 control-label"/>
                         <div class="col-lg-10">
                             <p:inputText id="txtPlaca" label="Placa" value="#{mbVPropietario.propietario.placa}" styleClass="tamanioInputText form-control">
                                 <f:validator validatorId="validarVacio"/>
@@ -144,23 +144,6 @@
                         </div>
                     </div>
                     <p:dialog style="position: absolute" id="modalDialog" header="Foto" widgetVar="dlg2" modal="true" responsive="true" resizable="false" position="top">
-                        <!--<p:panelGrid columns="1" styleClass="ui-panelgrid-blank" layout="grid" id="panelfoto">
-                            <h:panelGroup id="Upload1">  
-                                <p:panelGrid columns="1" styleClass="ui-panelgrid-blank" layout="grid">
-                                    <p:photoCam widgetVar="pc" listener="# {mbVPropietario.oncapture}" width="250"/>
-                                    <p:commandButton type="button" value="Capture" onclick="PF('pc').capture();" ajax="true"/>
-                                </p:panelGrid>
-                            </h:panelGroup>
-                            <h:panelGroup id="Upload2">  
-                                <p:imageSwitch effect="zoom" id="foto">
-                                    <ui:repeat value="# {mbVPropietario.foto}" var="photo">
-                                        <p:graphicImage value="# {pageContext.contextPath}/resources/images/propietario/# {mbVPropietario.foto}.png" cache="false" />
-                                        <p:commandButton type="button" value="Guardar" ajax="true"/>
-                                    </ui:repeat>
-                                </p:imageSwitch>
-                            </h:panelGroup>
-                        </p:panelGrid>-->
-
                         <p:outputPanel id="outputPanelStudentUpload">
                             <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank" id="panelFoto">  
                                 <h:panelGroup>  

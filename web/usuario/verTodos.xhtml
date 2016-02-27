@@ -34,7 +34,7 @@
                             <h:outputText value="#{item.documento}" />
                         </p:column>
                         <p:column headerText="Actualizar" width="150">
-                            <p:commandButton value="Actualizar" actionListener="#{mbVUsuario.cargaUsuarioEditar(item.id)}" />
+                            <p:commandButton ajax="true" value="Actualizar" actionListener="#{mbVUsuario.cargaUsuarioEditar(item.id)}" />
                         </p:column>
                         <p:column headerText="Eliminar" width="150">
                             <p:commandButton value="Eliminar" actionListener="#{mbVUsuario.delete(item.id)}" update="listaUsuario">
@@ -62,17 +62,17 @@
                             <h:outputText value="#{mbVUsuario.usuario.nombre}" />
                             <p:outputLabel style="font-weight: bold" value="Documento: "/>
                             <h:outputText value="#{mbVUsuario.usuario.documento}" />
-                            <p:outputLabel style="font-weight: bold" value="Correo Electronico: "/>
+                            <p:outputLabel style="font-weight: bold" value="Correo Electrónico: "/>
                             <h:outputText value="#{mbVUsuario.usuario.email}" />
-                            <p:outputLabel style="font-weight: bold" value="Telefono "/>
+                            <p:outputLabel style="font-weight: bold" value="Teléfono "/>
                             <h:outputText value="#{mbVUsuario.usuario.telefono}" />
-                            <p:outputLabel style="font-weight: bold" value="Direccion "/>
+                            <p:outputLabel style="font-weight: bold" value="Dirección "/>
                             <h:outputText value="#{mbVUsuario.usuario.direccion}" />
                         </p:panelGrid>
                     </p:dialog>
                 </h:form>
                 <h:form id="frmEditarUsuario">
-                    <p:dialog appendTo="@(body)" style="position: absolute" dynamic="true" draggable="true" header="Editar Usuario" widgetVar="dialogoEditarUsuario" modal="true" resizable="false" responsive="true">
+                    <p:dialog style="position: absolute" header="Editar Usuario" widgetVar="dialogoEditarUsuario" modal="true" resizable="false" responsive="true">
                         <p:panelGrid columns="3" id="panelActualizarUsuario" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4,ui-grid-col-8">
                             <p:outputLabel value="Usuario" for="txtUsuario"/>
                             <p:inputText id="txtUsuario" label="Usuario" value="#{mbVUsuario.usuario.usuario}" disabled="true">
@@ -102,12 +102,12 @@
                                 <p:tooltip for="txtEmail" showEvent="focus" hideEvent="blur"/>
                                 <p:message for="txtEmail"/>
                             </h:panelGroup>
-                            <p:outputLabel value="Telefono" for="txtTelefono"/>
+                            <p:outputLabel value="Teléfono" for="txtTelefono"/>
                             <p:inputText id="txtTelefono" label="Telefono" value="#{mbVUsuario.usuario.telefono}">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
                             <p:message for="txtTelefono"/>
-                            <p:outputLabel value="Direccion" for="txtDireccion"/>
+                            <p:outputLabel value="Dirección" for="txtDireccion"/>
                             <p:inputText id="txtDireccion" label="Direccion" value="#{mbVUsuario.usuario.direccion}">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>

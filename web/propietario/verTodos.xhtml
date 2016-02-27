@@ -33,7 +33,7 @@
                         <p:column headerText="Apellidos" >
                             <h:outputText value="#{item.apellidos}" />
                         </p:column>
-                        <p:column headerText="Telefono" >
+                        <p:column headerText="Teléfono" >
                             <h:outputText value="#{item.telefono}" />
                         </p:column>
                         <p:column headerText="Email" >
@@ -74,18 +74,18 @@
                             <h:outputText value="#{mbVPropietario.propietario.nombres}" />
                             <p:outputLabel style="font-weight: bold" value="Apellidos: "/>
                             <h:outputText value="#{mbVPropietario.propietario.apellidos}" />
-                            <p:outputLabel style="font-weight: bold" value="Telefono: "/>
+                            <p:outputLabel style="font-weight: bold" value="Teléfono: "/>
                             <h:outputText value="#{mbVPropietario.propietario.telefono}" />
                             <p:outputLabel style="font-weight: bold" value="Email: "/>
                             <h:outputText value="#{mbVPropietario.propietario.email}" />
-                            <p:outputLabel style="font-weight: bold" value="Placa Vehiculo "/>
+                            <p:outputLabel style="font-weight: bold" value="Placa Vehículo "/>
                             <h:outputText value="#{mbVPropietario.propietario.placa}" />
                         </p:panelGrid>
                     </p:dialog>
 
                 </h:form>
                 <h:form id="frmEditarPropietario">
-                    <p:dialog header="Editar Propietario" widgetVar="dialogoEditarPropietario" appendTo="@(body)" style="position: absolute" dynamic="true" draggable="true"  modal="true" resizable="false" responsive="true">
+                    <p:dialog header="Editar Propietario" widgetVar="dialogoEditarPropietario" style="position: absolute" modal="true" resizable="false" responsive="true">
                         <p:panelGrid columns="3" id="panelActualizarPropietario" layout="grid" styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-4,ui-grid-col-8">
                             <h:panelGroup></h:panelGroup>
                             <p:commandButton id="modalDialogButton" value="Foto" onclick="PF('dlg2').show();" type="button"/>
@@ -95,7 +95,7 @@
                                 <f:selectItems value="#{mbRCargarSelects.listaTipoUsuario}"/>
                             </p:selectOneMenu> 
                             <p:message for="selTipoUsuario"/>
-                            <h:outputLabel value="Tipo de Vehiculo: " for="selTipoVehiculo"/>
+                            <h:outputLabel value="Tipo de Vehículo: " for="selTipoVehiculo"/>
                             <p:selectOneMenu id="selTipoVehiculo" value="#{mbVPropietario.tipoVehiculo.id}">
                                 <f:selectItems value="#{mbRCargarSelects.listaTipoVehiculo}"/>
                             </p:selectOneMenu> 
@@ -115,13 +115,13 @@
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
                             <p:message for="txtApellidos"/>
-                            <p:outputLabel value="Telefono" for="txtTelefono"/>
+                            <p:outputLabel value="Teléfono" for="txtTelefono"/>
                             <p:inputText id="txtTelefono" label="Apellidos" value="#{mbVPropietario.propietario.telefono}">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
                             <p:message for="txtTelefono"/>
                             <p:outputLabel value="Email" for="txtEmail"/>
-                            <p:inputText id="txtEmail" label="Telefono" title="Ejemplo: pedro@dominio.com" value="#{mbVPropietario.propietario.email}">
+                            <p:inputText id="txtEmail" label="Email" title="Ejemplo: pedro@dominio.com" value="#{mbVPropietario.propietario.email}">
                                 <f:validator validatorId="validarVacio"/>
                                 <f:validator validatorId="validarEmail"/>
                             </p:inputText>
@@ -129,7 +129,7 @@
                                 <p:tooltip for="txtEmail" showEvent="focus" hideEvent="blur"/>
                                 <p:message for="txtEmail"/>
                             </h:panelGroup>
-                            <p:outputLabel value="Placa Vehiculo" for="txtPlaca"/>
+                            <p:outputLabel value="Placa Vehículo" for="txtPlaca"/>
                             <p:inputText id="txtPlaca" label="Placa" value="#{mbVPropietario.propietario.placa}">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>

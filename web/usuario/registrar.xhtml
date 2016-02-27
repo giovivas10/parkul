@@ -51,7 +51,7 @@
                     <div class="form-group">
                         <p:outputLabel value="Documento" for="txtDocumento" styleClass="col-lg-2 control-label"/>
                         <div class="col-lg-4">
-                            <p:inputText id="txtDocumento" label="Documento" size="50" value="#{mbVUsuario.usuario.documento}" styleClass="tamanioInputText form-control">
+                            <p:inputText onkeypress="return checkIt(event)" maxlength="10" id="txtDocumento" label="Documento" size="50" value="#{mbVUsuario.usuario.documento}" styleClass="tamanioInputText form-control">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
                         </div>
@@ -67,7 +67,7 @@
                         <p:message for="txtContrasena"/>
                     </div>
                     <div class="form-group">
-                        <p:outputLabel value="Repita contraseña" for="txtContrasenaRepita" styleClass="col-lg-2 control-label"/>
+                        <p:outputLabel value="Confirmar contraseña" for="txtContrasenaRepita" styleClass="col-lg-2 control-label"/>
                         <div class="col-lg-4">
                             <p:password id="txtContrasenaRepita" label="Contrasenia Repita" size="50" value="#{mbVUsuario.txtContrasenaRepita}" styleClass="tamanioInputText form-control"/>
                         </div>
@@ -84,16 +84,16 @@
                         <p:message for="txtEmail"/>
                     </div>
                     <div class="form-group">
-                        <p:outputLabel value="Telefono" for="txtTelefono" styleClass="col-lg-2 control-label"/>
+                        <p:outputLabel value="Teléfono" for="txtTelefono" styleClass="col-lg-2 control-label"/>
                         <div class="col-lg-4">
-                            <p:inputText id="txtTelefono" label="Telefono" size="50" value="#{mbVUsuario.usuario.telefono}" styleClass="tamanioInputText form-control">
+                            <p:inputText maxlength="10" onkeypress="return checkIt(event)" id="txtTelefono" label="Telefono" size="50" value="#{mbVUsuario.usuario.telefono}" styleClass="tamanioInputText form-control">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
                         </div>
                         <p:message for="txtTelefono"/>
                     </div>
                     <div class="form-group">
-                        <p:outputLabel value="Direccion" for="txtDireccion" styleClass="col-lg-2 control-label"/>
+                        <p:outputLabel value="Dirección" for="txtDireccion" styleClass="col-lg-2 control-label"/>
                         <div class="col-lg-4">
                             <p:inputText id="txtDireccion" label="Direccion" size="50" value="#{mbVUsuario.usuario.direccion}" styleClass="tamanioInputText form-control">
                                 <f:validator validatorId="validarVacio"/>

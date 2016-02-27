@@ -11,6 +11,8 @@
         <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
         
         <h:outputScript name="bootstrap.min.js" library="js"/>
+        <h:outputScript name="validate.js" library="js"/>
+        
         <h:outputStylesheet name="./css/default.css"/>
         <h:outputStylesheet name="./css/cssLayout.css"/>
         <h:outputStylesheet name="./css/bootstrap.min.css"/>
@@ -57,11 +59,11 @@
                                         <li><a href="/parkUL/faces/tiposDaños/registrar.xhtml">Registrar</a></li>
                                         <li><a href="/parkUL/faces/tiposDaños/verTodos.xhtml">Ver</a></li>
                                         <li role="separator" class="divider"></li>
-                                        <li class="dropdown-header">Tipo Vehiculo</li>
+                                        <li class="dropdown-header">Tipo Vehículo</li>
                                         <li><a href="/parkUL/faces/tipoVehiculo/registrar.xhtml">Registrar</a></li>
                                         <li><a href="/parkUL/faces/tipoVehiculo/verTodos.xhtml">Ver</a></li>
                                         <li role="separator" class="divider"></li>
-                                        <li class="dropdown-header">Partes Vehiculos</li>
+                                        <li class="dropdown-header">Partes Vehículos</li>
                                         <li><a href="/parkUL/faces/partesVehiculo/registrar.xhtml">Registrar</a></li>
                                         <li><a href="/parkUL/faces/partesVehiculo/verTodos.xhtml">Ver</a></li>
                                     </ul>
@@ -88,7 +90,7 @@
                                     </ul>
                                 </li>
                                 <li class="dropdown" id="liInformes" style="display: none">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Informes<span class="caret"></span></a>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reportes<span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li><a href="/parkUL/faces/informes/informeFechas.xhtml">Fechas</a></li>
                                         <li><a href="/parkUL/faces/informes/informePlaca.xhtml">Placa</a></li>
@@ -114,6 +116,8 @@
         <div id="bottom" class="bottom" name="bottom">
             <p:separator />
             Universidad Libre de Colombia
+            <br/>
+            v.1.0 - 2016
             <ui:insert name="bottom"></ui:insert>
         </div>
 
