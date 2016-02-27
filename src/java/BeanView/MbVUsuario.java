@@ -54,15 +54,14 @@ public class MbVUsuario {
 
     private String txtContrasenaRepita;
     private int rolSelect;
-    private UploadedFile avatar;
 
     public MbVUsuario() {
         this.usuario = new Usuario();
         this.usuario.setEstado(true);
         HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         if (httpSession.getAttribute("rol") != null) {
-            String rol = httpSession.getAttribute("rol").toString();
-            switch (rol) {
+            String rol1 = httpSession.getAttribute("rol").toString();
+            switch (rol1) {
                 case "1":
                     RequestContext.getCurrentInstance().execute("mostrarMenu('liParametros,liUsuario,liPropietarios,liAuxiliar,liInformes')");
                     break;
@@ -262,52 +261,6 @@ public class MbVUsuario {
 
     }
 
-    public void actualizarAvatar() throws IOException {
-        InputStream inputStream = null;
-        OutputStream outputStream = null;
-
-        try {
-            if (this.avatar.getSize() <= 0) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "Ud. debe seleccionar un archivo de imagen \".png\""));
-                return;
-            }
-
-            /*if(!this.avatar.getFileName().endsWith(".png"))
-             {
-             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "El archivo debe ser con extensión \".png\""));
-             return;
-             }*/
-            if (this.avatar.getSize() > 2097152) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "El archivo no puede ser más de 2mb"));
-                return;
-            }
-
-            ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-            String carpetaAvatar = (String) servletContext.getRealPath("/avatar");
-
-            outputStream = new FileOutputStream(new File(carpetaAvatar + "/" + this.usuario.getId() + ".png"));
-            inputStream = this.avatar.getInputstream();
-
-            int read = 0;
-            byte[] bytes = new byte[1024];
-
-            while ((read = inputStream.read(bytes)) != -1) {
-                outputStream.write(bytes, 0, read);
-            }
-
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Avatar actualizado correctamente"));
-        } catch (Exception ex) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error fatal", ex.getMessage() + " Contacte al administrador"));
-        } finally {
-            if (inputStream != null) {
-                inputStream.close();
-            }
-            if (outputStream != null) {
-                outputStream.close();
-            }
-        }
-    }
-
     public void cargaUsuarioEditar(int Id) {
         this.session = null;
         this.transaction = null;
@@ -325,7 +278,6 @@ public class MbVUsuario {
 
             this.transaction.commit();
 
-            //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Los cambios fueron guardados correctamente"));
         } catch (Exception ex) {
             if (this.transaction != null) {
                 this.transaction.rollback();
@@ -438,14 +390,6 @@ public class MbVUsuario {
 
     public void setListaUsuarioFiltrado(List<Usuario> listaUsuarioFiltrado) {
         this.listaUsuarioFiltrado = listaUsuarioFiltrado;
-    }
-
-    public UploadedFile getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(UploadedFile avatar) {
-        this.avatar = avatar;
     }
 
     public String getFoto() {
