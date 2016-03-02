@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.faces.FacesException;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -42,26 +44,25 @@ public class MbVPropietario {
      */
     private Session session;
     private Transaction transaction;
-    
-    
+
     private Propietario propietario;
     private TipoUsuario tipoUsuario;
     private TipoVehiculo tipoVehiculo;
-    
+
     private List<Propietario> listaPropietario;
     private List<Propietario> listaPropietarioFiltrado;
-    
+
     private String foto;
     private String rutaFoto;
-    
+
     public MbVPropietario() {
         this.propietario = new Propietario();
         this.tipoUsuario = new TipoUsuario();
         this.tipoVehiculo = new TipoVehiculo();
-        
+
         Calendar fecha = Calendar.getInstance();
         this.propietario.setModelo(fecha.getWeekYear());
-        
+
         HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         if (httpSession.getAttribute("rol") != null) {
             String rol = httpSession.getAttribute("rol").toString();
@@ -78,23 +79,50 @@ public class MbVPropietario {
             }
         }
     }
-    
+
     ///////////////////////////////////////////////////////////////////////////
     //FUNCIONES
     public void register() throws Exception {
 
         this.session = null;
         this.transaction = null;
+        Pattern pattern;
+        Matcher matcher = null;
 
         try {
-
-            DaoPropietario daoPropietario = new DaoPropietario();
-            DaoTipoUsuario daoTipoUsuario = new DaoTipoUsuario();
-            DaoTipoVehiculo daoTipoVehiculo = new DaoTipoVehiculo();
-            
             this.session = HibernateUtil.getSessionFactory().openSession();
             this.transaction = session.beginTransaction();
+            DaoPropietario daoPropietario = new DaoPropietario();
+            
+            if (daoPropietario.getByPlaca(this.session, this.propietario.getPlaca()) != null) {
 
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Esta placa ya se encuentra registrada en el sistema"));
+                return;
+            }
+            
+            if (this.tipoVehiculo.getId() == -1) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe selecionar un tipo de vehículo"));
+                return;
+            }
+
+            //asignamos la expresion
+            if (this.tipoVehiculo.getId() == 1) {//MOTO
+                pattern = Pattern.compile("^([A-Z|a-z]{3}\\d{2}[A-Z|a-z]{1})$");
+                matcher = pattern.matcher(this.propietario.getPlaca());
+            } else if (this.tipoVehiculo.getId() == 2) {//CARRO
+                pattern = Pattern.compile("^([A-Z|a-z]{3}\\d{3})$");
+                matcher = pattern.matcher(this.propietario.getPlaca());
+            }
+
+            if (matcher != null) {
+                if (matcher.matches() == false) {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "El formato de placa para ese tipo de vehiculo no es correcto"));
+                    return;
+                }
+            }
+            
+            DaoTipoUsuario daoTipoUsuario = new DaoTipoUsuario();
+            DaoTipoVehiculo daoTipoVehiculo = new DaoTipoVehiculo();
             ///////////////////////////////////////////////////////////
             //Asignacion del Id del rol al pojo del rol
             this.propietario.setTipoUsuario(daoTipoUsuario.getById(this.session, this.tipoUsuario.getId()));
@@ -116,8 +144,7 @@ public class MbVPropietario {
             this.foto = new String();
             RequestContext.getCurrentInstance().update("frmRegistrarUsuario");
 
-        } 
-        catch (Exception ex) {
+        } catch (Exception ex) {
             if (this.transaction != null) {
                 this.transaction.rollback();
             }
@@ -130,48 +157,39 @@ public class MbVPropietario {
         }
 
     }
-    
-    public List<Propietario> getall(){
-        
+
+    public List<Propietario> getall() {
+
         this.session = null;
         this.transaction = null;
-        
-        
-        try
-        {
+
+        try {
             DaoPropietario daoPropietario = new DaoPropietario();
-            
+
             this.session = HibernateUtil.getSessionFactory().openSession();
             this.transaction = session.beginTransaction();
-            
+
             this.listaPropietario = daoPropietario.getAll(this.session);
             this.transaction.commit();
-            
+
             return listaPropietario;
-            
-        }
-        catch(Exception ex)
-        {
-            if(this.transaction!=null)
-            {
+
+        } catch (Exception ex) {
+            if (this.transaction != null) {
                 this.transaction.rollback();
             }
-            
+
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error fatal", ex.getMessage() + " Contacte al administrador"));
-            
+
             return null;
-        }
-        finally
-        {
-            if(this.transaction!=null)
-            {
+        } finally {
+            if (this.transaction != null) {
                 this.session.close();
             }
         }
     }
-    
-    public void cargaUsuarioEditar(int Id)
-    {
+
+    public void cargaUsuarioEditar(int Id) {
         this.session = null;
         this.transaction = null;
 
@@ -180,16 +198,16 @@ public class MbVPropietario {
             DaoPropietario daoPropietario = new DaoPropietario();
             this.session = HibernateUtil.getSessionFactory().openSession();
             this.transaction = session.beginTransaction();
-            
+
             this.propietario = daoPropietario.getByIdPropietario(this.session, Id);
             this.tipoUsuario.setId(this.propietario.getTipoUsuario().getId());
             this.tipoVehiculo.setId(this.propietario.getTipoVehiculo().getId());
 
             RequestContext.getCurrentInstance().update("frmEditarPropietario:panelActualizarPropietario");
             RequestContext.getCurrentInstance().execute("PF('dialogoEditarPropietario').show()");
-            
+
             this.transaction.commit();
-                        
+
         } catch (Exception ex) {
             if (this.transaction != null) {
                 this.transaction.rollback();
@@ -202,9 +220,8 @@ public class MbVPropietario {
             }
         }
     }
-    
-    public void update() throws Exception
-    {
+
+    public void update() throws Exception {
         this.session = null;
         this.transaction = null;
 
@@ -213,7 +230,7 @@ public class MbVPropietario {
             DaoPropietario daoPropietario = new DaoPropietario();
             DaoTipoUsuario daoTipoUsuario = new DaoTipoUsuario();
             DaoTipoVehiculo daoTipoVehiculo = new DaoTipoVehiculo();
-            
+
             this.session = HibernateUtil.getSessionFactory().openSession();
             this.transaction = session.beginTransaction();
 
@@ -237,8 +254,7 @@ public class MbVPropietario {
             this.rutaFoto = new String();
             RequestContext.getCurrentInstance().execute("PF('dialogoEditarPropietario').hide()");
 
-        } 
-        catch (Exception ex) {
+        } catch (Exception ex) {
             if (this.transaction != null) {
                 this.transaction.rollback();
             }
@@ -250,7 +266,7 @@ public class MbVPropietario {
             }
         }
     }
-    
+
     public void delete(int Id) throws Exception {
 
         this.session = null;
@@ -259,17 +275,18 @@ public class MbVPropietario {
         try {
 
             DaoPropietario daoPropietario = new DaoPropietario();
-            
+
             this.session = HibernateUtil.getSessionFactory().openSession();
             this.transaction = session.beginTransaction();
-            
+
             this.propietario = daoPropietario.getByIdPropietario(this.session, Id);
             daoPropietario.delete(this.propietario, this.session);
 
             this.transaction.commit();
-            
+
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Informacion Eliminada"));
             
+            RequestContext.getCurrentInstance().update("frmListaPropietario");
             this.propietario = new Propietario();
             this.tipoUsuario.setId(-1);
             this.tipoVehiculo.setId(-1);
@@ -277,7 +294,7 @@ public class MbVPropietario {
             this.propietario.setModelo(fecha.getWeekYear());
             this.rutaFoto = new String();
             this.foto = new String();
-            RequestContext.getCurrentInstance().update("frmRegistrarUsuario");
+            
 
         } catch (Exception ex) {
             if (this.transaction != null) {
@@ -292,39 +309,36 @@ public class MbVPropietario {
         }
 
     }
-    
+
     private String getRandomImageName() {
         int i = (int) (Math.random() * 1000000000);
-         
+
         return String.valueOf(i);
     }
-    
+
     public void oncapture(CaptureEvent captureEvent) {
         this.foto = getRandomImageName();
         byte[] data = captureEvent.getData();
-         
+
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        String newFileName = servletContext.getRealPath("") + File.separator + "resources" + File.separator + "images"+ File.separator + "propietario" + File.separator + foto + ".png";
-        
-        this.rutaFoto = this.foto+".png";
-         
+        String newFileName = servletContext.getRealPath("") + File.separator + "resources" + File.separator + "images" + File.separator + "propietario" + File.separator + foto + ".png";
+
+        this.rutaFoto = this.foto + ".png";
+
         FileImageOutputStream imageOutput;
         try {
             imageOutput = new FileImageOutputStream(new File(newFileName));
             imageOutput.write(data, 0, data.length);
             imageOutput.close();
-        }
-        catch(IOException e) {
+        } catch (IOException e) {
             throw new FacesException("Error in writing captured image.", e);
         }
-        
+
         //RequestContext.getCurrentInstance().update("frmRegistrarUsuario:modalDialog2");
         //RequestContext.getCurrentInstance().execute("PF('dlg3').show()");
-        
     }
     //////////////////////////////////////////////////////////////////////////
-    
-    
+
     /////////////////////////////////////////////////////////////////////////
     //GETTERS AND SETTERS
     public Propietario getPropietario() {
@@ -350,7 +364,7 @@ public class MbVPropietario {
     public void setTipoVehiculo(TipoVehiculo tipoVehiculo) {
         this.tipoVehiculo = tipoVehiculo;
     }
-    
+
     public List<Propietario> getListaPropietario() {
         return listaPropietario;
     }
@@ -358,7 +372,7 @@ public class MbVPropietario {
     public void setListaPropietario(List<Propietario> listaPropietario) {
         this.listaPropietario = listaPropietario;
     }
-    
+
     public List<Propietario> getListaPropietarioFiltrado() {
         return listaPropietarioFiltrado;
     }
@@ -366,10 +380,8 @@ public class MbVPropietario {
     public void setListaPropietarioFiltrado(List<Propietario> listaPropietarioFiltrado) {
         this.listaPropietarioFiltrado = listaPropietarioFiltrado;
     }
-    
-    
-    //////////////////////////////////////////////////////////////////////////
 
+    //////////////////////////////////////////////////////////////////////////
     public String getFoto() {
         return foto;
     }
@@ -377,5 +389,5 @@ public class MbVPropietario {
     public void setFoto(String foto) {
         this.foto = foto;
     }
-       
+
 }

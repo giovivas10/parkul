@@ -31,7 +31,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.CaptureEvent;
-import org.primefaces.model.UploadedFile;
 
 /**
  *

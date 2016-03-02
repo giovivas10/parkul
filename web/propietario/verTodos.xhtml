@@ -91,14 +91,14 @@
                             <p:commandButton id="modalDialogButton" value="Foto" onclick="PF('dlg2').show();" type="button"/>
                             <h:panelGroup></h:panelGroup>
                             <h:outputLabel value="Tipo de Usuario: " for="selTipoUsuario"/>
-                            <p:selectOneMenu id="selTipoUsuario" value="#{mbVPropietario.tipoUsuario.id}">
+                            <h:selectOneMenu disabled="true" id="selTipoUsuario" value="#{mbVPropietario.tipoUsuario.id}">
                                 <f:selectItems value="#{mbRCargarSelects.listaTipoUsuario}"/>
-                            </p:selectOneMenu> 
+                            </h:selectOneMenu> 
                             <p:message for="selTipoUsuario"/>
                             <h:outputLabel value="Tipo de Vehículo: " for="selTipoVehiculo"/>
-                            <p:selectOneMenu id="selTipoVehiculo" value="#{mbVPropietario.tipoVehiculo.id}">
+                            <h:selectOneMenu disabled="true" id="selTipoVehiculo" value="#{mbVPropietario.tipoVehiculo.id}">
                                 <f:selectItems value="#{mbRCargarSelects.listaTipoVehiculo}"/>
-                            </p:selectOneMenu> 
+                            </h:selectOneMenu> 
                             <p:message for="selTipoVehiculo"/>
                             <p:outputLabel value="Documento" for="txtDocumento"/>
                             <p:inputText id="txtDocumento" label="Tipo Vehiculo" value="#{mbVPropietario.propietario.documento}">
@@ -130,7 +130,7 @@
                                 <p:message for="txtEmail"/>
                             </h:panelGroup>
                             <p:outputLabel value="Placa Vehículo" for="txtPlaca"/>
-                            <p:inputText id="txtPlaca" label="Placa" value="#{mbVPropietario.propietario.placa}">
+                            <p:inputText disabled="true" id="txtPlaca" label="Placa" value="#{mbVPropietario.propietario.placa}">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
                             <p:message for="txtPlaca"/>
@@ -140,9 +140,9 @@
                             </p:inputText>
                             <p:message for="txtMarca"/>
                             <p:outputLabel value="Modelo" for="selModelo"/>
-                            <p:selectOneMenu id="selModelo" value="#{mbVPropietario.propietario.modelo}">
+                            <h:selectOneMenu id="selModelo" value="#{mbVPropietario.propietario.modelo}">
                                 <f:selectItems value="#{mbRCargaAnios.anios}" noSelectionValue="true"/>
-                            </p:selectOneMenu> 
+                            </h:selectOneMenu> 
                             <p:message for="selModelo"/>
                             <p:outputLabel value="Color" for="txtColor"/>
                             <p:inputText id="txtColor" label="Modelo" value="#{mbVPropietario.propietario.color}">

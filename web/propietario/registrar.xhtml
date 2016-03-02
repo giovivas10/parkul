@@ -101,7 +101,7 @@
                     <div class="form-group">
                         <p:outputLabel value="Placa Vehículo" for="txtPlaca" styleClass="col-lg-2 control-label"/>
                         <div class="col-lg-10">
-                            <p:inputText id="txtPlaca" label="Placa" value="#{mbVPropietario.propietario.placa}" styleClass="tamanioInputText form-control">
+                            <p:inputText maxlength="6" id="txtPlaca" label="Placa" value="#{mbVPropietario.propietario.placa}" styleClass="tamanioInputText form-control">
                                 <f:validator validatorId="validarVacio"/>
                             </p:inputText>
                         </div>
