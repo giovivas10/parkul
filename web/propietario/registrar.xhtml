@@ -22,7 +22,7 @@
 
                     <div class="form-group">
                         <div class="col-lg-offset-2 col-lg-10">
-                            <p:commandButton id="modalDialogButton" value="Capturar Foto" onclick="PF('dlg2').show();" type="button" styleClass="btn btn-default"/>
+                            <p:commandButton style="padding: 0px" id="modalDialogButton" value="Capturar Foto" onclick="PF('dlg2').show();" type="button" styleClass="btn btn-primary"/>
                         </div>
                     </div>
 
@@ -111,9 +111,7 @@
                     <div class="form-group">
                         <p:outputLabel value="Marca" for="txtMarca" styleClass="col-lg-2 control-label"/>
                         <div class="col-lg-10">
-                            <p:inputText id="txtMarca" label="Marca" value="#{mbVPropietario.propietario.marca}" styleClass="tamanioInputText form-control">
-                                <f:validator validatorId="validarVacio"/>
-                            </p:inputText>
+                            <p:inputText id="txtMarca" label="Marca" value="#{mbVPropietario.propietario.marca}" styleClass="tamanioInputText form-control"/>
                         </div>
                         <p:message for="txtMarca"/>
                     </div>
@@ -131,16 +129,21 @@
                     <div class="form-group">
                         <p:outputLabel value="Color" for="txtColor" styleClass="col-lg-2 control-label"/>
                         <div class="col-lg-10">
-                            <p:inputText id="txtColor" label="Modelo" value="#{mbVPropietario.propietario.color}" styleClass="tamanioInputText form-control">
-                                <f:validator validatorId="validarVacio"/>
-                            </p:inputText>
+                            <p:inputText id="txtColor" label="Modelo" value="#{mbVPropietario.propietario.color}" styleClass="tamanioInputText form-control"/>
                         </div>
                         <p:message for="txtColor"/>
                     </div>
 
                     <div class="form-group">
+                        <p:outputLabel value="Tarjeta de Propiedad" for="btnSubirTP" styleClass="col-lg-2 control-label"/>
+                        <div class="col-lg-10">
+                            <p:commandButton style="padding: 0px" id="btnSubirTP" value="Cargar" onclick="PF('dialogoCargarArchivo').show()" styleClass="btn btn-success"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <div class="col-lg-offset-2 col-lg-10">
-                            <p:commandButton value="Registrar Propietario" ajax="true" actionListener="#{mbVPropietario.register()}" update="frmRegistrarUsuario" styleClass="btn btn-default"/>
+                            <p:commandButton style="padding: 0px" value="Registrar Propietario" ajax="true" actionListener="#{mbVPropietario.register()}" update="frmRegistrarUsuario" styleClass="btn btn-default"/>
                         </div>
                     </div>
                     <p:dialog style="position: absolute" id="modalDialog" header="Foto" widgetVar="dlg2" modal="true" responsive="true" resizable="false" position="top">
@@ -163,10 +166,13 @@
                             </p:panelGrid> 
                         </p:outputPanel>
                     </p:dialog>
-
-
-
                 </h:form>
+                <p:dialog header="Cargar Archivo" widgetVar="dialogoCargarArchivo" modal="true" responsive="true">
+                    <h:form id="frmCargarArchivo" enctype="multipart/form-data">
+                        <p:fileUpload id="txtAvatar" mode="simple" value="#{mbVPropietario.tarjetaPropiedad}"/>
+                        <p:commandButton style="padding: 0px" ajax="false" value="Guardar" styleClass="btn btn-default" actionListener="#{mbVPropietario.subirTarjetaPropiedad()}" update="frmRegistrarUsuario:mensajeGeneral"/>
+                    </h:form>
+                </p:dialog>
             </ui:define>
 
             <ui:define name="bottom">

@@ -1,5 +1,5 @@
 package pojo;
-// Generated 9/02/2016 11:44:30 AM by Hibernate Tools 4.3.1
+// Generated 1/03/2016 11:45:11 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -24,6 +24,7 @@ public class Propietario  implements java.io.Serializable {
      private String marca;
      private int modelo;
      private String color;
+     private String targetaPropiedad;
      private Set evaluacionEstadoVehiculars = new HashSet(0);
 
     public Propietario() {
@@ -41,7 +42,7 @@ public class Propietario  implements java.io.Serializable {
         this.modelo = modelo;
         this.color = color;
     }
-    public Propietario(TipoUsuario tipoUsuario, TipoVehiculo tipoVehiculo, String documento, String nombres, String apellidos, String telefono, String email, String placa, String fotoPropietario, String marca, int modelo, String color, Set evaluacionEstadoVehiculars) {
+    public Propietario(TipoUsuario tipoUsuario, TipoVehiculo tipoVehiculo, String documento, String nombres, String apellidos, String telefono, String email, String placa, String fotoPropietario, String marca, int modelo, String color, String targetaPropiedad, Set evaluacionEstadoVehiculars) {
        this.tipoUsuario = tipoUsuario;
        this.tipoVehiculo = tipoVehiculo;
        this.documento = documento;
@@ -54,6 +55,7 @@ public class Propietario  implements java.io.Serializable {
        this.marca = marca;
        this.modelo = modelo;
        this.color = color;
+       this.targetaPropiedad = targetaPropiedad;
        this.evaluacionEstadoVehiculars = evaluacionEstadoVehiculars;
     }
    
@@ -147,6 +149,13 @@ public class Propietario  implements java.io.Serializable {
     
     public void setColor(String color) {
         this.color = color;
+    }
+    public String getTargetaPropiedad() {
+        return this.targetaPropiedad;
+    }
+    
+    public void setTargetaPropiedad(String targetaPropiedad) {
+        this.targetaPropiedad = targetaPropiedad;
     }
     public Set getEvaluacionEstadoVehiculars() {
         return this.evaluacionEstadoVehiculars;

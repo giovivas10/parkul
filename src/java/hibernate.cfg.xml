@@ -9,16 +9,16 @@
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.current_session_context_class">thread</property>
     <property name="hibernate.hbm2ddl.auto">validate</property>
-    <mapping resource="pojo/Objetos.hbm.xml"/>
-    <mapping resource="pojo/Usuario.hbm.xml"/>
-    <mapping resource="pojo/Propietario.hbm.xml"/>
-    <mapping resource="pojo/ParteVehiculo.hbm.xml"/>
     <mapping resource="pojo/DaniosVehiculo.hbm.xml"/>
-    <mapping resource="pojo/Rol.hbm.xml"/>
-    <mapping resource="pojo/ObjetosVehiculos.hbm.xml"/>
-    <mapping resource="pojo/TipoVehiculo.hbm.xml"/>
+    <mapping resource="pojo/Usuario.hbm.xml"/>
     <mapping resource="pojo/ParametroEvaluacion.hbm.xml"/>
+    <mapping resource="pojo/ObjetosVehiculos.hbm.xml"/>
+    <mapping resource="pojo/ParteVehiculo.hbm.xml"/>
+    <mapping resource="pojo/Propietario.hbm.xml"/>
+    <mapping resource="pojo/Rol.hbm.xml"/>
+    <mapping resource="pojo/TipoVehiculo.hbm.xml"/>
     <mapping resource="pojo/EvaluacionEstadoVehicular.hbm.xml"/>
     <mapping resource="pojo/TipoUsuario.hbm.xml"/>
+    <mapping resource="pojo/Objetos.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

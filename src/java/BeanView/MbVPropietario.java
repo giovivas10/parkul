@@ -10,7 +10,10 @@ import Dao.DaoTipoUsuario;
 import Dao.DaoTipoVehiculo;
 import HibernateUtil.HibernateUtil;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -27,6 +30,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.CaptureEvent;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 import pojo.Propietario;
 import pojo.TipoUsuario;
 import pojo.TipoVehiculo;
@@ -54,6 +59,8 @@ public class MbVPropietario {
 
     private String foto;
     private String rutaFoto;
+    private UploadedFile tarjetaPropiedad;
+    private String TP;
 
     public MbVPropietario() {
         this.propietario = new Propietario();
@@ -62,7 +69,18 @@ public class MbVPropietario {
 
         Calendar fecha = Calendar.getInstance();
         this.propietario.setModelo(fecha.getWeekYear());
+        
+        this.tarjetaPropiedad = null;
+        
+        this.TP = null;
 
+        session();
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    //FUNCIONES
+    
+    public final void session(){
         HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         if (httpSession.getAttribute("rol") != null) {
             String rol = httpSession.getAttribute("rol").toString();
@@ -79,9 +97,7 @@ public class MbVPropietario {
             }
         }
     }
-
-    ///////////////////////////////////////////////////////////////////////////
-    //FUNCIONES
+    
     public void register() throws Exception {
 
         this.session = null;
@@ -128,6 +144,7 @@ public class MbVPropietario {
             this.propietario.setTipoUsuario(daoTipoUsuario.getById(this.session, this.tipoUsuario.getId()));
             this.propietario.setTipoVehiculo(daoTipoVehiculo.getById(this.session, this.tipoVehiculo.getId()));
             this.propietario.setFotoPropietario(this.rutaFoto);
+            this.propietario.setTargetaPropiedad(this.TP);
             //////////////////////////////////////////////////////////
 
             daoPropietario.register(this.propietario, this.session);
@@ -142,6 +159,7 @@ public class MbVPropietario {
             this.propietario.setModelo(fecha.getWeekYear());
             this.rutaFoto = new String();
             this.foto = new String();
+            this.TP = new String();
             RequestContext.getCurrentInstance().update("frmRegistrarUsuario");
 
         } catch (Exception ex) {
@@ -333,9 +351,73 @@ public class MbVPropietario {
         } catch (IOException e) {
             throw new FacesException("Error in writing captured image.", e);
         }
+    }
+    
+    public void subirTarjetaPropiedad()throws IOException
+    {
+        InputStream inputStream=null;
+        OutputStream outputStream=null;
+        String ruta;
+        
+        try
+        {
+            if(this.tarjetaPropiedad == null)
+            {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "Debe seleccionar un archivo"));
+                return;
+            }
+            
+            if(this.tarjetaPropiedad.getSize()<=0)
+            {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "Ud. debe seleccionar un archivo de imagen \".png\""));
+                return;
+            }
+            
+            if(this.tarjetaPropiedad.getSize()>2097152)
+            {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "El archivo no puede ser más de 2mb"));
+                return;
+            }
+            
+            ruta = getRandomImageName()+ tarjetaPropiedad.getFileName();
+            
+            ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+            String carpeta = servletContext.getRealPath("") + File.separator + "resources" + File.separator + "images" + File.separator + "TP" + File.separator +ruta;
 
-        //RequestContext.getCurrentInstance().update("frmRegistrarUsuario:modalDialog2");
-        //RequestContext.getCurrentInstance().execute("PF('dlg3').show()");
+            //String carpetaAvatar=(String)servletContext.getRealPath("/avatar");
+            
+            outputStream=new FileOutputStream(new File(carpeta));
+            inputStream=this.tarjetaPropiedad.getInputstream();
+            this.TP =ruta;
+                    
+            int read=0;
+            byte[] bytes=new byte[1024];
+            
+            while((read=inputStream.read(bytes))!=-1)
+            {
+                outputStream.write(bytes, 0, read);
+            }
+            
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto:", "Tarjeta subida exitosamente"));
+        }
+        catch(Exception ex)
+        {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error fatal:", "Por favor contacte con su administrador "+ex.getMessage()));
+        }
+        finally
+        {
+            if(inputStream!=null)
+            {
+                inputStream.close();
+            }
+            
+            if(outputStream!=null)
+            {
+                outputStream.close();
+            }
+        }
+        
+        session();
     }
     //////////////////////////////////////////////////////////////////////////
 
@@ -389,5 +471,17 @@ public class MbVPropietario {
     public void setFoto(String foto) {
         this.foto = foto;
     }
+
+    public UploadedFile getTarjetaPropiedad() {
+        return tarjetaPropiedad;
+    }
+
+    public void setTarjetaPropiedad(UploadedFile tarjetaPropiedad) {
+        this.tarjetaPropiedad = tarjetaPropiedad;
+    }
+
+    
+    
+    
 
 }
