@@ -19,7 +19,7 @@
                 <h:form id="frmRegistrarEvaluacion" styleClass="form-horizontal">
 
                     <p:growl id="mensajeGeneral" showDetail="true" sticky="false"/>
-
+                    
                     <div class="form-group">
                         <div class="col-lg-offset-2 col-lg-10">
                             <p:imageSwitch effect="zoom" id="photos">
@@ -27,6 +27,16 @@
                                     <p:graphicImage value="#{pageContext.contextPath}/resources/images/propietario/#{photo}" cache="false" style="width: 125px"/> <!--width="125"-->
                                 </ui:repeat>
                             </p:imageSwitch>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <p:outputLabel value="Tipo de vehículo" for="txtTipoVehiculo" styleClass="col-lg-2 control-label"/>
+                        <div class="col-lg-10">
+                            <!--<p:inputText id="txtTipoVehiculo" value="# {mbVEvaluacion.tipoVehiculo.vehiculo}" label="Tipo de vehiculo" disabled="true" styleClass="tamanioInputText form-control"/>-->
+                            <h:selectOneMenu id="txtTipoVehiculo" value="#{mbVEvaluacion.tipoVehiculo.vehiculo}" styleClass="tamanioSelect form-control">
+                                <f:selectItems value="#{mbRCargarSelects.listaTipoVehiculo}"/>
+                            </h:selectOneMenu> 
+                            <p:message for="txtTipoVehiculo"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -45,13 +55,7 @@
                             <p:message for="txtPlaca"/>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <p:outputLabel value="Tipo de vehículo" for="txtTipoVehiculo" styleClass="col-lg-2 control-label"/>
-                        <div class="col-lg-10">
-                            <p:inputText id="txtTipoVehiculo" value="#{mbVEvaluacion.tipoVehiculo.vehiculo}" label="Tipo de vehiculo" disabled="true" styleClass="tamanioInputText form-control"/>
-                            <p:message for="txtTipoVehiculo"/>
-                        </div>
-                    </div>
+                    
                     <div class="form-group">
                         <p:outputLabel value="Cédula" for="txtCedula" styleClass="col-lg-2 control-label"/>
                         <div class="col-lg-10">
