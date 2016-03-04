@@ -8,3 +8,8 @@ function mostrarMenu(menus){
         document.getElementById(op[i]).style.display = "block";
     }
 }
+
+function habilitarCampos(id){
+    document.getElementById(id).disabled = false;
+    document.getElementById(id).className = "ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all tamanioInputText form-control";
+}

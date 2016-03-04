@@ -19,6 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.faces.FacesException;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -77,6 +79,7 @@ public class MbVEvaluacion {
     private Boolean flag;
     private Boolean bandera1;
     private Boolean bandera2;
+    private Boolean habilitarCampos;
 
     public MbVEvaluacion() {
         this.evaluacionEstadoVehicular = new EvaluacionEstadoVehicular();
@@ -104,6 +107,7 @@ public class MbVEvaluacion {
         this.flag = false;
         this.bandera1 = false;
         this.bandera2 = false;
+        this.habilitarCampos = true;
         
         session();
 
@@ -130,24 +134,51 @@ public class MbVEvaluacion {
     public void validarPlaca() {
         this.session = null;
         this.transaction = null;
+        Pattern pattern;
+        Matcher matcher = null;
+        Propietario propietarioTemp;
 
         try {
             DaoPropietario daoPropietario = new DaoPropietario();
 
             this.session = HibernateUtil.getSessionFactory().openSession();
             this.transaction = session.beginTransaction();
+            
+            if (this.tipoVehiculo.getId() == -1) {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe selecionar un tipo de vehículo"));
+                return;
+            }
 
-            this.propietario = daoPropietario.getByPlaca(this.session, this.propietario.getPlaca());
+            //asignamos la expresion
+            if (this.tipoVehiculo.getId() == 1) {//MOTO
+                pattern = Pattern.compile("^([A-Z|a-z]{3}\\d{2}[A-Z|a-z]{1})$");
+                matcher = pattern.matcher(this.propietario.getPlaca());
+            } else if (this.tipoVehiculo.getId() == 2) {//CARRO
+                pattern = Pattern.compile("^([A-Z|a-z]{3}\\d{3})$");
+                matcher = pattern.matcher(this.propietario.getPlaca());
+            }
 
-            if (this.propietario != null) {
-                this.tipoVehiculo.setVehiculo(this.propietario.getTipoVehiculo().getVehiculo());
+            if (matcher != null) {
+                if (matcher.matches() == false) {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "El formato de placa para ese tipo de vehiculo no es correcto"));
+                    return;
+                }
+            }
+
+            propietarioTemp = daoPropietario.getByPlaca(this.session, this.propietario.getPlaca());
+
+            if (propietarioTemp != null) {
+                this.propietario = propietarioTemp;
+                //this.tipoVehiculo.setVehiculo(this.propietario.getTipoVehiculo().getVehiculo());
                 RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion");
                 this.flag = true;
             } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "No se encontraron datos relacionados a esta placa"));
-                this.propietario = new Propietario();
-                this.tipoVehiculo = new TipoVehiculo();
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Error:", "No se encontraron datos relacionados a esta placa"));
+                //this.propietario = new Propietario();
+                //this.tipoVehiculo = new TipoVehiculo();
+                
                 RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion");
+                RequestContext.getCurrentInstance().execute("PF('deleteConfirmation').show()");
                 this.flag = false;
             }
             this.transaction.commit();
@@ -164,6 +195,18 @@ public class MbVEvaluacion {
             }
         }
 
+    }
+    
+    public void habilidarCamposRegistro(){
+        this.habilitarCampos = false;        
+    }
+    
+    public void camposNoAplica(){
+        this.propietario.setDocumento("N/A");
+        this.propietario.setNombres("N/A");
+        this.propietario.setApellidos("N/A");
+        this.propietario.setTelefono("N/A");
+        this.propietario.setTipoVehiculo(this.tipoVehiculo);
     }
 
     public void agregarListaDanios() {
@@ -349,7 +392,13 @@ public class MbVEvaluacion {
             this.session = HibernateUtil.getSessionFactory().openSession();
             this.transaction = this.session.beginTransaction();
 
-            if (this.propietario.getPlaca() != null && this.flag == true) {
+            if (this.propietario.getPlaca() != null /*&& this.flag == true*/) {
+                
+                if(this.flag == false){
+                    DaoPropietario daoPropietario = new DaoPropietario();
+                    this.propietario.setTipoVehiculo(this.tipoVehiculo);
+                    daoPropietario.register(this.propietario, this.session);
+                }
 
                 DaoPropietario daoPropietario = new DaoPropietario();
                 DaoEvaluacionEstadoVehicular daoEvaluacionEstadoVehicular = new DaoEvaluacionEstadoVehicular();
@@ -393,6 +442,7 @@ public class MbVEvaluacion {
                 this.evaluacionEstadoVehicular.setPoseeObjetos(false);
                 this.listaDaniosVehiculos = new ArrayList<>();
                 this.listaObjetosVehiculos = new ArrayList<>();
+                this.habilitarCampos = true;
 
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Evaluacion realizada correctamente"));
                 RequestContext.getCurrentInstance().update("frmRegistrarEvaluacion:mensajeGeneral");
@@ -739,5 +789,15 @@ public class MbVEvaluacion {
     public void setFechaM(String fechaM) {
         this.fechaM = fechaM;
     }
+
+    public Boolean getHabilitarCampos() {
+        return habilitarCampos;
+    }
+
+    public void setHabilitarCampos(Boolean habilitarCampos) {
+        this.habilitarCampos = habilitarCampos;
+    }
+    
+    
 
 }

@@ -19,7 +19,7 @@
                 <h:form id="frmRegistrarEvaluacion" styleClass="form-horizontal">
 
                     <p:growl id="mensajeGeneral" showDetail="true" sticky="false"/>
-                    
+
                     <div class="form-group">
                         <div class="col-lg-offset-2 col-lg-10">
                             <p:imageSwitch effect="zoom" id="photos">
@@ -33,7 +33,7 @@
                         <p:outputLabel value="Tipo de vehículo" for="txtTipoVehiculo" styleClass="col-lg-2 control-label"/>
                         <div class="col-lg-10">
                             <!--<p:inputText id="txtTipoVehiculo" value="# {mbVEvaluacion.tipoVehiculo.vehiculo}" label="Tipo de vehiculo" disabled="true" styleClass="tamanioInputText form-control"/>-->
-                            <h:selectOneMenu id="txtTipoVehiculo" value="#{mbVEvaluacion.tipoVehiculo.vehiculo}" styleClass="tamanioSelect form-control">
+                            <h:selectOneMenu id="txtTipoVehiculo" value="#{mbVEvaluacion.tipoVehiculo.id}" styleClass="tamanioSelect form-control">
                                 <f:selectItems value="#{mbRCargarSelects.listaTipoVehiculo}"/>
                             </h:selectOneMenu> 
                             <p:message for="txtTipoVehiculo"/>
@@ -48,39 +48,39 @@
                     <div class="form-group">
                         <p:outputLabel value="Placa" for="txtPlaca" styleClass="col-lg-2 control-label"/>
                         <div class="col-lg-4">
-                            <p:inputText id="txtPlaca" label="Placa" value="#{mbVEvaluacion.propietario.placa}" styleClass="tamanioInputText form-control"/>
+                            <p:inputText id="txtPlaca" maxlength="6" label="Placa" value="#{mbVEvaluacion.propietario.placa}" styleClass="tamanioInputText form-control"/>
                         </div>
                         <div class="col-lg-4">
                             <p:commandButton value="validar" ajax="true" actionListener="#{mbVEvaluacion.validarPlaca()}" update="mensajeGeneral" styleClass="btn btn-default"/>
                             <p:message for="txtPlaca"/>
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <p:outputLabel value="Cédula" for="txtCedula" styleClass="col-lg-2 control-label"/>
                         <div class="col-lg-10">
-                            <p:inputText id="txtCedula" value="#{mbVEvaluacion.propietario.documento}" label="Cedula" disabled="true" styleClass="tamanioInputText form-control"/>
+                            <p:inputText id="txtCedula" onkeypress="return checkIt(event)" maxlength="10" value="#{mbVEvaluacion.propietario.documento}" label="Cedula" disabled="#{mbVEvaluacion.habilitarCampos}" styleClass="tamanioInputText form-control"/>
                             <p:message for="txtCedula"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <p:outputLabel value="Nombres" for="txtNombres" styleClass="col-lg-2 control-label"/>
                         <div class="col-lg-10">
-                            <p:inputText id="txtNombres" value="#{mbVEvaluacion.propietario.nombres}" label="Nombres" disabled="true" styleClass="tamanioInputText form-control"/>
+                            <p:inputText id="txtNombres" value="#{mbVEvaluacion.propietario.nombres}" label="Nombres" disabled="#{mbVEvaluacion.habilitarCampos}" styleClass="tamanioInputText form-control"/>
                         </div>
                         <p:message for="txtNombres"/>
                     </div>
                     <div class="form-group">
                         <p:outputLabel value="Apellidos" for="txtApellidos" styleClass="col-lg-2 control-label"/> 
                         <div class="col-lg-10">
-                            <p:inputText id="txtApellidos" value="#{mbVEvaluacion.propietario.apellidos}" label="Apellidos" disabled="true" styleClass="tamanioInputText form-control"/>
+                            <p:inputText id="txtApellidos" value="#{mbVEvaluacion.propietario.apellidos}" label="Apellidos" disabled="#{mbVEvaluacion.habilitarCampos}" styleClass="tamanioInputText form-control"/>
                         </div>
                         <p:message for="txtApellidos"/>
                     </div>
                     <div class="form-group">
                         <p:outputLabel value="Teléfono" for="txtTelefono" styleClass="col-lg-2 control-label"/>
                         <div class="col-lg-10">
-                            <p:inputText id="txtTelefono" value="#{mbVEvaluacion.propietario.telefono}" label="Telefono" disabled="true" styleClass="tamanioInputText form-control"/>
+                            <p:inputText id="txtTelefono" value="#{mbVEvaluacion.propietario.telefono}" label="Telefono" disabled="#{mbVEvaluacion.habilitarCampos}" styleClass="tamanioInputText form-control"/>
                             <p:message for="txtTelefono"/>
                         </div>
                     </div>
@@ -235,6 +235,11 @@
                             </p:panelGrid> 
                         </p:outputPanel>
                     </p:dialog>
+
+                    <p:confirmDialog  message="¿Ingresar información del conductor?" header="Vehículo no encontrado" showEffect="fade" hideEffect="fade" severity="alert" widgetVar="deleteConfirmation">
+                        <p:commandButton id="confirm" value="Si" oncomplete="PF('deleteConfirmation').hide()" update="frmRegistrarEvaluacion" actionListener="#{mbVEvaluacion.habilidarCamposRegistro()}"/>
+                        <p:commandButton id="decline" value="No" onclick="PF('deleteConfirmation').hide()" actionListener="#{mbVEvaluacion.camposNoAplica()}"/>
+                    </p:confirmDialog>
                 </h:form>
             </ui:define>
 

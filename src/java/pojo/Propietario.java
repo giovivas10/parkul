@@ -1,5 +1,5 @@
 package pojo;
-// Generated 1/03/2016 11:45:11 PM by Hibernate Tools 4.3.1
+// Generated 4/03/2016 10:14:53 AM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -22,7 +22,7 @@ public class Propietario  implements java.io.Serializable {
      private String placa;
      private String fotoPropietario;
      private String marca;
-     private int modelo;
+     private Integer modelo;
      private String color;
      private String targetaPropiedad;
      private Set evaluacionEstadoVehiculars = new HashSet(0);
@@ -30,19 +30,7 @@ public class Propietario  implements java.io.Serializable {
     public Propietario() {
     }
 
-	
-    public Propietario(String documento, String nombres, String apellidos, String telefono, String email, String placa, String marca, int modelo, String color) {
-        this.documento = documento;
-        this.nombres = nombres;
-        this.apellidos = apellidos;
-        this.telefono = telefono;
-        this.email = email;
-        this.placa = placa;
-        this.marca = marca;
-        this.modelo = modelo;
-        this.color = color;
-    }
-    public Propietario(TipoUsuario tipoUsuario, TipoVehiculo tipoVehiculo, String documento, String nombres, String apellidos, String telefono, String email, String placa, String fotoPropietario, String marca, int modelo, String color, String targetaPropiedad, Set evaluacionEstadoVehiculars) {
+    public Propietario(TipoUsuario tipoUsuario, TipoVehiculo tipoVehiculo, String documento, String nombres, String apellidos, String telefono, String email, String placa, String fotoPropietario, String marca, Integer modelo, String color, String targetaPropiedad, Set evaluacionEstadoVehiculars) {
        this.tipoUsuario = tipoUsuario;
        this.tipoVehiculo = tipoVehiculo;
        this.documento = documento;
@@ -136,11 +124,11 @@ public class Propietario  implements java.io.Serializable {
     public void setMarca(String marca) {
         this.marca = marca;
     }
-    public int getModelo() {
+    public Integer getModelo() {
         return this.modelo;
     }
     
-    public void setModelo(int modelo) {
+    public void setModelo(Integer modelo) {
         this.modelo = modelo;
     }
     public String getColor() {

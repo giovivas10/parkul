@@ -26,10 +26,10 @@
                             <h:outputText value="#{item.vehiculo}" />
                         </p:column>
                         <p:column headerText="Actualizar" width="150">
-                            <p:commandButton value="Actualizar" actionListener="#{mbVTipoVehiculo.cargaEditar(item.id)}" update="listado"/>
+                            <p:commandButton rendered="#{item.id == 1 || item.id == 2 ? false:true}" value="Actualizar" actionListener="#{mbVTipoVehiculo.cargaEditar(item.id)}" update="listado"/>
                         </p:column>
                         <p:column headerText="Eliminar" width="150">
-                            <p:commandButton value="Eliminar" actionListener="#{mbVTipoVehiculo.delete(item.id)}" update="listado">
+                            <p:commandButton rendered="#{item.id == 1 || item.id == 2 ? false:true}" value="Eliminar" actionListener="#{mbVTipoVehiculo.delete(item.id)}" update="listado">
                                 <p:confirm header="Confirmation" message="¿Quiere Eliminar Esta Informacion?" icon="ui-icon-alert" />
                             </p:commandButton>
                             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >

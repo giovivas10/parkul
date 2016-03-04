@@ -122,7 +122,6 @@
                             <p:message for="txtTelefono"/>
                             <p:outputLabel value="Email" for="txtEmail"/>
                             <p:inputText id="txtEmail" label="Email" title="Ejemplo: pedro@dominio.com" value="#{mbVPropietario.propietario.email}">
-                                <f:validator validatorId="validarVacio"/>
                                 <f:validator validatorId="validarEmail"/>
                             </p:inputText>
                             <h:panelGroup>
@@ -136,7 +135,6 @@
                             <p:message for="txtPlaca"/>
                             <p:outputLabel value="Marca" for="txtMarca"/>
                             <p:inputText id="txtMarca" label="Marca" value="#{mbVPropietario.propietario.marca}">
-                                <f:validator validatorId="validarVacio"/>
                             </p:inputText>
                             <p:message for="txtMarca"/>
                             <p:outputLabel value="Modelo" for="selModelo"/>
@@ -146,7 +144,6 @@
                             <p:message for="selModelo"/>
                             <p:outputLabel value="Color" for="txtColor"/>
                             <p:inputText id="txtColor" label="Modelo" value="#{mbVPropietario.propietario.color}">
-                                <f:validator validatorId="validarVacio"/>
                             </p:inputText>
                             <p:message for="txtColor"/>
                             <f:facet name="footer" >

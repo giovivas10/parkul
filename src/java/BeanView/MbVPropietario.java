@@ -69,9 +69,9 @@ public class MbVPropietario {
 
         Calendar fecha = Calendar.getInstance();
         this.propietario.setModelo(fecha.getWeekYear());
-        
+
         this.tarjetaPropiedad = null;
-        
+
         this.TP = null;
 
         session();
@@ -79,8 +79,7 @@ public class MbVPropietario {
 
     ///////////////////////////////////////////////////////////////////////////
     //FUNCIONES
-    
-    public final void session(){
+    public final void session() {
         HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         if (httpSession.getAttribute("rol") != null) {
             String rol = httpSession.getAttribute("rol").toString();
@@ -97,7 +96,7 @@ public class MbVPropietario {
             }
         }
     }
-    
+
     public void register() throws Exception {
 
         this.session = null;
@@ -109,13 +108,13 @@ public class MbVPropietario {
             this.session = HibernateUtil.getSessionFactory().openSession();
             this.transaction = session.beginTransaction();
             DaoPropietario daoPropietario = new DaoPropietario();
-            
+
             if (daoPropietario.getByPlaca(this.session, this.propietario.getPlaca()) != null) {
 
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Esta placa ya se encuentra registrada en el sistema"));
                 return;
             }
-            
+
             if (this.tipoVehiculo.getId() == -1) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Debe selecionar un tipo de vehículo"));
                 return;
@@ -136,7 +135,7 @@ public class MbVPropietario {
                     return;
                 }
             }
-            
+
             DaoTipoUsuario daoTipoUsuario = new DaoTipoUsuario();
             DaoTipoVehiculo daoTipoVehiculo = new DaoTipoVehiculo();
             ///////////////////////////////////////////////////////////
@@ -218,8 +217,12 @@ public class MbVPropietario {
             this.transaction = session.beginTransaction();
 
             this.propietario = daoPropietario.getByIdPropietario(this.session, Id);
-            this.tipoUsuario.setId(this.propietario.getTipoUsuario().getId());
-            this.tipoVehiculo.setId(this.propietario.getTipoVehiculo().getId());
+            if (this.propietario.getTipoUsuario() != null) {
+                this.tipoUsuario.setId(this.propietario.getTipoUsuario().getId());
+            }
+            if (this.propietario.getTipoVehiculo() != null) {
+                this.tipoVehiculo.setId(this.propietario.getTipoVehiculo().getId());
+            }
 
             RequestContext.getCurrentInstance().update("frmEditarPropietario:panelActualizarPropietario");
             RequestContext.getCurrentInstance().execute("PF('dialogoEditarPropietario').show()");
@@ -254,8 +257,12 @@ public class MbVPropietario {
 
             ///////////////////////////////////////////////////////////
             //Asignacion del Id del rol al pojo del rol
-            this.propietario.setTipoUsuario(daoTipoUsuario.getById(this.session, this.tipoUsuario.getId()));
-            this.propietario.setTipoVehiculo(daoTipoVehiculo.getById(this.session, this.tipoVehiculo.getId()));
+            if (this.tipoUsuario.getId() != null) {
+                this.propietario.setTipoUsuario(daoTipoUsuario.getById(this.session, this.tipoUsuario.getId()));
+            }
+            if (this.tipoVehiculo.getId() != null) {
+                this.propietario.setTipoVehiculo(daoTipoVehiculo.getById(this.session, this.tipoVehiculo.getId()));
+            }
             this.propietario.setFotoPropietario(this.rutaFoto);
             //////////////////////////////////////////////////////////
 
@@ -303,7 +310,7 @@ public class MbVPropietario {
             this.transaction.commit();
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Informacion Eliminada"));
-            
+
             RequestContext.getCurrentInstance().update("frmListaPropietario");
             this.propietario = new Propietario();
             this.tipoUsuario.setId(-1);
@@ -312,7 +319,6 @@ public class MbVPropietario {
             this.propietario.setModelo(fecha.getWeekYear());
             this.rutaFoto = new String();
             this.foto = new String();
-            
 
         } catch (Exception ex) {
             if (this.transaction != null) {
@@ -352,71 +358,58 @@ public class MbVPropietario {
             throw new FacesException("Error in writing captured image.", e);
         }
     }
-    
-    public void subirTarjetaPropiedad()throws IOException
-    {
-        InputStream inputStream=null;
-        OutputStream outputStream=null;
+
+    public void subirTarjetaPropiedad() throws IOException {
+        InputStream inputStream = null;
+        OutputStream outputStream = null;
         String ruta;
-        
-        try
-        {
-            if(this.tarjetaPropiedad == null)
-            {
+
+        try {
+            if (this.tarjetaPropiedad == null) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "Debe seleccionar un archivo"));
                 return;
             }
-            
-            if(this.tarjetaPropiedad.getSize()<=0)
-            {
+
+            if (this.tarjetaPropiedad.getSize() <= 0) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "Ud. debe seleccionar un archivo de imagen \".png\""));
                 return;
             }
-            
-            if(this.tarjetaPropiedad.getSize()>2097152)
-            {
+
+            if (this.tarjetaPropiedad.getSize() > 2097152) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "El archivo no puede ser más de 2mb"));
                 return;
             }
-            
-            ruta = getRandomImageName()+ tarjetaPropiedad.getFileName();
-            
+
+            ruta = getRandomImageName() + tarjetaPropiedad.getFileName();
+
             ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-            String carpeta = servletContext.getRealPath("") + File.separator + "resources" + File.separator + "images" + File.separator + "TP" + File.separator +ruta;
+            String carpeta = servletContext.getRealPath("") + File.separator + "resources" + File.separator + "images" + File.separator + "TP" + File.separator + ruta;
 
             //String carpetaAvatar=(String)servletContext.getRealPath("/avatar");
-            
-            outputStream=new FileOutputStream(new File(carpeta));
-            inputStream=this.tarjetaPropiedad.getInputstream();
-            this.TP =ruta;
-                    
-            int read=0;
-            byte[] bytes=new byte[1024];
-            
-            while((read=inputStream.read(bytes))!=-1)
-            {
+            outputStream = new FileOutputStream(new File(carpeta));
+            inputStream = this.tarjetaPropiedad.getInputstream();
+            this.TP = ruta;
+
+            int read = 0;
+            byte[] bytes = new byte[1024];
+
+            while ((read = inputStream.read(bytes)) != -1) {
                 outputStream.write(bytes, 0, read);
             }
-            
+
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto:", "Tarjeta subida exitosamente"));
-        }
-        catch(Exception ex)
-        {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error fatal:", "Por favor contacte con su administrador "+ex.getMessage()));
-        }
-        finally
-        {
-            if(inputStream!=null)
-            {
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error fatal:", "Por favor contacte con su administrador " + ex.getMessage()));
+        } finally {
+            if (inputStream != null) {
                 inputStream.close();
             }
-            
-            if(outputStream!=null)
-            {
+
+            if (outputStream != null) {
                 outputStream.close();
             }
         }
-        
+
         session();
     }
     //////////////////////////////////////////////////////////////////////////
@@ -479,9 +472,5 @@ public class MbVPropietario {
     public void setTarjetaPropiedad(UploadedFile tarjetaPropiedad) {
         this.tarjetaPropiedad = tarjetaPropiedad;
     }
-
-    
-    
-    
 
 }
