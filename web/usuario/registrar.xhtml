@@ -113,9 +113,9 @@
                         <p:message for="selRol"/>
                     </div>
                     <div class="form-group">
-                        <p:outputLabel value="Estado" for="selEstado" styleClass="col-lg-2 control-label"/>
+                        <p:outputLabel rendered="false" value="Estado" for="selEstado" styleClass="col-lg-2 control-label"/>
                         <div class="col-lg-4">
-                            <h:selectOneMenu id="selEstado" label="Estado" style="width: 50%" value="#{mbVUsuario.usuario.estado}" styleClass="tamanioSelect form-control">
+                            <h:selectOneMenu rendered="false" id="selEstado" label="Estado" style="width: 50%" value="#{mbVUsuario.usuario.estado}" styleClass="tamanioSelect form-control">
                                 <f:selectItem itemLabel="Activo" itemValue="true" />
                                 <f:selectItem itemLabel="Inactivo" itemValue="false" />
                             </h:selectOneMenu>

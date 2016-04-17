@@ -34,10 +34,10 @@
                             <h:outputText value="#{item.documento}" />
                         </p:column>
                         <p:column headerText="Actualizar" width="150">
-                            <p:commandButton ajax="true" value="Actualizar" actionListener="#{mbVUsuario.cargaUsuarioEditar(item.id)}" update="listaUsuario"/>
+                            <p:commandButton rendered="#{item.id==1?false:true}" ajax="true" value="Actualizar" actionListener="#{mbVUsuario.cargaUsuarioEditar(item.id)}" update="listaUsuario"/>
                         </p:column>
                         <p:column headerText="Eliminar" width="150">
-                            <p:commandButton value="Eliminar" actionListener="#{mbVUsuario.delete(item.id)}" update="listaUsuario">
+                            <p:commandButton rendered="#{item.id==1?false:true}" value="Eliminar" actionListener="#{mbVUsuario.delete(item.id)}" update="listaUsuario">
                                 <p:confirm header="Confirmation" message="¿Quiere Eliminar Esta Informacion?" icon="ui-icon-alert" />
                             </p:commandButton>
                             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >

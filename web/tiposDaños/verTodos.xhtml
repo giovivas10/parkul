@@ -20,7 +20,7 @@
                     <p:growl id="mensajeGeneral" sticky="false" showDetail="true"/>                    
                     <p:dataTable id="listado" paginator="true" paginatorPosition="bottom" rows="10" var="item" value="#{mbVTipoDanio.getall()}" filteredValue="#{mbVTipoUsuario.listaTipoUsuarioFiltrada}" reflow="true">
                         <f:facet name="header">
-                            Tipos de Usuarios
+                            Tipos de Daños
                         </f:facet>
                         <p:column headerText="Nombre" filterBy="nombre">
                             <h:outputText value="#{item.nombre}" />
